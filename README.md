@@ -8,6 +8,6 @@ A command line utility for generating and modifying MOST Web Framework applicati
 Usage
 =====
 
-* Generate a new web application
+#####Generate a new web application
 
 web -o generate
