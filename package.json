@@ -1,0 +1,35 @@
+{
+    "name": "most-web-cli",
+    "version": "0.2.0",
+    "description": "Most Web Framework command line utility",
+    "homepage": "http://www.most-framework.com/most-web-cli",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/kbarbounakis/most-web-cli.git"
+    },
+    "keywords": [
+        "most", "web", "cli"
+    ],
+    "author": {
+        "name": "Kyriakos Barbounakis",
+        "email": "k.barbounakis@gmail.com"
+    },
+    "licenses": [
+        {
+            "type": "BSD-3 Clause"
+        }
+    ],
+    "bin": {
+        "web": "bin/web"
+    },
+    "preferGlobal": true,
+    "dependencies": {
+        "commander":"*",
+        "mkdirp":"*",
+        "async":"*"
+    },
+    "devDependencies": {},
+    "scripts": {  },
+    "_id": "most-web-cli@0.2.0",
+    "_from": "most-web-cli@"
+}

@@ -1,0 +1,17 @@
+{
+  "name": "studentSchema",
+  "version": "0.1.0",
+  "dependencies": {
+    "angular-ui": "0.4.0",
+    "angular-ui-bootstrap": "0.11.0",
+    "moment": "2.8.3",
+    "ng-wig": "0.8.0",
+    "parsleyjs": "~2.0.5"
+  },
+  "authors": [
+    "kbarbounakis <k.barbounakis@gmail.com>"
+  ],
+  "description": "Most Web Framework Schema",
+  "license": "MIT",
+  "private": true
+}
