@@ -5,9 +5,9 @@
     ],
     "engines": [
         {
-            "name": "Async EJS View Engine",
+            "name": "EJS View Engine",
             "extension": "ejs",
-            "type": "./aejs-engine"
+            "type": "./ejs-engine"
         }
     ],
     "controllers": {

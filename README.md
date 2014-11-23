@@ -10,4 +10,4 @@ Usage
 
 #####Generate a new web application
 
-web -o generate
+most -o generate
