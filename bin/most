@@ -5,8 +5,26 @@
 var program = require('commander'), version = "0.2.0";
 program.version(version)
     .option('-o, --operation [value]', 'The operation to execute.')
-    .usage('-o generate[import]');
-program.parse(process.argv);
+    .option('-m, --model <value>', 'The current model.', null, null)
+    .option('-i, --input <path>', 'The current input file path.', null, null);
+
+program.on('--help', function(){
+    console.log('  Examples:');
+    console.log('');
+    console.log('    $ most --help');
+    console.log('    $ most -o generate');
+    console.log('    $ most -o migrate -m <Model name>');
+    console.log('    $ most -o import -m <Model name> -i <File path>');
+    console.log('');
+});
+try {
+    program.parse(process.argv);
+}
+catch (e) {
+    console.log('An unexpected error occurred. ' + e.message);
+    process.exit();
+}
+
 
 if (program.operation) {
     //load operation from lib
@@ -15,7 +33,7 @@ if (program.operation) {
         console.error('The operation cannot be completed due to invalid signature.\n');
         return;
     }
-    op.invoke(program.args, function(err, result) {
+    op.invoke(program, function(err, result) {
         if (err) {
             console.error('The operation cannot be completed due to internal error.\n');
             console.error(err.message);
