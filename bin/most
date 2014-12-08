@@ -6,7 +6,12 @@ var program = require('commander'), version = "0.2.0";
 program.version(version)
     .option('-o, --operation [value]', 'The operation to execute.')
     .option('-m, --model <value>', 'The current model.', null, null)
-    .option('-i, --input <path>', 'The current input file path.', null, null);
+    .option('-t, --type <value>', 'An operation type if any.', null, null)
+    .option('-n, --name <value>', 'A name parameter.', null, null)
+    .option('-i, --input <path>', 'The current input file path.', null, null)
+    .option('-l, --local <value>', 'The current input file path.', null, false)
+    .option('-s, --size <value>', 'An integer that represents size or length', null, false)
+    .option('-f, --format <value>', 'A format for input or output', null, false);
 
 program.on('--help', function(){
     console.log('  Examples:');
@@ -15,6 +20,8 @@ program.on('--help', function(){
     console.log('    $ most -o generate');
     console.log('    $ most -o migrate -m <Model name>');
     console.log('    $ most -o import -m <Model name> -i <File path>');
+    console.log('    $ most -o add -t field -m <Model name> -n <Field template name>');
+    console.log('    $ most -o random -t [string|int|hex] -s 16');
     console.log('');
 });
 try {
@@ -28,6 +35,9 @@ catch (e) {
 
 if (program.operation) {
     //load operation from lib
+    if (program.type) {
+        program.operation = program.operation.concat(program.type);
+    }
     var op = require('./../lib/'+ program.operation);
     if (typeof op.invoke !=='function') {
         console.error('The operation cannot be completed due to invalid signature.\n');
