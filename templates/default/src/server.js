@@ -42,20 +42,3 @@ var port = process.env.PORT ? process.env.PORT: 3000,
     server = app.listen(port, ip, function(){
     console.log('Express server listening on port ' + server.address().port);
 });
-
-/**
- * web sockets implementation
- * uncomment the following block to enable web sockets
- */
-/*
-var engine = require("engine.io"),
-    eio = engine.attach(server);
-eio.on('connection', function (socket) {
-    socket.on('message', function(data){
-        //place code here
-    });
-    socket.on('close', function(){
-        //do nothing
-    });
-});
-*/

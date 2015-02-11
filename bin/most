@@ -2,30 +2,58 @@
 /**
  * Created by Kyriakos Barbounakis<k.barbounakis@gmail.com> on 20/11/2014.
  */
-var program = require('commander'), version = "0.2.0";
-program.version(version)
-    .option('-o, --operation [value]', 'The operation to execute.')
-    .option('-m, --model <value>', 'The current model.', null, null)
-    .option('-t, --type <value>', 'An operation type if any.', null, null)
-    .option('-n, --name <value>', 'A name parameter.', null, null)
-    .option('-i, --input <path>', 'The current input file path.', null, null)
-    .option('-l, --local <value>', 'The current input file path.', null, false)
-    .option('-s, --size <value>', 'An integer that represents size or length', null, false)
-    .option('-f, --format <value>', 'A format for input or output', null, false);
+var program = require('commander'), version = "0.2.1";
+program.version(version).allowUnknownOption()
+    .option('-o, --operation <value>')
+    .option('-o, --operation <value>')
+    .option('-m, --model <value>')
+    .option('-t, --type <value>')
+    .option('-n, --name <value>')
+    .option('-i, --input <path>')
+    .option('-l, --local <value>')
+    .option('-s, --size <value>')
+    .option('-f, --format <value>');
 
 program.on('--help', function(){
-    console.log('  Examples:');
-    console.log('');
-    console.log('    $ most --help');
-    console.log('    $ most -o generate');
-    console.log('    $ most -o migrate -m <Model name>');
-    console.log('    $ most -o import -m <Model name> -i <File path>');
-    console.log('    $ most -o add -t field -m <Model name> -n <Field template name>');
-    console.log('    $ most -o random -f [string|int|hex] -s 16');
-    console.log('');
+    console.log('MOST Web Framework command utility usage:');
+    console.log('=========================================');
+    console.log('$ most --help');
+    console.log('$ most -o generate');
+    console.log('$ most -o migrate -m <Model name>');
+    console.log('$ most -o import -m <Model name> -i <File path>');
+    console.log('$ most -o add -t field -m <Model name> -n <Field template name>');
+    console.log('$ most -o random -f [string|int|hex] -s 16');
+    console.log('=========================================');
 });
+
 try {
     program.parse(process.argv);
+    if (program.operation) {
+        //load operation from lib
+        var op = require('./../lib/'+ program.operation);
+        if (typeof op.invoke !=='function') {
+            console.error('The operation cannot be completed due to invalid signature.\n');
+            return;
+        }
+        op.invoke(program, function(err, result) {
+            if (err) {
+                console.error('The operation cannot be completed due to internal error.\n');
+                console.error(err.message);
+                if (err.stack) {
+                    console.error(err.stack);
+                }
+            }
+            else {
+                console.log('The operation was completed succesfully.');
+            }
+        });
+    }
+    else if (process.argv[0]=="--version" || process.argv[0]=="-v") {
+        console.log(version);
+    }
+    else {
+        program.emit('--help');
+    }
 }
 catch (e) {
     console.log('An unexpected error occurred. ' + e.message);
@@ -33,29 +61,3 @@ catch (e) {
 }
 
 
-if (program.operation) {
-    //load operation from lib
-    if (program.type) {
-        program.operation = program.operation.concat(program.type);
-    }
-    var op = require('./../lib/'+ program.operation);
-    if (typeof op.invoke !=='function') {
-        console.error('The operation cannot be completed due to invalid signature.\n');
-        return;
-    }
-    op.invoke(program, function(err, result) {
-        if (err) {
-            console.error('The operation cannot be completed due to internal error.\n');
-            console.error(err.message);
-            if (err.stack) {
-                console.error(err.stack);
-            }
-        }
-        else {
-            console.log('The operation was completed succesfully.');
-        }
-    });
-}
-else if (process.argv[0]=="--version" || process.argv[0]=="-v") {
-    console.log(version);
-}
