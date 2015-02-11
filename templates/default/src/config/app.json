@@ -57,6 +57,10 @@
             "type": "image/png"
         },
         {
+          "extension": ".ico",
+          "type": "image/x-icon"
+        },
+        {
             "extension": ".gif",
             "type": "image/gif"
         },
