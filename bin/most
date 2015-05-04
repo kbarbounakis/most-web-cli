@@ -45,6 +45,7 @@ try {
             }
             else {
                 console.log('The operation was completed succesfully.');
+                process.exit(0);
             }
         });
     }
