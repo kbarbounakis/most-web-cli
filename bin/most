@@ -22,7 +22,7 @@ program.on('--help', function(){
     console.log('$ most -o migrate -m <Model name>');
     console.log('$ most -o import -m <Model name> -i <File path>');
     console.log('$ most -o add -t field -m <Model name> -n <Field template name>');
-    console.log('$ most -o random -f [string|int|hex] -s 16');
+    console.log('$ most -o random -f [string|int|hex|guid] -s 16');
     console.log('=========================================');
 });
 
