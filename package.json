@@ -24,14 +24,14 @@
   "bin": {
     "most": "bin/most"
   },
-  "preferGlobal": true,
+  "scripts": {
+  },
   "dependencies": {
     "commander": "*",
     "mkdirp": "*",
     "async": "*"
   },
   "devDependencies": {},
-  "scripts": {},
   "_id": "most-web-cli@0.5.0",
   "_from": "most-web-cli@"
 }

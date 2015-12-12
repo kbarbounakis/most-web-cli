@@ -5,11 +5,12 @@
   "main": "server.js",
   "repository": "",
   "author": "",
+    "scripts": {
+    },
   "dependencies": {
-    "async": "~0.2.8",
-    "express": "~3.2.4",
-    "most-data": "~0.1.12",
-    "most-web": "~1.7.0",
-    "most-web-md": "^0.1.0"
+    "most-data": "*",
+    "most-data-sqlite": "*",
+    "most-web": "*",
+    "most-web-md": "*"
   }
 }
