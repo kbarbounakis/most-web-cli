@@ -31,17 +31,26 @@ RootController.prototype.login = function(callback)
     var self = this;
     try {
         self.context.handle('GET', function() {
-            return callback(null, this.view());
+            return callback(null, self.view());
         }).handle('POST', function() {
             try {
                 //validate anti-forgery token
                 self.context.validateAntiForgeryToken();
                 //try to login
-                var credentials = self.context.params.credentials;
+                var credentials = self.context.params;
                 //get auth service
                 var auth = self.context.application.service('$auth')(self.context);
                 auth.login(credentials.username, credentials.password, function(err) {
-
+                    if (err) {
+                        web.common.log(err);
+                        if ((err instanceof web.common.HttpUnauthorizedException) || (err instanceof web.common.HttpForbiddenException)) {
+                            return callback(null, self.view({message:err.message, status:err.status, substatus: err.substatus}));
+                        }
+                        else {
+                            return callback(null, self.view({message:'Login failed due to server error. Please try again or contact system administrator.'}));
+                        }
+                    }
+                    return callback(null, self.redirect(return_.call(self)));
                 });
             }
             catch(err) {
