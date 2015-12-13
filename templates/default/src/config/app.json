@@ -10,19 +10,19 @@
     "controllers": {
         "base": "./http-data-controller.js"
     },
-    "crypto": {
-        "algorithm": "aes256",
-        "key": "4b3236524b4e48534c776d5535646e55643542423763454e354b61426d784371"
-    },
-    "auth": {
-        "name": ".MAUTH",
-        "defaultUserGroup":"Users",
-        "timeout": 480,
-        "slidingExpiration": false,
-        "loginPage":"/login.html",
-        "locations": [ ]
-    },
     "settings": {
+        "crypto": {
+            "algorithm": "aes256",
+            "key": "4b3236524b4e48534c776d5535646e55643542423763454e354b61426d784371"
+        },
+        "auth": {
+            "name": ".MAUTH",
+            "defaultUserGroup":"Users",
+            "timeout": 480,
+            "slidingExpiration": false,
+            "loginPage":"/login.html",
+            "locations": [ ]
+        },
         "localization": {
             "cultures": [ "en-us" ],
             "default": "en-us",
