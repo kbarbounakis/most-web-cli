@@ -3,16 +3,9 @@
  * Created by Kyriakos Barbounakis<k.barbounakis@gmail.com> on 20/11/2014.
  */
 var program = require('commander'), version = require('./../package.json').version;
+//noinspection JSCheckFunctionSignatures
 program.version(version).allowUnknownOption()
-    .option('-o, --operation <value>')
-    .option('-o, --operation <value>')
-    .option('-m, --model <value>')
-    .option('-t, --type <value>')
-    .option('-n, --name <value>')
-    .option('-i, --input <path>')
-    .option('-l, --local <value>')
-    .option('-s, --size <value>')
-    .option('-f, --format <value>');
+    .option('-o, --operation <value>');
 
 program.on('--help', function(){
     console.log('MOST Web Framework command utility usage:');
@@ -21,8 +14,13 @@ program.on('--help', function(){
     console.log('$ most -o generate');
     console.log('$ most -o migrate -m <Model name>');
     console.log('$ most -o import -m <Model name> -i <File path>');
-    console.log('$ most -o add -t field -m <Model name> -n <Field template name>');
-    console.log('$ most -o random -f [string|int|hex|guid] -s 16');
+    //console.log('$ most -o add -t field -m <Model name> -n <Field template name>');
+    console.log('$ most -o lite [-r <directory>] [-b <IP Address>] [-p <Port>]');
+    console.log('$ most -o random -f [string|int|hex|guid] [-s <Size>]');
+    console.log('$ most -o controller-class -n <data controller name>');
+    console.log('$ most -o base-controller-class -n <base controller name>');
+    console.log('$ most -o model-class -n <model name>');
+    console.log('$ most -o model-listener -n <model listener name>');
     console.log('=========================================');
 });
 
@@ -34,6 +32,9 @@ try {
         if (typeof op.invoke !=='function') {
             console.error('The operation cannot be completed due to invalid signature.\n');
             return;
+        }
+        if (typeof op.options ==='function') {
+            program = op.options();
         }
         op.invoke(program, function(err, result) {
             if (err) {

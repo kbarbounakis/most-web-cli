@@ -1,0 +1,22 @@
+/**
+ * MOST Web Framework Data Controller
+ */
+/**
+ * @private
+ */
+var web = require("most-web"), util = require("util");
+/**
+ * @constructor
+ * @augments {HttpDataController}
+ */
+function ${Controller}Controller() {
+    ${Controller}Controller.super_.call(this);
+}
+util.inherits(${Controller}Controller, web.controllers.HttpDataController);
+
+${Controller}Controller.prototype.test = function(callback)
+{
+    callback(null, this.view());
+};
+
+if (typeof module !== 'undefined') module.exports = ${Controller}Controller;

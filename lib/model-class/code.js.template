@@ -1,0 +1,22 @@
+/**
+ * MOST Web Framework Data Model Class
+ */
+/**
+ * @private
+ */
+var web = require("most-web"), util = require("util"), md = require('most-data');
+/**
+ * @constructor
+ * @augments {DataObject}
+ */
+function ${Model}Model() {
+    ${Model}Model.super_.call(this, '${Model}', obj);
+}
+util.inherits(${Model}Model, md.DataObject);
+
+${Model}Model.prototype.test = function(callback)
+{
+    return callback();
+};
+
+if (typeof module !== 'undefined') module.exports = ${Model}Model;

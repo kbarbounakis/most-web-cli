@@ -1,0 +1,79 @@
+{
+    "handlers": [
+        { "name":"static","type":"./lite/static-handler" }
+    ],
+    "mimes": [
+        {
+            "extension": ".css", "type": "text/css"
+        },
+        {
+            "extension": ".js", "type": "application/javascript"
+        },
+        {
+            "extension": ".ts", "type": "application/x-typescript"
+        },
+        {
+            "extension": ".json", "type": "application/json", "encoding": "utf-8"
+        },
+        {
+            "extension": ".xml", "type": "text/xml"
+        },
+        {
+            "extension": ".rdf", "type": "text/xml"
+        },
+        {
+            "extension": ".xsd", "type": "text/xml"
+        },
+        {
+            "extension": ".less", "type": "text/css"
+        },
+        {
+            "extension": ".png", "type": "image/png"
+        },
+        {
+          "extension": ".ico", "type": "image/x-icon"
+        },
+        {
+            "extension": ".gif", "type": "image/gif"
+        },
+        {
+            "extension": ".bmp", "type": "image/bmp"
+        },
+        {
+            "extension": ".jpg", "type": "image/jpeg"
+        },
+        {
+            "extension": ".jpeg", "type": "image/jpeg"
+        },
+        {
+            "extension": ".htm", "type": "text/html"
+        },
+        {
+            "extension": ".html", "type": "text/html"
+        },
+        {
+            "extension": ".pdf", "type": "application/pdf"
+        },
+        {
+            "extension": ".txt", "type": "text/plain"
+        },
+        {
+            "extension": ".svg", "type": "image/svg+xml"
+        },
+        {
+            "extension": ".woff", "type": "application/x-font-woff"
+        },
+        {
+          "extension": ".woff2", "type": "application/x-font-woff"
+        },
+        {
+            "extension": ".ttf", "type": "application/octet-stream"
+        },
+        {
+            "extension": ".map", "type": "application/json"
+        },
+        {
+          "extension": ".csv",  "type": "application/csv"
+        }
+    ]
+}

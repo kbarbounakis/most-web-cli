@@ -26,9 +26,11 @@
   },
   "scripts": {},
   "dependencies": {
+    "async": "*",
     "commander": "*",
     "mkdirp": "*",
-    "async": "*"
+    "string": "^3.3.1",
+    "underscore": "^1.8.3"
   },
   "devDependencies": {},
   "_id": "most-web-cli@0.5.0",
