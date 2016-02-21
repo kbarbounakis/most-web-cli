@@ -29,6 +29,7 @@
     "async": "*",
     "commander": "*",
     "mkdirp": "*",
+    "moment": "^2.11.2",
     "string": "^3.3.1",
     "underscore": "^1.8.3"
   },

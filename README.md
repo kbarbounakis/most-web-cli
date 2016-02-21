@@ -35,13 +35,13 @@ Options
 
 ##### Create an new data controller
 
-    most -o controller -n <controller name>
+    most -o controller-class -n <controller name>
 
 This operation will generate a new controller and it will place it in controllers folder (app/controllers).
 
 ##### Create an new base controller
 
-    most -o base-controller -n <controller name>
+    most -o base-controller-class -n <controller name>
 
 This operation will generate a new base controller and it will place it in controllers folder (app/controllers).
 
