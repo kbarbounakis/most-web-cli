@@ -2,6 +2,9 @@
     "handlers": [
         { "name":"static","type":"./lite/static-handler" }
     ],
+    "settings": {
+      "caching":false
+    },
     "mimes": [
         {
             "extension": ".css", "type": "text/css"

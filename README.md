@@ -14,7 +14,7 @@ Usage
 
 ##### Start a lite application server for static content
 
-    most -o lite [-r <directory>] [-b <address>] [-p <port>]
+    most -o lite [-r <directory>] [-b <address>] [-p <port>] [-c]
 
 Options
 
@@ -24,6 +24,8 @@ Options
 -b [address]: The IP address to be bind. This parameter is optional. The default value is 0.0.0.0.
 
 -p [port]: The port to be used for listening HTTP requests. This parameter is optional. The default value is 3000.
+
+-c: An optional parameter which enables HTTP request caching. The default value is false.
 
 ##### Migrate a data model
 
