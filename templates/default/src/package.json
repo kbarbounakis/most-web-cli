@@ -8,6 +8,7 @@
     "scripts": {
     },
   "dependencies": {
+    "most-query": "*",
     "most-data": "*",
     "most-data-sqlite": "*",
     "most-web": "*",
