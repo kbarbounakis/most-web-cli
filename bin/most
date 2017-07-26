@@ -11,7 +11,7 @@ program.on('--help', function(){
     console.log('MOST Web Framework command utility usage:');
     console.log('=========================================');
     console.log('$ most --help');
-    console.log('$ most -o generate');
+    console.log('$ most -o generate -t <Template name>');
     console.log('$ most -o migrate -m <Model name>');
     console.log('$ most -o import -m <Model name> -i <File path>');
     //console.log('$ most -o add -t field -m <Model name> -n <Field template name>');
@@ -23,6 +23,7 @@ program.on('--help', function(){
     console.log('$ most -o model-listener -n <model listener name>');
     console.log('$ most -o es6-controller -n <controller name>');
     console.log('$ most -o es6-data-controller -n <data controller name>');
+    console.log('$ most -o es6-model -n <data model name>');
     console.log('=========================================');
 });
 

@@ -1,0 +1,14 @@
+'use strict';
+import {DataObject} from 'most-data/data-object';
+/**
+ * @class
+ * @augments {DataObject}
+ */
+export default class ${Model} extends DataObject {
+    /**
+     * @constructor
+     */
+    constructor() {
+        super('${Model}');
+    }
+}
