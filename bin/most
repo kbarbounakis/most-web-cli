@@ -21,6 +21,8 @@ program.on('--help', function(){
     console.log('$ most -o base-controller-class -n <base controller name>');
     console.log('$ most -o model-class -n <model name>');
     console.log('$ most -o model-listener -n <model listener name>');
+    console.log('$ most -o es6-controller -n <controller name>');
+    console.log('$ most -o es6-data-controller -n <data controller name>');
     console.log('=========================================');
 });
 
@@ -50,7 +52,7 @@ try {
             }
         });
     }
-    else if (process.argv[0]=="--version" || process.argv[0]=="-v") {
+    else if (process.argv[0]==="--version" || process.argv[0]==="-v") {
         console.log(version);
     }
     else {
