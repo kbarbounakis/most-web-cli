@@ -1,22 +1,28 @@
 /**
- * MOST Web Framework Data Model Class
+ * MOST Web Framework ${Model}Model Class
  */
+var util = require('util');
+var Q = require('q');
+var DataObject = require('most-data/data-object').DataObject;
 /**
- * @private
- */
-var web = require("most-web"), util = require("util"), md = require('most-data');
-/**
+ * @class 
  * @constructor
+ * @param {*=} obj
  * @augments {DataObject}
  */
-function ${Model}Model() {
-    ${Model}Model.super_.call(this, '${Model}', obj);
+function ${Model}Model(obj) {
+    ${Model}Model.super_.bind(this)('${Model}', obj);
 }
-util.inherits(${Model}Model, md.DataObject);
+util.inherits(${Model}Model, DataObject);
 
-${Model}Model.prototype.test = function(callback)
+/**
+ * @return {Promise}
+ */
+${Model}Model.prototype.test = function()
 {
-    return callback();
+    return Q.resolve();
 };
 
-if (typeof module !== 'undefined') module.exports = ${Model}Model;
+if (typeof module !== 'undefined') {
+	module.exports = ${Model}Model;
+}
