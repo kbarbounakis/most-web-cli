@@ -20,7 +20,9 @@ function lint(files, options) {
 
 function build(files) {
   return function () {
-    return gulp.src(files)
+    return gulp.src(files, {
+        base: './src'
+    })
       .pipe(sourcemaps.init())
       .pipe(babel())
       .pipe(sourcemaps.write('.'))
@@ -34,9 +36,7 @@ gulp.task('build', ['lint'], build(modules));
 gulp.task('lint', lint(modules));
 
 gulp.task('watch', ['build'], function () {
-  var files = [].concat(modules);
-    //watch for server module changes
-  gulp.watch(files, function(file) {
+  gulp.watch(modules, function(file) {
     gutil.log(gutil.colors.green('Compiling ' + file.path));
     return build(file.path)();
   });
