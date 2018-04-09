@@ -11,7 +11,7 @@
     {
       "@id": "https://themost.io/schemas/id",
       "name": "id",
-      "title": "Id",
+      "title": "ID",
       "description": "The identifier of the item.",
       "type": "Integer",
       "nullable": false,

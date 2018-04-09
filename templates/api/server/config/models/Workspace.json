@@ -10,7 +10,7 @@
   "fields": [
     {
       "name": "id",
-      "title": "Id",
+      "title": "ID",
       "type": "Integer",
       "nullable": false,
       "primary": true

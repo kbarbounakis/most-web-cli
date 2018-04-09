@@ -5,6 +5,7 @@
     "description": "The most generic type of item.",
     "hidden": true,
     "sealed": false,
+    "version": "1.0",
     "fields": [
         {
             "@id": "https://themost.io/schemas/id",
