@@ -3,10 +3,11 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.RandomCommand = exports.builder = exports.desc = exports.command = undefined;
+exports.RandomCommand = exports.desc = exports.command = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+exports.builder = builder;
 exports.handler = handler;
 
 var _path = require('path');
@@ -17,28 +18,38 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+/**
+ * @license
+ * MOST Web Framework 2.0 Codename Blueshift
+ * Copyright (c) 2017, THEMOST LP All rights reserved
+ *
+ * Use of this source code is governed by an BSD-3-Clause license that can be
+ * found in the LICENSE file at https://themost.io/license
+ */
 var command = exports.command = 'random <type> [options]';
 
 var desc = exports.desc = 'Create a new random string, integer or guid';
 
-var builder = exports.builder = {
-    type: {
+function builder(yargs) {
+    return yargs.option('type', {
+        alias: 't',
+        choices: ['int', 'string', 'guid', 'hex'],
         default: 'int'
-    },
-    min: {
+    }).option('min', {
         default: 0
-    },
-    max: {
+    }).option('max', {
         default: 1000000
-    },
-    length: {
+    }).option('length', {
+        alias: 'l',
         default: 8
-    }
-};
+    });
+}
 
 function handler(argv) {
     if (argv.type === 'int') {
         return console.log(RandomCommand.randomInt(argv.min, argv.max));
+    } else if (argv.type === 'hex') {
+        return console.log(RandomCommand.randomHex(argv.length));
     } else if (argv.type === 'guid') {
         return console.log(RandomCommand.newGuid());
     } else if (argv.type === 'string') {
@@ -58,6 +69,26 @@ var RandomCommand = exports.RandomCommand = function () {
         value: function randomInt(min, max) {
             return Math.floor(Math.random() * max) + min;
         }
+
+        /**
+         *
+         * @param {number=} length
+         * @return {string}
+         */
+
+    }, {
+        key: 'randomHex',
+        value: function randomHex(length) {
+            length = length || 16;
+            return new Buffer(RandomCommand.randomString(length)).toString('hex');
+        }
+
+        /**
+         *
+         * @param {number=} length
+         * @return {string}
+         */
+
     }, {
         key: 'randomString',
         value: function randomString(length) {
@@ -69,6 +100,12 @@ var RandomCommand = exports.RandomCommand = function () {
             }
             return str;
         }
+
+        /**
+         *
+         * @return {string}
+         */
+
     }, {
         key: 'newGuid',
         value: function newGuid() {
@@ -90,17 +127,6 @@ var RandomCommand = exports.RandomCommand = function () {
                 }
             }
             return uuid.join('');
-        }
-    }, {
-        key: 'command',
-        value: function command(yargs) {
-            return yargs.usage('usage: <command> [options]').command('guid', 'create a random GUID string', function (yargs) {
-                return RandomCommand.newGuid();
-            }).command('string <length>', 'create a random string', function (yargs) {
-                return RandomCommand.randomString(yargs.length);
-            }).help('help').updateStrings({
-                'Commands:': 'command:'
-            }).wrap(null).argv;
         }
     }]);
 

@@ -1,36 +1,32 @@
 {
     "handlers": [
-        { "name":"basic-auth","type":"./noop-handler" },
-        { "name":"auth","type":"./noop-handler" }
+
     ],
     "engines": [
-        { "name": "EJS View Engine", "extension": "ejs", "type": "./ejs-engine" },
-        { "name": "Markdown View Engine", "extension": "md", "type": "most-web-md" }
+        { "name": "EJS View Engine", "extension": "ejs", "type": "@themost/web/engines/ejs" },
+        { "name": "Markdown View Engine", "extension": "md", "type": "@themost/web/engines/md" },
+        { "name": "Jade View Engine", "extension": "jade", "type": "@themost/web/engines/jade" },
+        { "name": "Vash View Engine", "extension": "vash", "type": "@themost/web/engines/vash" }
     ],
     "controllers": {
-        "base": "./http-data-controller.js"
     },
     "settings": {
         "crypto": {
             "algorithm": "aes256",
-            "key": "4b3236524b4e48534c776d5535646e55643542423763454e354b61426d784371"
+            "key": "6245767834677550466e7559344d3775664858464e775432756d4d6445726252"
         },
         "auth": {
             "name": ".MAUTH",
-            "defaultUserGroup":"Users",
             "timeout": 480,
-            "slidingExpiration": false,
-            "loginPage":"/login.html",
-            "locations": [ ]
+            "slidingExpiration": false
         },
         "localization": {
             "cultures": [ "en-us" ],
-            "default": "en-us",
-            "localizedContent": true
+            "default": "en-us"
         }
     },
     "adapterTypes": [
-        { "name":"SQLite Data Adapter", "invariantName": "sqlite", "type":"most-data-sqlite" }
+        { "name":"SQLite Data Adapter", "invariantName": "sqlite", "type":"@themost/sqlite" }
     ],
     "adapters": [
         { "name":"development", "invariantName":"sqlite", "default":true,

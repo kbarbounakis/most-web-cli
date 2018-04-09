@@ -7,6 +7,7 @@
  * found in the LICENSE file at https://themost.io/license
  */
 import path from 'path';
+import fs from 'fs';
 export const command = 'project <directory>';
 
 export const desc = 'Create a new project';
@@ -15,5 +16,9 @@ export const builder = {
 };
 
 export function handler(argv) {
-    console.log('creating new project  at %s', path.resolve(argv.directory));
+    let projectRoot = path.resolve(argv.directory);
+    if (fs.existsSync(projectRoot) && fs.readdirSync(projectRoot).length>0) {
+        return console.error('ERROR: Project root directory cannot be empty.');
+    }
+    console.log('Creating new project  at %s', projectRoot);
 }

@@ -1,0 +1,32 @@
+[
+  {
+    "url": "/api/?",
+    "controller": "service",
+    "action": "index",
+    "format": "json"
+  },
+  {
+    "url": "/api/\\$metadata/?",
+    "controller": "service",
+    "action": "metadata",
+    "format": "json"
+  },
+  {
+    "url": "/api/:entitySet/?",
+    "controller": "service",
+    "action": "items",
+    "format": "json"
+  },
+  {
+    "url": "/api/:entitySet/:entityAction/?",
+    "controller": "service",
+    "action": "entityAction",
+    "format": "json"
+  },
+  {
+    "url": "/api/:entitySet/:entityAction/:navigationProperty/?",
+    "controller": "service",
+    "action": "entityAction",
+    "format": "json"
+  }
+]

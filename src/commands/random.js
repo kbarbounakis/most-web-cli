@@ -1,26 +1,39 @@
-import path from 'path';
+import path from "path";
+
+/**
+ * @license
+ * MOST Web Framework 2.0 Codename Blueshift
+ * Copyright (c) 2017, THEMOST LP All rights reserved
+ *
+ * Use of this source code is governed by an BSD-3-Clause license that can be
+ * found in the LICENSE file at https://themost.io/license
+ */
 export const command = 'random <type> [options]';
 
 export const desc = 'Create a new random string, integer or guid';
 
-export const builder = {
-    type: {
+
+export function builder(yargs) {
+    return yargs.option('type', {
+        alias:'t',
+        choices: ['int', 'string', 'guid', 'hex'],
         default:'int'
-    },
-    min: {
+    }).option('min', {
         default:0
-    },
-    max: {
+    }).option('max', {
         default:1000000
-    },
-    length: {
+    }).option('length', {
+        alias:'l',
         default:8
-    }
-};
+    });
+}
 
 export function handler(argv) {
     if (argv.type === 'int') {
         return console.log(RandomCommand.randomInt(argv.min,argv.max));
+    }
+    else if (argv.type === 'hex') {
+        return console.log(RandomCommand.randomHex(argv.length));
     }
     else if (argv.type === 'guid') {
         return console.log(RandomCommand.newGuid());
@@ -38,6 +51,21 @@ export class RandomCommand {
         return Math.floor(Math.random()*max) + min;
     }
 
+    /**
+     *
+     * @param {number=} length
+     * @return {string}
+     */
+    static randomHex(length) {
+        length = length || 16;
+        return new Buffer(RandomCommand.randomString(length)).toString('hex');
+    }
+
+    /**
+     *
+     * @param {number=} length
+     * @return {string}
+     */
     static randomString(length) {
         length = length || 16;
         let chars = "abcdefghkmnopqursuvwxz2456789ABCDEFHJKLMNPQURSTUVWXYZ";
@@ -48,6 +76,10 @@ export class RandomCommand {
         return str;
     }
 
+    /**
+     *
+     * @return {string}
+     */
     static  newGuid() {
         let chars = UUID_CHARS, uuid = [], i;
         // rfc4122, version 4 form
@@ -65,23 +97,6 @@ export class RandomCommand {
             }
         }
         return uuid.join('');
-    }
-
-    static command(yargs) {
-        return yargs
-            .usage('usage: <command> [options]')
-            .command('guid', 'create a random GUID string', function (yargs) {
-                return RandomCommand.newGuid();
-            })
-            .command('string <length>', 'create a random string', function (yargs) {
-                return RandomCommand.randomString(yargs.length);
-            })
-            .help('help')
-            .updateStrings({
-                'Commands:': 'command:'
-            })
-            .wrap(null)
-            .argv;
     }
 
 }

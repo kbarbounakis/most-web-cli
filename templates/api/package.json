@@ -1,0 +1,30 @@
+{
+  "name": "sample-web-app",
+  "version": "0.1.0",
+  "description": "Sample Web Application",
+  "main": "dist/server.js",
+  "repository": "",
+  "private": true,
+  "author": "",
+    "scripts": {
+        "start": "node dist/server/server",
+        "build":"babel server --out-dir dist/server --copy-files --source-maps",
+        "watch":"babel server --out-dir dist/server --watch --copy-files --source-maps"
+    },
+  "devDependencies": {
+    "babel-eslint": "^8.0.3",
+    "babel-plugin-transform-async-to-generator": "^6.22.0",
+    "babel-plugin-transform-builtin-extend": "^1.1.0",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-es2015-modules-commonjs-simple": "^6.7.4",
+    "babel-plugin-transform-es2015-typeof-symbol": "^6.22.0",
+    "babel-plugin-transform-regenerator": "^6.22.0",
+    "babel-preset-env": "^1.1.8"
+  },
+  "dependencies": {
+
+    "@themost/common":"^2.0.7",
+    "@themost/web":"^2.0.28",
+    "@themost/data":"^2.0.25"
+  }
+}
