@@ -6,12 +6,14 @@
   "repository": "",
   "private": true,
   "author": "",
-    "scripts": {
-        "start": "node dist/server/server",
-        "build":"babel server --out-dir dist/server --copy-files --source-maps",
-        "watch":"babel server --out-dir dist/server --watch --copy-files --source-maps"
-    },
+  "scripts": {
+    "start": "node dist/server/server",
+    "build": "babel server --out-dir dist/server --copy-files --source-maps",
+    "watch": "babel server --out-dir dist/server --watch --copy-files --source-maps"
+  },
   "devDependencies": {
+    "babel-cli": "^6.22.0",
+    "babel-core": "^6.22.0",
     "babel-eslint": "^8.0.3",
     "babel-plugin-transform-async-to-generator": "^6.22.0",
     "babel-plugin-transform-builtin-extend": "^1.1.0",
@@ -22,9 +24,8 @@
     "babel-preset-env": "^1.1.8"
   },
   "dependencies": {
-
-    "@themost/common":"^2.0.7",
+    "@themost/common": "^2.0.7",
     "@themost/web":"^2.0.28",
-    "@themost/data":"^2.0.25"
+    "@themost/sqlite": "^2.0.6"
   }
 }

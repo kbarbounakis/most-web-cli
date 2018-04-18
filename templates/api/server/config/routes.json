@@ -18,6 +18,18 @@
     "format": "json"
   },
   {
+    "url": "/api/:entitySet\\(:id\\)/?",
+    "controller": "service",
+    "action": "item",
+    "format": "json"
+  },
+  {
+    "url": "/api/:entitySet\\(:id\\)/:navigationProperty/?",
+    "controller": "service",
+    "action": "navigationProperty",
+    "format": "json"
+  },
+  {
     "url": "/api/:entitySet/:entityAction/?",
     "controller": "service",
     "action": "entityAction",
