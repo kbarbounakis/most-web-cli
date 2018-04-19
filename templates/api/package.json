@@ -25,7 +25,10 @@
   },
   "dependencies": {
     "@themost/common": "^2.0.7",
-    "@themost/web":"^2.0.28",
-    "@themost/sqlite": "^2.0.6"
+    "@themost/data": "^2.0.25",
+    "@themost/sqlite": "^2.0.6",
+    "@themost/web": "^2.0.28",
+    "bootstrap": "^4.1.0",
+    "jquery": "^3.3.1"
   }
 }
