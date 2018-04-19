@@ -1,5 +1,10 @@
 [
   {
+    "url": "/?",
+    "controller": "root",
+    "action": "index"
+  },
+  {
     "url": "/api/?",
     "controller": "service",
     "action": "index",

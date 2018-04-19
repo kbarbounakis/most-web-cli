@@ -1,0 +1,28 @@
+{
+    "id": 1370826,
+    "@id": "http://schema.org/StructuredValue",
+    "name": "StructuredValue",
+    "title": "Structured Value",
+    "description": "Structured values are used when the value of a property has a more complex structure than simply being a textual value or a reference to another thing.",
+    "hidden": true,
+    "abstract": true,
+    "sealed": false,
+    "inherits": "Intangible",
+    "fields": [
+        {
+            "@id": "https://themost.io/schemas/id",
+            "name": "id",
+            "title": "ID",
+            "description": "The identifier of the item.",
+            "type": "Integer",
+            "nullable": false,
+            "primary": true
+        }
+    ],
+    "privileges": [
+        {
+            "mask": 15,
+            "type": "global"
+        }
+    ]
+}
