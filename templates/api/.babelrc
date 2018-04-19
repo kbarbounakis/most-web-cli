@@ -1,5 +1,6 @@
 {
-    "sourceMap": true,
+    "sourceMaps": "inline",
+    "retainLines": true,
     "presets": [ "env" ],
     "plugins": [
         ["transform-es2015-modules-commonjs-simple", {
