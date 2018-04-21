@@ -1,5 +1,3 @@
-import path from "path";
-
 /**
  * @license
  * MOST Web Framework 2.0 Codename Blueshift

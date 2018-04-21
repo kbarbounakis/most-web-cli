@@ -20,7 +20,7 @@ export const builder = {
 
 export function handler(argv) {
     //validating listener name
-    if (!/^[a-zA-Z0-9_\-]+$/.test(argv.name)) {
+    if (!/^[a-zA-Z0-9_-]+$/.test(argv.name)) {
         console.error('ERROR','Listener name is not valid. Expected only latin characters, numbers or "_,-" characters.');
         return process.exit(1);
     }

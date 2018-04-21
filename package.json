@@ -78,7 +78,7 @@
     },
     "extends": "eslint:recommended",
     "rules": {
-      "no-console": "warn",
+      "no-console": "off",
       "no-invalid-this": "warn",
       "no-undef": "error",
       "no-unused-vars": "warn",
