@@ -24,8 +24,10 @@ export function handler(argv) {
         console.error('ERROR','Controller name is not valid. Expected only latin characters, numbers or "_" character.');
         return process.exit(1);
     }
+     //get controller name
+    let controllerName = /controller$/i.test(argv.name) ? _.upperFirst(_.camelCase(argv.name)) : _.upperFirst(_.camelCase(argv.name.concat('-controller')));
     //get controller file name
-    let controllerFile = _.dasherize(argv.name).concat('-controller.js');
+    let controllerFile = controllerName.concat('.js');
     console.log('INFO',`Generating controller ${controllerFile}`);
     let controllerPath = path.resolve(process.cwd(), `server/controllers/${controllerFile}`);
     console.log('INFO',`Validating controller path ${controllerPath}`);
@@ -45,7 +47,7 @@ export function handler(argv) {
             console.error(err);
        } 
        writeFileFromTemplate(templateFile, controllerPath, {
-            name:_.upperFirst(_.camelCase(argv.name))
+            name:controllerName
         }).then(()=> {
             console.log('INFO','The operation was completed succesfully.');
               return process.exit(0);
