@@ -18,7 +18,8 @@ export const builder = {
 export function handler(argv) {
     let projectRoot = path.resolve(process.cwd(), argv.directory);
     if (fs.existsSync(projectRoot) && fs.readdirSync(projectRoot).length>0) {
-        return console.error('ERROR: Project root directory must be empty.');
+        console.error('ERROR: Project root directory must be empty.');
+        return process.exit(1);
     }
     console.log('Creating new project  at %s', projectRoot);
     //get template path
