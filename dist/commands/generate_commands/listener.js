@@ -21,6 +21,7 @@ var _ = _interopRequireDefault(_lodash).default;
 var _util = require('../../util');
 
 var writeFileFromTemplate = _util.writeFileFromTemplate;
+var getConfiguration = _util.getConfiguration;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39,6 +40,7 @@ var desc = exports.desc = 'Generate a new data model listener';
 var builder = exports.builder = {};
 
 function handler(argv) {
+    var options = getConfiguration();
     //validating listener name
     if (!/^[a-zA-Z0-9_-]+$/.test(argv.name)) {
         console.error('ERROR', 'Listener name is not valid. Expected only latin characters, numbers or "_,-" characters.');
@@ -47,7 +49,7 @@ function handler(argv) {
     //get listener file name
     var destFile = _.dasherize(argv.name).concat('-listener.js');
     console.log('INFO', 'Generating listener ' + destFile);
-    var destPath = path.resolve(process.cwd(), 'server/listeners/' + destFile);
+    var destPath = path.resolve(process.cwd(), options.base, 'listeners/' + destFile);
     console.log('INFO', 'Validating listener path ' + destPath);
     if (fs.existsSync(destPath)) {
         console.error('ERROR', 'The specified listener already exists.');

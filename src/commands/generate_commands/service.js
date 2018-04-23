@@ -9,7 +9,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import _ from 'lodash';
-import {writeFileFromTemplate} from '../../util';
+import {writeFileFromTemplate, getConfiguration} from '../../util';
 
 export const command = 'service <name>';
 
@@ -19,6 +19,7 @@ export const builder = {
 };
 
 export function handler(argv) {
+    let options = getConfiguration();
     //validating service name
     if (!/^[a-zA-Z0-9_]+$/.test(argv.name)) {
         console.error('ERROR','Service name is not valid. Expected only latin characters, numbers or "_" character.');
@@ -29,7 +30,7 @@ export function handler(argv) {
     //get service file name
     let destFile = _.dasherize(serviceName).concat('.js');
     console.log('INFO',`Generating service ${destFile}`);
-    let destPath = path.resolve(process.cwd(), `server/services/${destFile}`);
+    let destPath = path.resolve(process.cwd(), options.base, `services/${destFile}`);
     console.log('INFO',`Validating service path ${destPath}`);
     if (fs.existsSync(destPath)) {
         console.error('ERROR','The specified service already exists.');

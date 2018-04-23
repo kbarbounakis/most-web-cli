@@ -21,6 +21,7 @@ var _ = _interopRequireDefault(_lodash).default;
 var _util = require('../../util');
 
 var writeFileFromTemplate = _util.writeFileFromTemplate;
+var getConfiguration = _util.getConfiguration;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39,6 +40,8 @@ var desc = exports.desc = 'Generate a new data model class';
 var builder = exports.builder = {};
 
 function handler(argv) {
+    var options = getConfiguration();
+
     //validating listener name
     if (!/^[a-zA-Z0-9_-]+$/.test(argv.name)) {
         console.error('ERROR', 'Listener name is not valid. Expected only latin characters, numbers or "_,-" characters.');
@@ -47,7 +50,7 @@ function handler(argv) {
     //get listener file name
     var destFile = _.dasherize(argv.name).concat('-model.js');
     console.log('INFO', 'Generating class ' + destFile);
-    var destPath = path.resolve(process.cwd(), 'server/models/' + destFile);
+    var destPath = path.resolve(process.cwd(), options.base, 'models/' + destFile);
     console.log('INFO', 'Validating class path ' + destPath);
     if (fs.existsSync(destPath)) {
         console.error('ERROR', 'The specified class already exists.');

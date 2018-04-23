@@ -21,6 +21,7 @@ var _ = _interopRequireDefault(_lodash).default;
 var _util = require('../../util');
 
 var writeFileFromTemplate = _util.writeFileFromTemplate;
+var getConfiguration = _util.getConfiguration;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39,6 +40,7 @@ var desc = exports.desc = 'Generate a new service';
 var builder = exports.builder = {};
 
 function handler(argv) {
+    var options = getConfiguration();
     //validating service name
     if (!/^[a-zA-Z0-9_]+$/.test(argv.name)) {
         console.error('ERROR', 'Service name is not valid. Expected only latin characters, numbers or "_" character.');
@@ -49,7 +51,7 @@ function handler(argv) {
     //get service file name
     var destFile = _.dasherize(serviceName).concat('.js');
     console.log('INFO', 'Generating service ' + destFile);
-    var destPath = path.resolve(process.cwd(), 'server/services/' + destFile);
+    var destPath = path.resolve(process.cwd(), options.base, 'services/' + destFile);
     console.log('INFO', 'Validating service path ' + destPath);
     if (fs.existsSync(destPath)) {
         console.error('ERROR', 'The specified service already exists.');

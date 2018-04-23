@@ -9,7 +9,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import _ from 'lodash';
-import {writeFileFromTemplate} from '../../util';
+import {writeFileFromTemplate, getConfiguration} from '../../util';
 
 export const command = 'class <name>';
 
@@ -19,6 +19,8 @@ export const builder = {
 };
 
 export function handler(argv) {
+    let options = getConfiguration();
+    
     //validating listener name
     if (!/^[a-zA-Z0-9_-]+$/.test(argv.name)) {
         console.error('ERROR','Listener name is not valid. Expected only latin characters, numbers or "_,-" characters.');
@@ -27,7 +29,7 @@ export function handler(argv) {
     //get listener file name
     let destFile = _.dasherize(argv.name).concat('-model.js');
     console.log('INFO',`Generating class ${destFile}`);
-    let destPath = path.resolve(process.cwd(), `server/models/${destFile}`);
+    let destPath = path.resolve(process.cwd(), options.base, `models/${destFile}`);
     console.log('INFO',`Validating class path ${destPath}`);
     if (fs.existsSync(destPath)) {
         console.error('ERROR','The specified class already exists.');

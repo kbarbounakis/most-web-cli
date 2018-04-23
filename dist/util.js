@@ -4,6 +4,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.writeFileFromTemplate = writeFileFromTemplate;
+exports.loadConfiguration = loadConfiguration;
+exports.getConfiguration = getConfiguration;
 
 var _lodash = require('lodash');
 
@@ -17,7 +19,16 @@ var _fsExtra = require('fs-extra');
 
 var fs = _interopRequireDefault(_fsExtra).default;
 
+var _path = require('path');
+
+var path = _interopRequireDefault(_path).default;
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var configurationDefaults = {
+    "base": "server",
+    "out": "dist"
+};
 
 /**
  *
@@ -50,5 +61,25 @@ function writeFileFromTemplate(source, dest, data) {
             });
         });
     });
+}
+
+function loadConfiguration() {
+    var config = require(path.resolve(process.cwd(), '.themost-cli.json'));
+    return Object.assign({}, configurationDefaults, config);
+}
+
+function getConfiguration() {
+    try {
+        return loadConfiguration();
+    } catch (err) {
+        if (err.code === 'MODULE_NOT_FOUND') {
+            console.error('ERROR', 'Configuration cannot be found. It seems that current working directory does not contain a MOST Web Framework project.');
+            process.exit(1);
+        } else {
+            console.error('ERROR', 'An error occurred while loading configuration.');
+            console.error(err);
+            process.exit(1);
+        }
+    }
 }
 //# sourceMappingURL=util.js.map

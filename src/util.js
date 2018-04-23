@@ -1,6 +1,13 @@
 import _ from 'lodash';
 import ejs from 'ejs';
 import fs from 'fs-extra';
+import path from 'path';
+
+const configurationDefaults = {
+                "base":"server",
+                "out": "dist"
+            };
+
 /**
  *
  * @param s
@@ -34,4 +41,26 @@ export function writeFileFromTemplate(source, dest, data) {
         });
         
     });
+}
+
+export function loadConfiguration() {
+    let config = require(path.resolve(process.cwd(), '.themost-cli.json'));
+    return Object.assign({}, configurationDefaults, config);
+}
+
+export function getConfiguration() {
+    try {
+        return loadConfiguration();
+    }
+    catch(err) {
+        if (err.code === 'MODULE_NOT_FOUND') {
+            console.error('ERROR','Configuration cannot be found. It seems that current working directory does not contain a MOST Web Framework project.');
+            process.exit(1);
+        }
+        else {
+            console.error('ERROR','An error occurred while loading configuration.');
+            console.error(err);
+            process.exit(1);
+        }
+    }
 }

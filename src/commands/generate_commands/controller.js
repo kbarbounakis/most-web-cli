@@ -9,7 +9,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import _ from 'lodash';
-import {writeFileFromTemplate} from '../../util';
+import {writeFileFromTemplate, getConfiguration} from '../../util';
 
 export const command = 'controller <name>';
 
@@ -19,6 +19,7 @@ export const builder = {
 };
 
 export function handler(argv) {
+    let options = getConfiguration();
     //validating controller name
     if (!/^[a-zA-Z0-9_]+$/.test(argv.name)) {
         console.error('ERROR','Controller name is not valid. Expected only latin characters, numbers or "_" character.');
@@ -29,7 +30,7 @@ export function handler(argv) {
     //get controller file name
     let controllerFile = controllerName.concat('.js');
     console.log('INFO',`Generating controller ${controllerFile}`);
-    let controllerPath = path.resolve(process.cwd(), `server/controllers/${controllerFile}`);
+    let controllerPath = path.resolve(process.cwd(), options.base, `controllers/${controllerFile}`);
     console.log('INFO',`Validating controller path ${controllerPath}`);
     if (fs.existsSync(controllerPath)) {
         console.error('ERROR','The specified controller already exists.');
