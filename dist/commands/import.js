@@ -82,7 +82,7 @@ function handler(argv) {
     console.log('INFO', 'Initializing application');
     var app = void 0;
     try {
-        app = new HttpApplication(path.resolve(process.cwd(), options.base));
+        app = new HttpApplication(path.resolve(process.cwd(), options.dist));
     } catch (err) {
         console.error('ERROR', 'An error occurred while trying to get source data.');
         console.error(err);
