@@ -69,6 +69,28 @@ export function handler(argv) {
     let app;
     try {
         app  = new HttpApplication(path.resolve(process.cwd(), options.dist));
+        let strategy = app.getConfiguration().getStrategy(function DataConfigurationStrategy() {
+        });
+        //get adapter types
+        let adapterTypes = strategy.adapterTypes;
+        //get configuration adapter types
+        let configurationAdapterTypes = app.getConfiguration().getSourceAt('adapterTypes');
+        if (Array.isArray(configurationAdapterTypes)) {
+            configurationAdapterTypes.forEach((configurationAdapterType)=> {
+                if (typeof adapterTypes[configurationAdapterType.invariantName] === 'undefined') {
+                    //load adapter type
+                    let adapterModulePath = require.resolve(configurationAdapterType.type,{
+                        paths:[path.resolve(process.cwd(), 'node_modules')]
+                    });
+                    let adapterModule = require(adapterModulePath);
+                    adapterTypes[configurationAdapterType.invariantName] = {
+                        invariantName:configurationAdapterType.invariantName,
+                        name: configurationAdapterType.name,
+                        createInstance:adapterModule.createInstance
+                    }
+                }
+            });
+        }
     }
     catch(err) {
         console.error('ERROR','An error occurred while trying to get source data.');
