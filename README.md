@@ -3,59 +3,45 @@ most-web-cli
 
 ![MOST Web Framework Logo](https://www.themost.io/assets/images/most_logo_sw_240.png)
 
-A command line utility for [Most Web Framework](https://github.com/kbarbounakis/most-web) applications.
+A command line utility for [Most Web Framework](https://github.com/themost-framework/themost) applications.
 
 Usage
 =====
 
 ##### Generate a new MOST Web Framework application
 
-    most -o generate
+    themost new project <project name>
+    
+This operation will create a new MOST Web Framework application. Execute:
 
-##### Start a lite application server for static content
-
-    most -o lite [-r <directory>] [-b <address>] [-p <port>] [-c]
-
-Options
-
--r [directory] : The directory which contains the files to be served.
- This parameter is optional. The default value is the current directory.
-
--b [address]: The IP address to be bind. This parameter is optional. The default value is 0.0.0.0.
-
--p [port]: The port to be used for listening HTTP requests. This parameter is optional. The default value is 3000.
-
--c: An optional parameter which enables HTTP request caching. The default value is false.
-
-##### Migrate a data model
-
-    most -o migrate -m <data model name>
+    cd <project name> && npm i
+    
+to install dependencies.
 
 ##### Import data from a JSON file
 
-    most -o import -m <data model name> -i <data file path>
+    themost import <data file path> --model <data model name> [--dev]
 
-##### Create an new data controller
+##### Create an new controller
 
-    most -o controller-class -n <controller name>
+    themost generate controller <controller name>
 
-This operation will generate a new controller and it will place it in controllers folder (app/controllers).
-
-##### Create an new base controller
-
-    most -o base-controller-class -n <controller name>
-
-This operation will generate a new base controller and it will place it in controllers folder (app/controllers).
+This operation will generate a new controller and it will place it in controllers folder (server/controllers).
 
 ##### Create an new model class
 
-    most -o model-class -n <model name>
+    themost generate model <model name>
 
-This operation will generate a new model and it will place it in models folder (app/models).
+This operation will generate a new model and it will place it in models folder (server/models).
 
 ##### Create an new model listener
 
-    most -o model-listener -n <listener name>
+    themost generate listener <listener name>
 
-This operation will generate a new model listener and it will place it in controllers folder (app/controllers).
+This operation will generate a new model listener and it will place it in listeners folder (server/listeners).
 
+##### Create an new application service
+
+    themost generate service <service name>
+
+This operation will generate a new application service and it will place it in services folder (server/services).
