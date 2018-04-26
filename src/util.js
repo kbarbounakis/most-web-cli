@@ -5,7 +5,7 @@ import path from 'path';
 
 const configurationDefaults = {
                 "base":"server",
-                "out": "dist"
+                "out": "dist/server"
             };
 
 /**

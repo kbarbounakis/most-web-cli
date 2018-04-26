@@ -68,7 +68,7 @@ export function handler(argv) {
     console.log('INFO','Initializing application');
     let app;
     try {
-        app  = new HttpApplication(path.resolve(process.cwd(), options.dist));
+        app  = new HttpApplication(path.resolve(process.cwd(), options.out));
         let strategy = app.getConfiguration().getStrategy(function DataConfigurationStrategy() {
         });
         //get adapter types
