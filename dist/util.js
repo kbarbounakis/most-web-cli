@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.writeFileFromTemplate = writeFileFromTemplate;
 exports.loadConfiguration = loadConfiguration;
 exports.getConfiguration = getConfiguration;
+exports.getHttpApplication = getHttpApplication;
 
 var _lodash = require('lodash');
 
@@ -27,7 +28,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var configurationDefaults = {
     "base": "server",
-    "out": "dist"
+    "out": "dist/server"
 };
 
 /**
@@ -81,5 +82,47 @@ function getConfiguration() {
             process.exit(1);
         }
     }
+}
+
+function getHttpApplication(options) {
+    var HttpApplication = void 0;
+    try {
+        var appModule = require.resolve('@themost/web/app', {
+            paths: [path.resolve(process.cwd(), 'node_modules')]
+        });
+        HttpApplication = require(appModule).HttpApplication;
+    } catch (err) {
+        if (err.code === 'MODULE_NOT_FOUND') {
+            console.error('ERROR', 'MOST Web Framework module cannot be found.');
+        } else {
+            console.error('ERROR', 'An error occurred while trying to initialize MOST Web Framework Application.');
+            console.error(err);
+        }
+        return process.exit(1);
+    }
+    console.log('INFO', 'Initializing application');
+    var app = new HttpApplication(path.resolve(process.cwd(), options.out));
+    var strategy = app.getConfiguration().getStrategy(function DataConfigurationStrategy() {});
+    //get adapter types
+    var adapterTypes = strategy.adapterTypes;
+    //get configuration adapter types
+    var configurationAdapterTypes = app.getConfiguration().getSourceAt('adapterTypes');
+    if (Array.isArray(configurationAdapterTypes)) {
+        configurationAdapterTypes.forEach(function (configurationAdapterType) {
+            if (typeof adapterTypes[configurationAdapterType.invariantName] === 'undefined') {
+                //load adapter type
+                var adapterModulePath = require.resolve(configurationAdapterType.type, {
+                    paths: [path.resolve(process.cwd(), 'node_modules')]
+                });
+                var adapterModule = require(adapterModulePath);
+                adapterTypes[configurationAdapterType.invariantName] = {
+                    invariantName: configurationAdapterType.invariantName,
+                    name: configurationAdapterType.name,
+                    createInstance: adapterModule.createInstance
+                };
+            }
+        });
+    }
+    return app;
 }
 //# sourceMappingURL=util.js.map

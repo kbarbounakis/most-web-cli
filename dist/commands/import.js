@@ -82,7 +82,7 @@ function handler(argv) {
     console.log('INFO', 'Initializing application');
     var app = void 0;
     try {
-        app = new HttpApplication(path.resolve(process.cwd(), options.dist));
+        app = new HttpApplication(path.resolve(process.cwd(), options.out));
         var strategy = app.getConfiguration().getStrategy(function DataConfigurationStrategy() {});
         //get adapter types
         var adapterTypes = strategy.adapterTypes;

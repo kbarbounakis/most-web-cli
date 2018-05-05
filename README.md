@@ -21,6 +21,21 @@ to install dependencies.
 ##### Import data from a JSON file
 
     themost import <data file path> --model <data model name> [--dev]
+    
+##### Query data
+
+Applies the specified OData query options against the defined data model and prints the result
+
+    themost cat --model <data model name> [--dev] 
+            [--filter=<filter option>] 
+            [--select=<select option>]
+            [--top=<top option>] 
+            [--skip=<skip option>]
+            [--count=<count option>]
+            [--order=<order by option>]
+            [--group=<group by option>]
+            [--expand=<expand option>]
+
 
 ##### Create an new controller
 

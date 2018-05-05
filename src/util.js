@@ -64,3 +64,48 @@ export function getConfiguration() {
         }
     }
 }
+
+export function getHttpApplication(options) {
+    let HttpApplication;
+    try {
+        let appModule = require.resolve('@themost/web/app',{
+            paths:[path.resolve(process.cwd(), 'node_modules')]
+        });
+        HttpApplication = require(appModule).HttpApplication;
+    }
+    catch(err) {
+        if (err.code === 'MODULE_NOT_FOUND') {
+            console.error('ERROR','MOST Web Framework module cannot be found.');
+        }
+        else {
+            console.error('ERROR','An error occurred while trying to initialize MOST Web Framework Application.');
+            console.error(err);
+        }
+        return process.exit(1);
+    }
+    console.log('INFO','Initializing application');
+    let app  = new HttpApplication(path.resolve(process.cwd(), options.out));
+        let strategy = app.getConfiguration().getStrategy(function DataConfigurationStrategy() {
+        });
+        //get adapter types
+        let adapterTypes = strategy.adapterTypes;
+        //get configuration adapter types
+        let configurationAdapterTypes = app.getConfiguration().getSourceAt('adapterTypes');
+        if (Array.isArray(configurationAdapterTypes)) {
+            configurationAdapterTypes.forEach((configurationAdapterType)=> {
+                if (typeof adapterTypes[configurationAdapterType.invariantName] === 'undefined') {
+                    //load adapter type
+                    let adapterModulePath = require.resolve(configurationAdapterType.type,{
+                        paths:[path.resolve(process.cwd(), 'node_modules')]
+                    });
+                    let adapterModule = require(adapterModulePath);
+                    adapterTypes[configurationAdapterType.invariantName] = {
+                        invariantName:configurationAdapterType.invariantName,
+                        name: configurationAdapterType.name,
+                        createInstance:adapterModule.createInstance
+                    };
+                }
+            });
+        }
+    return app;
+}
