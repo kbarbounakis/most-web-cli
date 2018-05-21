@@ -46,8 +46,11 @@ function handler(argv) {
         console.error('ERROR', 'Listener name is not valid. Expected only latin characters, numbers or "_,-" characters.');
         return process.exit(1);
     }
+    //get service name
+    var listenerName = /listener$/i.test(argv.name) ? _.upperFirst(_.camelCase(argv.name)) : _.upperFirst(_.camelCase(argv.name.concat('-listener')));
+
     //get listener file name
-    var destFile = _.dasherize(argv.name).concat('-listener.js');
+    var destFile = _.dasherize(listenerName).concat('.js');
     console.log('INFO', 'Generating listener ' + destFile);
     var destPath = path.resolve(process.cwd(), options.base, 'listeners/' + destFile);
     console.log('INFO', 'Validating listener path ' + destPath);

@@ -49,7 +49,7 @@ function handler(argv) {
     //get controller name
     var controllerName = /controller$/i.test(argv.name) ? _.upperFirst(_.camelCase(argv.name)) : _.upperFirst(_.camelCase(argv.name.concat('-controller')));
     //get controller file name
-    var controllerFile = controllerName.concat('.js');
+    var controllerFile = _.dasherize(controllerName).concat('.js');
     console.log('INFO', 'Generating controller ' + controllerFile);
     var controllerPath = path.resolve(process.cwd(), options.base, 'controllers/' + controllerFile);
     console.log('INFO', 'Validating controller path ' + controllerPath);
@@ -69,7 +69,7 @@ function handler(argv) {
             console.error(err);
         }
         writeFileFromTemplate(templateFile, controllerPath, {
-            name: controllerName
+            name: controllerName.replace(/Controller$/i, '')
         }).then(function () {
             console.log('INFO', 'The operation was completed succesfully.');
             return process.exit(0);
