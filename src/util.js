@@ -65,6 +65,56 @@ export function getConfiguration() {
     }
 }
 
+export class SimpleDataContext {
+    constructor(configuration) {
+        this.getConfiguration = ()=> configuration;
+    }
+   getStrategy(strategyCtor) {
+    return this.getConfiguration().getStrategy(strategyCtor);
+  }
+  
+  model(name) {
+    let self = this;
+    if ((name === null) || (name === undefined))
+        return null;
+    let obj = self.getConfiguration().getStrategy(function DataConfigurationStrategy() {}).model(name);
+    if (_.isNil(obj))
+        return null;
+    let dataModule = require.resolve('@themost/data/data-model',{
+            paths:[path.resolve(process.cwd(), 'node_modules')]
+        });
+    let DataModel = require(dataModule).DataModel,
+        model = new DataModel(obj);
+    //set model context
+    model.context = self;
+    //return model
+    return model;
+  }
+  
+}
+
+export function getDataConfiguration(options) {
+    let DataConfiguration;
+    try {
+        let dataModule = require.resolve('@themost/data/data-configuration',{
+            paths:[path.resolve(process.cwd(), 'node_modules')]
+        });
+        DataConfiguration = require(dataModule).DataConfiguration;
+    }
+    catch(err) {
+        if (err.code === 'MODULE_NOT_FOUND') {
+            console.error('ERROR','MOST Web Framework data configuration module cannot be found.');
+        }
+        else {
+            console.error('ERROR','An error occurred while trying to initialize data configuration.');
+            console.error(err);
+        }
+        return process.exit(1);
+    }
+    console.log('INFO','Initializing configuration');
+    return new DataConfiguration(path.resolve(process.cwd(), options.out, 'config'));
+}
+
 export function getHttpApplication(options) {
     let HttpApplication;
     try {

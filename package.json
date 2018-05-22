@@ -36,6 +36,7 @@
     "lodash": "^4.17.5",
     "mkdirp": "*",
     "moment": "^2.11.2",
+    "pluralize": "^7.0.0",
     "yargs": "^11.0.0"
   },
   "devDependencies": {
