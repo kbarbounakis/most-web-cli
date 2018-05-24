@@ -112,7 +112,9 @@ var SimpleDataContext = exports.SimpleDataContext = function () {
             var self = this;
             if (name === null || name === undefined) return null;
             var obj = self.getConfiguration().getStrategy(function DataConfigurationStrategy() {}).model(name);
-            if (_.isNil(obj)) return null;
+            if (_.isNil(obj)) {
+                return null;
+            }
             //do some things for CLI only
             //remove class path if any
             delete obj.classPath;
