@@ -47,6 +47,9 @@ function builder(yargs) {
     return yargs.option('silent', {
         default: false,
         describe: 'disable errors'
+    }).option('force', {
+        default: false,
+        describe: 'replace if exists'
     });
 }
 
@@ -65,9 +68,8 @@ function generateAnyDefinition(argv) {
             sources = schema.entityType.map(function (x) {
                 return generateDefinition(Object.assign({}, argv, {
                     "name": x.name,
-                    "silent": true,
-                    "ignoreOther": true
-                }));
+                    "silent": true
+                }), true);
             });
         } else {
             sources = argv.name.split('+').map(function (x) {
@@ -75,7 +77,7 @@ function generateAnyDefinition(argv) {
                     "name": x,
                     "silent": true,
                     "ignoreOther": true
-                }));
+                }), false);
             });
         }
         return Promise.all(sources);
@@ -107,6 +109,7 @@ function generateDefinition(argv, ignoreOther) {
             var model = context.model(argv.name) || emptyModel;
             model.inherits = model.inherits || null;
             model.imports = [];
+            model.modulePath = _.dasherize(model.name).concat('-model');
             if (model.inherits) {
                 model.inheritsClassPath = "./".concat(_.dasherize(model.inherits).concat('-model'));
                 model.imports.push({
@@ -115,7 +118,7 @@ function generateDefinition(argv, ignoreOther) {
                 });
             } else {
                 model.imports.push({
-                    "name": "DataObject",
+                    "name": "{DataObject}",
                     "from": "@themost/data/data-object"
                 });
             }
@@ -141,6 +144,8 @@ function generateDefinition(argv, ignoreOther) {
                                 "from": "./".concat(_.dasherize(importModel.name).concat('-model'))
                             });
                         }
+                        x.typeName = x.many ? "Array<" + x.type + "|any>" : x.type + "|any";
+                        return;
                     }
                 }
                 if (dataType) {
@@ -155,7 +160,7 @@ function generateDefinition(argv, ignoreOther) {
             console.log('INFO', 'Generating class ' + destFile);
             var destPath = path.resolve(process.cwd(), options.base, 'models/' + destFile);
             console.log('INFO', 'Validating class path ' + destPath);
-            if (fs.existsSync(destPath)) {
+            if (fs.existsSync(destPath) && !argv.force) {
                 if (argv.silent) {
                     console.error('WARNING', 'The specified class [' + argv.name + '] already exists.');
                     return resolve();
@@ -179,7 +184,7 @@ function generateDefinition(argv, ignoreOther) {
                         return resolve();
                     }
                     var generateExtra = model.imports.filter(function (x) {
-                        return x.name !== "DataObject";
+                        return x.name !== "{DataObject}";
                     }).map(function (x) {
                         return generateDefinition(Object.assign({}, argv, {
                             "name": x.name,

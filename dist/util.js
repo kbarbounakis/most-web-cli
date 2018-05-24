@@ -155,7 +155,7 @@ function getDataConfiguration(options) {
     var res = new DataConfiguration(path.resolve(process.cwd(), options.base, 'config'));
     //modify data configuration strategy
     var dataConfigurationStrategy = res.getStrategy(function DataConfigurationStrategy() {});
-    var getModel = dataConfigurationStrategy.prototype.model;
+    var getModel = dataConfigurationStrategy.model;
     dataConfigurationStrategy.model = function (name) {
         var model = getModel.bind(this)(name);
         if (model) {

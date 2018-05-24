@@ -121,7 +121,7 @@ export function getDataConfiguration(options) {
     let res = new DataConfiguration(path.resolve(process.cwd(), options.base, 'config'));
     //modify data configuration strategy
     let dataConfigurationStrategy = res.getStrategy(function DataConfigurationStrategy() {});
-    let getModel = dataConfigurationStrategy.prototype.model;
+    let getModel = dataConfigurationStrategy.model;
     dataConfigurationStrategy.model = function(name) {
         let model = getModel.bind(this)(name);
         if (model) {

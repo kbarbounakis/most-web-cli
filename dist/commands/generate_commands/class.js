@@ -49,6 +49,9 @@ function builder(yargs) {
     return yargs.option('silent', {
         default: false,
         describe: 'disable errors'
+    }).option('force', {
+        default: false,
+        describe: 'replace if exists'
     });
 }
 
@@ -67,17 +70,15 @@ function generateAnyClass(argv) {
             sources = schema.entityType.map(function (x) {
                 return generateClass(Object.assign({}, argv, {
                     "name": x.name,
-                    "silent": true,
-                    "ignoreOther": true
-                }));
+                    "silent": true
+                }), true);
             });
         } else {
             sources = argv.name.split('+').map(function (x) {
                 return generateClass(Object.assign({}, argv, {
                     "name": x,
-                    "silent": true,
-                    "ignoreOther": true
-                }));
+                    "silent": true
+                }), false);
             });
         }
         return Promise.all(sources);
@@ -119,7 +120,7 @@ function generateClass(argv, ignoreOther) {
                 });
             } else {
                 model.imports.push({
-                    "name": "DataObject",
+                    "name": "{DataObject}",
                     "from": "@themost/data/data-object"
                 });
             }
@@ -145,6 +146,8 @@ function generateClass(argv, ignoreOther) {
                                 "from": "./".concat(_.dasherize(importModel.name).concat('-model'))
                             });
                         }
+                        x.typeName = x.many ? "Array<" + x.type + "|any>" : x.type + "|any";
+                        return;
                     }
                 }
                 if (dataType) {
@@ -158,7 +161,7 @@ function generateClass(argv, ignoreOther) {
             console.log('INFO', 'Generating class ' + destFile);
             var destPath = path.resolve(process.cwd(), options.base, 'models/' + destFile);
             console.log('INFO', 'Validating class path ' + destPath);
-            if (fs.existsSync(destPath)) {
+            if (fs.existsSync(destPath) && !argv.force) {
                 if (argv.silent) {
                     console.error('WARNING', 'The specified class [' + argv.name + '] already exists.');
                     return resolve();
@@ -181,14 +184,13 @@ function generateClass(argv, ignoreOther) {
                     if (ignoreOther) {
                         return generateDefinition(Object.assign({}, argv, {
                             "name": model.name,
-                            "silent": true,
-                            "ignoreOther": true
-                        })).then(function () {
+                            "silent": true
+                        }), true).then(function () {
                             return resolve();
                         });
                     }
                     var generateExtra = model.imports.filter(function (x) {
-                        return x.name !== "DataObject";
+                        return x.name !== "{DataObject}";
                     }).map(function (x) {
                         return generateClass(Object.assign({}, argv, {
                             "name": x.name,
