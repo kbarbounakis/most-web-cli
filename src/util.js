@@ -118,7 +118,24 @@ export function getDataConfiguration(options) {
         return process.exit(1);
     }
     console.log('INFO','Initializing configuration');
-    return new DataConfiguration(path.resolve(process.cwd(), options.base, 'config'));
+    let res = new DataConfiguration(path.resolve(process.cwd(), options.base, 'config'));
+    //modify data configuration strategy
+    let dataConfigurationStrategy = res.getStrategy(function DataConfigurationStrategy() {});
+    let getModel = dataConfigurationStrategy.prototype.model;
+    dataConfigurationStrategy.model = function(name) {
+        let model = getModel.bind(this)(name);
+        if (model) {
+            //do some things for CLI only
+            //remove class path if any
+            delete model.classPath;
+            //clear event listeners
+            model.eventListeners = [];
+        }
+        return model;
+    };
+    
+    return res;
+    
 }
 
 export function getBuilder(config) {
