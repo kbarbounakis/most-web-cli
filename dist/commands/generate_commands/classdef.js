@@ -5,8 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.desc = exports.command = undefined;
 exports.builder = builder;
-exports.generateAnyClass = generateAnyClass;
-exports.generateClass = generateClass;
+exports.generateAnyDefinition = generateAnyDefinition;
+exports.generateDefinition = generateDefinition;
 exports.handler = handler;
 
 var _path = require('path');
@@ -29,21 +29,19 @@ var getDataConfiguration = _util.getDataConfiguration;
 var SimpleDataContext = _util.SimpleDataContext;
 var getBuilder = _util.getBuilder;
 
-var _classdef = require('./classdef');
-
-var generateDefinition = _classdef.generateDefinition;
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var command = exports.command = 'class <name>'; /**
-                                                 * @license
-                                                 * MOST Web Framework 2.0 Codename Blueshift
-                                                 * Copyright (c) 2017, THEMOST LP All rights reserved
-                                                 *
-                                                 * Use of this source code is governed by an BSD-3-Clause license that can be
-                                                 * found in the LICENSE file at https://themost.io/license
-                                                 */
-var desc = exports.desc = 'Generate a new data model class';
+/**
+ * @license
+ * MOST Web Framework 2.0 Codename Blueshift
+ * Copyright (c) 2017, THEMOST LP All rights reserved
+ *
+ * Use of this source code is governed by an BSD-3-Clause license that can be
+ * found in the LICENSE file at https://themost.io/license
+ */
+var command = exports.command = 'classdef <name>';
+
+var desc = exports.desc = 'Generate a new data model class definition';
 
 function builder(yargs) {
     return yargs.option('silent', {
@@ -52,7 +50,7 @@ function builder(yargs) {
     });
 }
 
-function generateAnyClass(argv) {
+function generateAnyDefinition(argv) {
 
     //get cli options
     var options = getConfiguration();
@@ -65,7 +63,7 @@ function generateAnyClass(argv) {
         console.log('INFO', argv);
         if (argv.name === 'app' || argv.name === '*') {
             sources = schema.entityType.map(function (x) {
-                return generateClass(Object.assign({}, argv, {
+                return generateDefinition(Object.assign({}, argv, {
                     "name": x.name,
                     "silent": true,
                     "ignoreOther": true
@@ -73,7 +71,7 @@ function generateAnyClass(argv) {
             });
         } else {
             sources = argv.name.split('+').map(function (x) {
-                return generateClass(Object.assign({}, argv, {
+                return generateDefinition(Object.assign({}, argv, {
                     "name": x,
                     "silent": true,
                     "ignoreOther": true
@@ -84,11 +82,9 @@ function generateAnyClass(argv) {
     });
 }
 
-function generateClass(argv, ignoreOther) {
+function generateDefinition(argv, ignoreOther) {
     return new Promise(function (resolve, reject) {
-        //get cli options
         var options = getConfiguration();
-        //get data configuration
         var config = getDataConfiguration(options);
         //validating name
         if (!/^[a-zA-Z0-9_-]+$/.test(argv.name)) {
@@ -151,10 +147,11 @@ function generateClass(argv, ignoreOther) {
                     x.typeName = x.many ? "Array<" + dataType.type + ">" : dataType.type;
                     return;
                 }
+
                 x.typeName = x.many ? "Array<" + x.type + ">" : x.type;
             });
             //get file name
-            var destFile = _.dasherize(argv.name).concat('-model.js');
+            var destFile = _.dasherize(argv.name).concat('-model.d.ts');
             console.log('INFO', 'Generating class ' + destFile);
             var destPath = path.resolve(process.cwd(), options.base, 'models/' + destFile);
             console.log('INFO', 'Validating class path ' + destPath);
@@ -163,11 +160,11 @@ function generateClass(argv, ignoreOther) {
                     console.error('WARNING', 'The specified class [' + argv.name + '] already exists.');
                     return resolve();
                 }
-                console.error('ERROR', 'An error occurred while validating class.');
+                console.error('ERROR', 'An error occurred while validating class definition.');
                 return reject(new Error('The specified class already exists.'));
             }
             //get template file path
-            var templateFile = path.resolve(__dirname, '../../../templates/generate/class.js.ejs');
+            var templateFile = path.resolve(__dirname, '../../../templates/generate/classdef.d.ts.ejs');
             //get destination folder path
             var destFolder = path.dirname(destPath);
             console.error('INFO', 'Validating class folder (' + destFolder + ').');
@@ -179,29 +176,18 @@ function generateClass(argv, ignoreOther) {
                 writeFileFromTemplate(templateFile, destPath, model).then(function () {
                     console.log('INFO', 'The operation was completed succesfully.');
                     if (ignoreOther) {
-                        return generateDefinition(Object.assign({}, argv, {
-                            "name": model.name,
-                            "silent": true,
-                            "ignoreOther": true
-                        })).then(function () {
-                            return resolve();
-                        });
+                        return resolve();
                     }
                     var generateExtra = model.imports.filter(function (x) {
                         return x.name !== "DataObject";
                     }).map(function (x) {
-                        return generateClass(Object.assign({}, argv, {
+                        return generateDefinition(Object.assign({}, argv, {
                             "name": x.name,
                             "silent": true
                         }));
                     });
                     Promise.all(generateExtra).then(function () {
-                        return generateDefinition(Object.assign({}, argv, {
-                            "name": model.name,
-                            "silent": true
-                        })).then(function () {
-                            return resolve();
-                        });
+                        return resolve();
                     }).catch(function (err) {
                         return reject(err);
                     });
@@ -215,11 +201,11 @@ function generateClass(argv, ignoreOther) {
 }
 
 function handler(argv) {
-    generateAnyClass(argv).then(function () {
+    generateAnyDefinition(argv).then(function () {
         return process.exit(0);
     }).catch(function (err) {
         console.error(err);
         return process.exit(1);
     });
 }
-//# sourceMappingURL=class.js.map
+//# sourceMappingURL=classdef.js.map

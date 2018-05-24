@@ -112,7 +112,24 @@ export function getDataConfiguration(options) {
         return process.exit(1);
     }
     console.log('INFO','Initializing configuration');
-    return new DataConfiguration(path.resolve(process.cwd(), options.out, 'config'));
+    return new DataConfiguration(path.resolve(process.cwd(), options.base, 'config'));
+}
+
+export function getBuilder(config) {
+    let ODataConventionModelBuilder;
+    let dataModule = require.resolve('@themost/data/odata',{
+            paths:[path.resolve(process.cwd(), 'node_modules')]
+        });
+    ODataConventionModelBuilder = require(dataModule).ODataConventionModelBuilder;
+    
+    let dataObjectModule = require.resolve('@themost/data/data-object',{
+            paths:[path.resolve(process.cwd(), 'node_modules')]
+        });
+    //disable data model class loader
+    config.getStrategy(function ModelClassLoaderStrategy() {}).resolve = function(model) {
+        return require(dataObjectModule).DataObject;
+    };
+    return new ODataConventionModelBuilder(config);
 }
 
 export function getHttpApplication(options) {

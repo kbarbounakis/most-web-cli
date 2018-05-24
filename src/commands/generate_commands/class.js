@@ -9,7 +9,8 @@
 import path from 'path';
 import fs from 'fs-extra';
 import _ from 'lodash';
-import { writeFileFromTemplate, getConfiguration, getDataConfiguration, SimpleDataContext } from '../../util';
+import { writeFileFromTemplate, getConfiguration, getDataConfiguration, SimpleDataContext, getBuilder } from '../../util';
+import { generateDefinition } from './classdef';
 
 export const command = 'class <name>';
 
@@ -22,9 +23,45 @@ export function builder(yargs) {
     });
 }
 
-export function generateClass(argv) {
+export function generateAnyClass(argv) {
+    
+    //get cli options
+    let options = getConfiguration();
+    //get data configuration
+    let config = getDataConfiguration(options);
+    //get OData Builder
+    let builder = getBuilder(config);
+    let sources = [];
+    return builder.getEdm().then((schema)=> {
+        console.log('INFO', argv);
+        if (argv.name === 'app' || argv.name === '*') {
+            sources = schema.entityType.map((x)=> {
+                return generateClass(Object.assign({}, argv, {
+                    "name": x.name,
+                    "silent": true,
+                    "ignoreOther": true
+                }));
+            });
+        }
+        else {
+            sources = argv.name.split('+').map((x)=> {
+                return generateClass(Object.assign({}, argv, {
+                    "name": x,
+                    "silent": true,
+                    "ignoreOther": true
+                }));
+            });
+        }
+        return Promise.all(sources);
+    });
+    
+}
+
+export function generateClass(argv, ignoreOther) {
     return new Promise((resolve, reject) => {
+        //get cli options
         let options = getConfiguration();
+        //get data configuration
         let config = getDataConfiguration(options);
         //validating name
         if (!/^[a-zA-Z0-9_-]+$/.test(argv.name)) {
@@ -33,78 +70,124 @@ export function generateClass(argv) {
         }
         //--
         let context = new SimpleDataContext(config);
-        //get model definition
-        let emptyModel = {
-                name: _.upperFirst(_.camelCase(argv.name)),
-                fields: [],
-                attributes:[],
-                inherits: null
-            };
-        let dataTypes = config.getDataConfiguration().dataTypes;
-        let model = context.model(argv.name) || emptyModel;
-        model.inherits = model.inherits || null; 
-        if (model.inherits) {
-            model.inheritsClassPath = "./".concat(_.dasherize(model.inherits).concat('-model'));
-        }
-        model.attributes.forEach((x)=> {
-           //format data type
-            let dataType = dataTypes[x.type];
-            if (typeof x.type === 'undefined') {
-                x.typeName = x.many ?  "Array<*>" : "*";
-                return;
-            }
-            if (dataType) {
-                x.typeName = x.many ?  "Array<" + dataType.type + ">" : dataType.type;
-                return;
-            }
-            x.typeName = x.many ?  "Array<" + x.type + ">" : x.type;
-        });
-        //get file name
-        let destFile = _.dasherize(argv.name).concat('-model.js');
-        console.log('INFO', `Generating class ${destFile}`);
-        let destPath = path.resolve(process.cwd(), options.base, `models/${destFile}`);
-        console.log('INFO', `Validating class path ${destPath}`);
-        if (fs.existsSync(destPath)) {
-            if (argv.silent) {
-                console.error('WARNING', `The specified class [${argv.name}] already exists.`);
-                return resolve();
-            }
-            console.error('ERROR', 'An error occurred while validating class.');
-            return reject(new Error('The specified class already exists.'));
-        }
-        //get template file path
-        let templateFile = path.resolve(__dirname, '../../../templates/generate/class.js.ejs');
-        //get destination folder path
-        let destFolder = path.dirname(destPath);
-        console.error('INFO', `Validating class folder (${destFolder}).`);
-        fs.ensureDir(destFolder, (err) => {
-            if (err) {
-                console.error('ERROR', 'An error occurred while validating destination path.');
-                return reject(err);
-            }
-            writeFileFromTemplate(templateFile, destPath, model).then(() => {
-                console.log('INFO', 'The operation was completed succesfully.');
+        //get OData Builder
+        let builder = getBuilder(config);
+        return builder.getEdm().then((schema)=> {
+                //get model definition
+                let emptyModel = {
+                        name: _.upperFirst(_.camelCase(argv.name)),
+                        fields: [],
+                        attributes:[],
+                        inherits: null
+                    };
+                let dataTypes = config.getDataConfiguration().dataTypes;
+                let model = context.model(argv.name) || emptyModel;
+                model.inherits = model.inherits || null; 
+                model.imports = [];
                 if (model.inherits) {
-                    return generateClass(Object.assign({}, argv, {
-                        "name": model.inherits
-                    })).then(()=> {
-                        return resolve();
-                    }).catch((err)=> {
-                        return reject(err);
+                    model.inheritsClassPath = "./".concat(_.dasherize(model.inherits).concat('-model'));
+                    model.imports.push({
+                      "name": model.inherits,
+                      "from": model.inheritsClassPath
                     });
                 }
-                return resolve();
-            }).catch((err) => {
-                console.error('ERROR', 'An error occurred while generating data model class.');
-                return reject(err);
-            });
-
+                else {
+                    model.imports.push({
+                      "name": "DataObject",
+                      "from": "@themost/data/data-object"
+                    });
+                }
+                model.attributes.forEach((x)=> {
+                   //format data type
+                    let dataType = dataTypes[x.type];
+                    if (typeof x.type === 'undefined') {
+                        x.typeName = x.many ?  "Array<*>" : "*";
+                        return;
+                    }
+                    if (!x.hasOwnProperty('nullable')) {
+                        x.nullable = true;
+                    }
+                    //add import
+                    if (x.model === model.name) {
+                        let importModel = context.model(x.type);
+                        if (importModel && importModel.name !== model.name) {
+                            if (typeof model.imports.find((x)=> { return x.name === importModel.name }) === 'undefined') {
+                                model.imports.push({
+                                    "name": importModel.name,
+                                    "from": "./".concat(_.dasherize(importModel.name).concat('-model'))
+                                });    
+                            }
+                        }    
+                    }
+                    if (dataType) {
+                        x.typeName = x.many ?  "Array<" + dataType.type + ">" : dataType.type;
+                        return;
+                    }
+                    x.typeName = x.many ?  "Array<" + x.type + ">" : x.type;
+                });
+                //get file name
+                let destFile = _.dasherize(argv.name).concat('-model.js');
+                console.log('INFO', `Generating class ${destFile}`);
+                let destPath = path.resolve(process.cwd(), options.base, `models/${destFile}`);
+                console.log('INFO', `Validating class path ${destPath}`);
+                if (fs.existsSync(destPath)) {
+                    if (argv.silent) {
+                        console.error('WARNING', `The specified class [${argv.name}] already exists.`);
+                        return resolve();
+                    }
+                    console.error('ERROR', 'An error occurred while validating class.');
+                    return reject(new Error('The specified class already exists.'));
+                }
+                //get template file path
+                let templateFile = path.resolve(__dirname, '../../../templates/generate/class.js.ejs');
+                //get destination folder path
+                let destFolder = path.dirname(destPath);
+                console.error('INFO', `Validating class folder (${destFolder}).`);
+                fs.ensureDir(destFolder, (err) => {
+                    if (err) {
+                        console.error('ERROR', 'An error occurred while validating destination path.');
+                        return reject(err);
+                    }
+                    writeFileFromTemplate(templateFile, destPath, model).then(() => {
+                        console.log('INFO', 'The operation was completed succesfully.');
+                        if (ignoreOther) {
+                            return generateDefinition(Object.assign({}, argv, {
+                                "name": model.name,
+                                "silent": true,
+                                "ignoreOther": true
+                                })).then(()=> {
+                                    return resolve();        
+                                });   
+                        }
+                        let generateExtra = model.imports.filter((x)=> {
+                           return x.name !== "DataObject"; 
+                        }).map((x)=> {
+                            return generateClass(Object.assign({}, argv, {
+                                    "name": x.name,
+                                    "silent": true
+                                }));
+                        });
+                        Promise.all(generateExtra).then(()=> {
+                            return generateDefinition(Object.assign({}, argv, {
+                                "name": model.name,
+                                "silent": true
+                                })).then(()=> {
+                                    return resolve();        
+                                });
+                        }).catch((err)=> {
+                            return reject(err);
+                        });
+                    }).catch((err) => {
+                        console.error('ERROR', 'An error occurred while generating data model class.');
+                        return reject(err);
+                    });
+                });
         });
     });
 }
 
 export function handler(argv) {
-    generateClass(argv).then(() => {
+    generateAnyClass(argv).then(() => {
         return process.exit(0);
     }).catch((err) => {
         console.error(err);

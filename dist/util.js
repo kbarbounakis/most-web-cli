@@ -11,6 +11,7 @@ exports.writeFileFromTemplate = writeFileFromTemplate;
 exports.loadConfiguration = loadConfiguration;
 exports.getConfiguration = getConfiguration;
 exports.getDataConfiguration = getDataConfiguration;
+exports.getBuilder = getBuilder;
 exports.getHttpApplication = getHttpApplication;
 
 var _lodash = require('lodash');
@@ -144,7 +145,24 @@ function getDataConfiguration(options) {
         return process.exit(1);
     }
     console.log('INFO', 'Initializing configuration');
-    return new DataConfiguration(path.resolve(process.cwd(), options.out, 'config'));
+    return new DataConfiguration(path.resolve(process.cwd(), options.base, 'config'));
+}
+
+function getBuilder(config) {
+    var ODataConventionModelBuilder = void 0;
+    var dataModule = require.resolve('@themost/data/odata', {
+        paths: [path.resolve(process.cwd(), 'node_modules')]
+    });
+    ODataConventionModelBuilder = require(dataModule).ODataConventionModelBuilder;
+
+    var dataObjectModule = require.resolve('@themost/data/data-object', {
+        paths: [path.resolve(process.cwd(), 'node_modules')]
+    });
+    //disable data model class loader
+    config.getStrategy(function ModelClassLoaderStrategy() {}).resolve = function (model) {
+        return require(dataObjectModule).DataObject;
+    };
+    return new ODataConventionModelBuilder(config);
 }
 
 function getHttpApplication(options) {
