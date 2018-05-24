@@ -12,8 +12,13 @@ export const command = 'project <directory>';
 
 export const desc = 'Create a new project';
 
-export const builder = {
-};
+export function builder(yargs) {
+    return yargs.option('template', {
+        describe:'the target template',
+        choices: ['api', 'express'],
+        default:'api'
+    });
+}
 
 export function handler(argv) {
     let projectRoot = path.resolve(process.cwd(), argv.directory);
@@ -23,7 +28,12 @@ export function handler(argv) {
     }
     console.log('Creating new project  at %s', projectRoot);
     //get template path
-    let templateRoot = path.resolve(__dirname, './../../../templates/api');
+    let  templateRoot = path.resolve(__dirname, `./../../../templates/${argv.template}_project`);
+    //validate template folder
+    if (!fs.existsSync(templateRoot)) {
+        console.error('ERROR: The specified template cannot be found.');
+        return process.exit(1);
+    }
     fs.copy(templateRoot, projectRoot, err => {
             if (err) {
                 console.error('ERROR: An error occurred while generating new project.');

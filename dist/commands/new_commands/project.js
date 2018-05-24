@@ -3,7 +3,8 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.builder = exports.desc = exports.command = undefined;
+exports.desc = exports.command = undefined;
+exports.builder = builder;
 exports.handler = handler;
 
 var _path = require('path');
@@ -28,7 +29,13 @@ var command = exports.command = 'project <directory>';
 
 var desc = exports.desc = 'Create a new project';
 
-var builder = exports.builder = {};
+function builder(yargs) {
+    return yargs.option('template', {
+        describe: 'the target template',
+        choices: ['api', 'express'],
+        default: 'api'
+    });
+}
 
 function handler(argv) {
     var projectRoot = path.resolve(process.cwd(), argv.directory);
@@ -38,7 +45,12 @@ function handler(argv) {
     }
     console.log('Creating new project  at %s', projectRoot);
     //get template path
-    var templateRoot = path.resolve(__dirname, './../../../templates/api');
+    var templateRoot = path.resolve(__dirname, './../../../templates/' + argv.template + '_project');
+    //validate template folder
+    if (!fs.existsSync(templateRoot)) {
+        console.error('ERROR: The specified template cannot be found.');
+        return process.exit(1);
+    }
     fs.copy(templateRoot, projectRoot, function (err) {
         if (err) {
             console.error('ERROR: An error occurred while generating new project.');
