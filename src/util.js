@@ -80,6 +80,11 @@ export class SimpleDataContext {
     let obj = self.getConfiguration().getStrategy(function DataConfigurationStrategy() {}).model(name);
     if (_.isNil(obj))
         return null;
+        //do some things for CLI only
+        //remove class path if any
+        delete obj.classPath;
+        //clear event listeners
+        obj.eventListeners = [];
     let dataModule = require.resolve('@themost/data/data-model',{
             paths:[path.resolve(process.cwd(), 'node_modules')]
         });
