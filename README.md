@@ -10,7 +10,7 @@ Usage
 
 ##### Generate a new MOST Web Framework application
 
-    themost new project <project name>
+    themost new project <project name> [--template <api|classice>]
     
 This operation will create a new MOST Web Framework application. Execute:
 
