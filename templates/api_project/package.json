@@ -13,7 +13,7 @@
     "themost": "themost"
   },
   "devDependencies": {
-      "@themost/cli": "^2.0.1",
+      "@themost/cli": "^2.1.1",
     "babel-cli": "^6.22.0",
     "babel-core": "^6.22.0",
     "babel-eslint": "^8.0.3",
@@ -26,10 +26,10 @@
     "babel-preset-env": "^1.1.8"
   },
   "dependencies": {
-    "@themost/common": "^2.0.7",
-    "@themost/data": "^2.0.25",
-    "@themost/sqlite": "^2.0.6",
-    "@themost/web": "^2.0.28",
+    "@themost/common": "^2.1.1",
+    "@themost/data": "^2.1.1",
+    "@themost/sqlite": "^2.1.1",
+    "@themost/web": "^2.1.1",
     "bootstrap": "^4.1.0",
     "jquery": "^3.3.1"
   }

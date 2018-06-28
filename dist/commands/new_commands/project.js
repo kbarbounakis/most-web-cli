@@ -32,8 +32,8 @@ var desc = exports.desc = 'Create a new project';
 function builder(yargs) {
     return yargs.option('template', {
         describe: 'the target template',
-        choices: ['api', 'express'],
-        default: 'api'
+        choices: ['api', 'express', 'classic'],
+        default: 'classic'
     });
 }
 
