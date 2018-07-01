@@ -1,0 +1,17 @@
+/**
+* @param {DataEventArgs} event
+* @param {Function} callback
+*/
+import {DataEventArgs} from "@themost/data/types";
+
+export function beforeSave(event: DataEventArgs, callback: (err?: Error) => void) {
+    return callback();
+}
+
+/**
+* @param {DataEventArgs} event
+* @param {Function} callback
+*/
+export function afterSave(event: DataEventArgs, callback: (err?: Error) => void) {
+    return callback();
+}

@@ -28,7 +28,7 @@ export function handler(argv) {
     //get service name
     let serviceName = /service$/i.test(argv.name) ? _.upperFirst(_.camelCase(argv.name)) : _.upperFirst(_.camelCase(argv.name.concat('-service')));
     //get service file name
-    let destFile = _.dasherize(serviceName).concat('.js');
+    let destFile = _.dasherize(serviceName).concat(options.mode==='typescript' ? '.ts': '.js');
     console.log('INFO',`Generating service ${destFile}`);
     let destPath = path.resolve(process.cwd(), options.base, `services/${destFile}`);
     console.log('INFO',`Validating service path ${destPath}`);
@@ -37,7 +37,7 @@ export function handler(argv) {
         return process.exit(1);
     }
     //get template file path
-    let templateFile = path.resolve(__dirname,'../../../templates/generate/service.js.ejs');
+    let templateFile = path.resolve(__dirname,'../../../templates/generate/service' + (options.mode==='typescript' ? '.ts': '.js') + '.ejs');
     
     //get destination folder path
     let destFolder = path.dirname(destPath);

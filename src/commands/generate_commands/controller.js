@@ -28,7 +28,7 @@ export function handler(argv) {
      //get controller name
     let controllerName = /controller$/i.test(argv.name) ? _.upperFirst(_.camelCase(argv.name)) : _.upperFirst(_.camelCase(argv.name.concat('-controller')));
     //get controller file name
-    let controllerFile = _.dasherize(controllerName).concat('.js');
+    let controllerFile = _.dasherize(controllerName).concat(options.mode==='typescript' ? '.ts': '.js');
     console.log('INFO',`Generating controller ${controllerFile}`);
     let controllerPath = path.resolve(process.cwd(), options.base, `controllers/${controllerFile}`);
     console.log('INFO',`Validating controller path ${controllerPath}`);
@@ -37,7 +37,7 @@ export function handler(argv) {
         return process.exit(1);
     }
     //get template file path
-    let templateFile = path.resolve(__dirname,'../../../templates/generate/controller.js.ejs');
+    let templateFile = path.resolve(__dirname,'../../../templates/generate/controller'+(options.mode==='typescript' ? '.ts': '.js')+'.ejs');
     
     //get destination folder path
     let destFolder = path.dirname(controllerPath);

@@ -129,7 +129,7 @@ export function generateClass(argv, ignoreOther) {
                     x.typeName = x.many ?  "Array<" + x.type + ">" : x.type;
                 });
                 //get file name
-                let destFile = _.dasherize(argv.name).concat('-model.js');
+                let destFile = _.dasherize(argv.name).concat('-model').concat(options.mode==='typescript' ? '.ts': '.js');
                 console.log('INFO', `Generating class ${destFile}`);
                 let destPath = path.resolve(process.cwd(), options.base, `models/${destFile}`);
                 console.log('INFO', `Validating class path ${destPath}`);
@@ -142,7 +142,7 @@ export function generateClass(argv, ignoreOther) {
                     return reject(new Error('The specified class already exists.'));
                 }
                 //get template file path
-                let templateFile = path.resolve(__dirname, '../../../templates/generate/class.js.ejs');
+                let templateFile = path.resolve(__dirname, '../../../templates/generate/class'+(options.mode==='typescript' ? '.ts': '.js')+'.ejs');
                 //get destination folder path
                 let destFolder = path.dirname(destPath);
                 console.error('INFO', `Validating class folder (${destFolder}).`);
@@ -170,6 +170,9 @@ export function generateClass(argv, ignoreOther) {
                                 }));
                         });
                         Promise.all(generateExtra).then(()=> {
+                            if (options.mode==='typescript') {
+                                return resolve();
+                            }
                             return generateDefinition(Object.assign({}, argv, {
                                 "name": model.name,
                                 "silent": true

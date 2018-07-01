@@ -1,6 +1,5 @@
 <% locals.imports.forEach(function(x) { %>import <%=x.name%> from '<%=x.from%>';
 <% }) %>
-export = <%=locals.name%>;
 /**
  * @class
  */
@@ -13,3 +12,5 @@ declare class <%=locals.name%> extends <%=locals.inherits ? locals.inherits : "D
      public <%-x.property || x.name%><%-x.nullable ? '?' : ''%>: <%-x.typeName%>; <% }) %>
 
 }
+
+export = <%=locals.name%>;

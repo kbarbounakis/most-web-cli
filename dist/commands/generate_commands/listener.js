@@ -50,7 +50,7 @@ function handler(argv) {
     var listenerName = /listener$/i.test(argv.name) ? _.upperFirst(_.camelCase(argv.name)) : _.upperFirst(_.camelCase(argv.name.concat('-listener')));
 
     //get listener file name
-    var destFile = _.dasherize(listenerName).concat('.js');
+    var destFile = _.dasherize(listenerName).concat(options.mode === 'typescript' ? '.ts' : '.js');
     console.log('INFO', 'Generating listener ' + destFile);
     var destPath = path.resolve(process.cwd(), options.base, 'listeners/' + destFile);
     console.log('INFO', 'Validating listener path ' + destPath);
@@ -59,7 +59,7 @@ function handler(argv) {
         return process.exit(1);
     }
     //get template file path
-    var templateFile = path.resolve(__dirname, '../../../templates/generate/listener.js.ejs');
+    var templateFile = path.resolve(__dirname, '../../../templates/generate/listener' + (options.mode === 'typescript' ? '.ts' : '.js') + '.ejs');
 
     //get destination folder path
     var destFolder = path.dirname(destPath);

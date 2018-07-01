@@ -13,7 +13,9 @@ var path = _interopRequireDefault(_path).default;
 
 var _fsExtra = require('fs-extra');
 
-var fs = _interopRequireDefault(_fsExtra).default;
+var existsSync = _fsExtra.existsSync;
+var readdirSync = _fsExtra.readdirSync;
+var copy = _fsExtra.copy;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -34,24 +36,37 @@ function builder(yargs) {
         describe: 'the target template',
         choices: ['api', 'express', 'classic'],
         default: 'classic'
+    }).option('typescipt', {
+        describe: 'generates a typescript project',
+        default: false,
+        type: 'boolean'
     });
 }
 
+/**
+ *
+ * @param {{template: string, typescript: boolean, directory: string}} argv
+ * @returns {*}
+ */
 function handler(argv) {
     var projectRoot = path.resolve(process.cwd(), argv.directory);
-    if (fs.existsSync(projectRoot) && fs.readdirSync(projectRoot).length > 0) {
+    if (existsSync(projectRoot) && readdirSync(projectRoot).length > 0) {
         console.error('ERROR: Project root directory must be empty.');
         return process.exit(1);
     }
     console.log('Creating new project  at %s', projectRoot);
     //get template path
     var templateRoot = path.resolve(__dirname, './../../../templates/' + argv.template + '_project');
+    if (argv.typescript) {
+        templateRoot = path.resolve(__dirname, './../../../templates/typescript/' + argv.template + '_project');
+    }
+
     //validate template folder
-    if (!fs.existsSync(templateRoot)) {
+    if (!existsSync(templateRoot)) {
         console.error('ERROR: The specified template cannot be found.');
         return process.exit(1);
     }
-    fs.copy(templateRoot, projectRoot, function (err) {
+    copy(templateRoot, projectRoot, function (err) {
         if (err) {
             console.error('ERROR: An error occurred while generating new project.');
             console.error(err);
