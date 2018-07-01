@@ -28,7 +28,7 @@
     "@themost/common": "^2.1.3",
     "@themost/data": "^2.1.3",
     "@themost/sqlite": "^2.1.1",
-    "@themost/web": "^2.1.3",
+    "@themost/web": "^2.1.4",
     "bootstrap": "^4.1.1",
     "jquery": "^3.3.1"
   }
