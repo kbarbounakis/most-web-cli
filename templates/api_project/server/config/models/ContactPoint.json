@@ -6,6 +6,7 @@
     "hidden": false,
     "sealed": false,
     "inherits": "StructuredValue",
+    "version": "1.0",
     "fields": [
         {
             "@id": "https://themost.io/schemas/id",

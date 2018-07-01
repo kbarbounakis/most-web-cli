@@ -18,6 +18,11 @@
     ],
     "privileges": [
         {
+            "mask": 1,
+            "type": "global",
+            "account": "*"
+        },
+        {
             "mask": 15,
             "type": "global"
         },
@@ -26,5 +31,26 @@
             "type": "global",
             "account": "Administrators"
         }
-    ]
+    ], "seed": [
+    {
+        "name": "Administrators",
+        "alternateName": "administrators",
+        "description": "Site Administrators"
+    },
+    {
+        "name": "Users",
+        "alternateName": "users",
+        "description": "Site Users"
+    },
+    {
+        "name": "Guests",
+        "alternateName": "guests",
+        "description": "Site Guests"
+    },
+    {
+        "name": "Contributors",
+        "alternateName": "contributors",
+        "description": "Site Contributors"
+    }
+]
 }

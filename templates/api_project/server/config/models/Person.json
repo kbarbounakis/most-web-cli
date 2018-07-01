@@ -1,36 +1,13 @@
 {
-    "id": 2231606,
     "@id": "http://schema.org/Person",
     "name": "Person",
     "title": "Person",
     "description": "A person",
     "hidden": false,
     "sealed": false,
-    "inherits": "Thing",
+    "inherits": "Party",
     "version": "1.0",
     "fields": [
-        {
-            "name": "id",
-            "title": "ID",
-            "description": "The identifier of the item.",
-            "type": "Integer",
-            "nullable": false,
-            "primary": true
-        },
-        {
-            "@id": "http://schema.org/memberOf",
-            "name": "memberOf",
-            "title": "Member Of",
-            "description": "An Organization (or ProgramMembership) to which this Person or Organization belongs.",
-            "type": "Organization"
-        },
-        {
-            "@id": "http://schema.org/spouse",
-            "name": "spouse",
-            "title": "Spouse",
-            "description": "The person's spouse.",
-            "type": "Person"
-        },
         {
             "@id": "http://schema.org/colleagues",
             "name": "colleagues",
@@ -39,32 +16,11 @@
             "type": "Person"
         },
         {
-            "@id": "http://schema.org/sponsor",
-            "name": "sponsor",
-            "title": "Sponsor",
-            "description": "A person or organization that supports a thing through a pledge, promise, or financial contribution. e.g. a sponsor of a Medical Study or a corporate sponsor of an event.",
-            "type": "Person"
-        },
-        {
-            "@id": "http://schema.org/height",
-            "name": "height",
-            "title": "Height",
-            "description": "The height of the item.",
-            "type": "QuantitativeValue"
-        },
-        {
             "@id": "http://schema.org/workLocation",
             "name": "workLocation",
             "title": "Work Location",
             "description": "A contact location for a person's place of work.",
             "type": "Place"
-        },
-        {
-            "@id": "http://schema.org/faxNumber",
-            "name": "faxNumber",
-            "title": "Fax Number",
-            "description": "The fax number.",
-            "type": "Text"
         },
         {
             "@id": "http://schema.org/children",
@@ -95,11 +51,11 @@
             "type": "GenderType"
         },
         {
-            "@id": "http://schema.org/parents",
-            "name": "parents",
-            "title": "Parents",
-            "description": "A parents of the person.",
-            "type": "Person"
+            "@id": "http://schema.org/memberOf",
+            "name": "memberOf",
+            "title": "Member Of",
+            "description": "An Organization (or ProgramMembership) to which this Person or Organization belongs.",
+            "type": "Organization"
         },
         {
             "@id": "http://schema.org/alumniOf",
@@ -113,21 +69,15 @@
             "name": "homeLocation",
             "title": "Home Location",
             "description": "A contact location for a person's residence.",
-            "type": "ContactPoint"
-        },
-        {
-            "@id": "http://schema.org/taxID",
-            "name": "taxID",
-            "title": "Tax ID",
-            "description": "The Tax / Fiscal ID of the organization or person, e.g. the TIN in the US or the CIF/NIF in Spain.",
-            "type": "Text"
+            "type": "ContactPoint",
+            "nested": true
         },
         {
             "@id": "http://schema.org/birthDate",
             "name": "birthDate",
             "title": "Birth Date",
             "description": "Date of birth.",
-            "type": "Date"
+            "type": "DateTime"
         },
         {
             "@id": "http://schema.org/givenName",
@@ -137,32 +87,11 @@
             "type": "Text"
         },
         {
-            "@id": "http://schema.org/contactPoints",
-            "name": "contactPoints",
-            "title": "Contact Points",
-            "description": "A contact point for a person or organization.",
-            "type": "ContactPoint"
-        },
-        {
-            "@id": "http://schema.org/awards",
-            "name": "awards",
-            "title": "Awards",
-            "description": "Awards won by or for this item.",
-            "type": "Text"
-        },
-        {
             "@id": "http://schema.org/familyName",
             "name": "familyName",
             "title": "Family Name",
             "description": "Family name. In the U.S., the last name of an Person. This can be used along with givenName instead of the name property.",
             "type": "Text"
-        },
-        {
-            "@id": "http://schema.org/address",
-            "name": "address",
-            "title": "Address",
-            "description": "Physical address of the item.",
-            "type": "PostalAddress"
         },
         {
             "@id": "http://schema.org/honorificPrefix",
@@ -186,34 +115,6 @@
             "type": "Person"
         },
         {
-            "@id": "http://schema.org/telephone",
-            "name": "telephone",
-            "title": "Telephone",
-            "description": "The telephone number.",
-            "type": "Text"
-        },
-        {
-            "@id": "http://schema.org/email",
-            "name": "email",
-            "title": "Email",
-            "description": "Email address.",
-            "type": "Text"
-        },
-        {
-            "@id": "http://schema.org/weight",
-            "name": "weight",
-            "title": "Weight",
-            "description": "The weight of the product or person.",
-            "type": "QuantitativeValue"
-        },
-        {
-            "@id": "http://schema.org/colleague",
-            "name": "colleague",
-            "title": "Colleague",
-            "description": "A colleague of the person.",
-            "type": "URL"
-        },
-        {
             "@id": "http://schema.org/affiliation",
             "name": "affiliation",
             "title": "Affiliation",
@@ -225,13 +126,6 @@
             "name": "honorificSuffix",
             "title": "Honorific Suffix",
             "description": "An honorific suffix preceding a Person's name such as M.D. /PhD/MSCSW.",
-            "type": "Text"
-        },
-        {
-            "@id": "http://schema.org/vatID",
-            "name": "vatID",
-            "title": "Vat ID",
-            "description": "The Value-added Tax ID of the organization or person.",
             "type": "Text"
         },
         {
@@ -260,7 +154,8 @@
             "name": "worksFor",
             "title": "Works For",
             "description": "Organizations that the person works for.",
-            "type": "Organization"
+            "type": "Organization",
+            "many": true
         }
     ],
     "privileges": [

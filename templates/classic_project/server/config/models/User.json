@@ -52,6 +52,12 @@
         }
     ],
     "privileges": [
+
+        {
+            "mask": 1,
+            "type": "self",
+            "filter": "id eq me()"
+        },
         {
             "mask": 15,
             "type": "global"
@@ -60,6 +66,17 @@
             "mask": 15,
             "type": "global",
             "account": "Administrators"
+        }
+    ],
+    "seed": [
+        {
+            "name": "anonymous",
+            "description": "Anonymous User",
+            "groups": [
+                {
+                    "name": "Guests"
+                }
+            ]
         }
     ]
 }

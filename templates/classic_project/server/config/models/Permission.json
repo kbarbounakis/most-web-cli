@@ -5,6 +5,7 @@
     "title": "Permission",
     "abstract": false,
     "sealed": false,
+    "hidden": true,
     "version": "1.0",
     "fields": [
         {
@@ -12,7 +13,8 @@
             "name": "id",
             "title": "id",
             "description": "The identifier of the item.",
-            "type": "Counter"
+            "type": "Counter",
+            "primary": true
         },
         {
             "@id": "https://themost.io/schemas/dateCreated",
@@ -70,7 +72,8 @@
             "@id": "https://themost.io/schemas/account",
             "name": "account",
             "title": "account",
-            "description": "The account which is related with this permission."
+            "description": "The account which is related with this permission.",
+            "type": "Account"
         },
         {
             "@id": "https://themost.io/schemas/target",
@@ -106,5 +109,13 @@
             "type": "global",
             "account": "Administrators"
         }
+    ],
+    "seed": [
+        { "privilege":"Permission", "workspace":1, "account": { "name":"Administrators" }, "target":0, "mask":15 },
+        { "privilege":"User", "workspace":1, "account": { "name":"Administrators" }, "target":0, "mask":15 },
+        { "privilege":"Group", "workspace":1, "account": { "name":"Administrators" }, "target":0, "mask":15 },
+        { "privilege":"Thing", "workspace":1, "account": { "name":"Administrators" }, "target":0, "mask":15 },
+        { "privilege":"Account", "workspace":1, "account": { "name":"Administrators" }, "target":0, "mask":15 },
+        { "privilege":"Workspace", "workspace":1, "account": { "name":"Administrators" }, "target":0, "mask":15 }
     ]
 }

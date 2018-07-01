@@ -1,54 +1,83 @@
 {
-  "@id": "http://schema.org/Party",
-  "name": "Party",
-  "title": "Person or Organization",
-  "hidden": false,
-  "sealed": false,
-  "abstract": false,
-  "version": "1.3",
-  "inherits": "Thing",
-  "fields": [
-    {
-      "@id": "https://themost.io/schemas/id",
-      "name": "id",
-      "title": "Id",
-      "type": "Integer",
-      "nullable": false,
-      "primary": true
-    },
-    {
-      "name": "name",
-      "nullable":false
-    },
-    {
-      "name": "contactPoints",
-      "title": "Contact Points",
-      "description": "A collection of contact points for a person or organization.",
-      "type": "ContactPoint",
-      "many": true
-    },
-    {
-      "name": "taxNumber",
-      "title": "Tax Number",
-      "description": "The Tax / Fiscal ID of the organization.",
-      "type": "Text"
-    },
-    {
-      "name": "taxOffice",
-      "title": "Tax Office",
-      "description": "The tax office of the organization.",
-      "type": "Text"
-    }
-  ],
-  "privileges": [
-    {
-      "mask": 15,
-      "type": "global"
-    },
-    {
-      "mask": 15,
-      "type": "global",
-      "account": "Administrators"
-    }
-  ]
+    "@id": "https://themost.io/schemas/Party",
+    "name": "Party",
+    "description": "Party",
+    "title": "Party",
+    "abstract": false,
+    "sealed": false,
+    "inherits": "Thing",
+    "version": "1.0",
+    "fields": [
+
+        {
+            "@id": "http://schema.org/sponsor",
+            "name": "sponsor",
+            "title": "sponsor",
+            "description": "A person or organization that supports a thing through a pledge, promise, or financial contribution. e.g. a sponsor of a Medical Study or a corporate sponsor of an event.",
+            "type": "Party"
+        },
+        {
+            "@id": "http://schema.org/taxID",
+            "name": "taxID",
+            "title": "taxID",
+            "description": "The Tax / Fiscal ID of the organization or person, e.g. the TIN in the US or the CIF/NIF in Spain.",
+            "type": "Text"
+        },
+        {
+            "@id": "http://schema.org/address",
+            "name": "address",
+            "title": "address",
+            "description": "Physical address of the item.",
+            "type": "PostalAddress",
+            "expandable": true,
+            "nested": true
+        },
+        {
+            "@id": "http://schema.org/email",
+            "name": "email",
+            "title": "email",
+            "description": "Email address.",
+            "type": "Text"
+        },
+        {
+            "@id": "http://schema.org/telephone",
+            "name": "telephone",
+            "title": "telephone",
+            "description": "The telephone number.",
+            "type": "Text"
+        },
+        {
+            "@id": "http://schema.org/vatID",
+            "name": "vatID",
+            "title": "vatID",
+            "description": "The Value-added Tax ID of the organization or person.",
+            "type": "Text"
+        },
+        {
+            "@id": "http://schema.org/awards",
+            "name": "awards",
+            "title": "Awards",
+            "description": "Awards won by or for this item.",
+            "type": "Text",
+            "many": true
+        },
+        {
+            "@id": "http://schema.org/faxNumber",
+            "name": "faxNumber",
+            "title": "Fax Number",
+            "description": "The fax number.",
+            "type": "Text"
+        }
+    ],
+    "privileges": [
+        {
+            "mask": 15,
+            "type": "global"
+        },
+        {
+            "mask": 15,
+            "type": "global",
+            "account": "Administrators"
+        }
+    ]
 }
