@@ -10,7 +10,9 @@ Usage
 
 ##### Generate a new MOST Web Framework application
 
-    themost new project <project name> [--template <api|classice>]
+    themost new project <project name> [--template <api|classic>] [--typescript]
+
+Note: Use --typescript flag if you want to generate a typescript project.
     
 This operation will create a new MOST Web Framework application. Execute:
 
