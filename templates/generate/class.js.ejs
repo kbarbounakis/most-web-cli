@@ -1,6 +1,6 @@
 import {EdmMapping,EdmType} from '@themost/data/odata';
 import {DataObject} from '@themost/data/data-object';
-<% if (inherits) { %>import <%-inherits%> from '<%-inheritsClassPath%>';<% }%>
+<% if (inherits) { %>let <%-inherits%> = require('<%-inheritsClassPath%>');<% }%>
 /**
  * @class
  <% attributes.filter(function(x) { return x.model === name; }).forEach(function(x) { %>
