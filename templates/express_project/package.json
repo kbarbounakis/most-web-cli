@@ -44,5 +44,34 @@
     "passport-http": "^0.3.0",
     "passport-local": "^1.0.0",
     "source-map-support": "^0.5.5"
+  },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "env": {
+      "browser": true,
+      "node": true,
+      "es6": true,
+      "jquery": true
+    },
+    "globals": {
+      "describe": false,
+      "it": false,
+      "before": false,
+      "after": false
+    },
+    "extends": "eslint:recommended",
+    "rules": {
+      "no-console": "off",
+      "no-invalid-this": "warn",
+      "no-undef": "error",
+      "no-unused-vars": "warn",
+      "no-var": [
+        "error"
+      ],
+      "strict": [
+        2,
+        "never"
+      ]
+    }
   }
 }

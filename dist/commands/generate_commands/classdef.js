@@ -66,14 +66,18 @@ function generateAnyDefinition(argv) {
         console.log('INFO', argv);
         if (argv.name === 'app' || argv.name === '*') {
             sources = schema.entityType.map(function (x) {
-                return generateDefinition(Object.assign({}, argv, {
+                return generateDefinition(Object.assign({
+                    inProcDefinition: []
+                }, argv, {
                     "name": x.name,
                     "silent": true
                 }), true);
             });
         } else {
             sources = argv.name.split('+').map(function (x) {
-                return generateDefinition(Object.assign({}, argv, {
+                return generateDefinition(Object.assign({
+                    inProcDefinition: []
+                }, argv, {
                     "name": x,
                     "silent": true,
                     "ignoreOther": true
@@ -95,6 +99,10 @@ function generateDefinition(argv, ignoreOther) {
         }
         //--
         var context = new SimpleDataContext(config);
+        argv.inProcDefinition = argv.inProcDefinition || [];
+        if (argv.inProcDefinition.indexOf(argv.name) >= 0) {
+            return resolve();
+        }
         //get OData Builder
         var builder = getBuilder(config);
         return builder.getEdm().then(function (schema) {
@@ -183,8 +191,10 @@ function generateDefinition(argv, ignoreOther) {
                     if (ignoreOther) {
                         return resolve();
                     }
+                    //add in-process class
+                    argv.inProcDefinition.push(model.name);
                     var generateExtra = model.imports.filter(function (x) {
-                        return x.name !== "{DataObject}";
+                        return x.name !== "{DataObject}" && x.name !== model.name;
                     }).map(function (x) {
                         return generateDefinition(Object.assign({}, argv, {
                             "name": x.name,

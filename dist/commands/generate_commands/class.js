@@ -68,14 +68,18 @@ function generateAnyClass(argv) {
         console.log('INFO', argv);
         if (argv.name === 'app' || argv.name === '*') {
             sources = schema.entityType.map(function (x) {
-                return generateClass(Object.assign({}, argv, {
+                return generateClass(Object.assign({
+                    inProcClass: []
+                }, argv, {
                     "name": x.name,
                     "silent": true
                 }), true);
             });
         } else {
             sources = argv.name.split('+').map(function (x) {
-                return generateClass(Object.assign({}, argv, {
+                return generateClass(Object.assign({
+                    inProcClass: []
+                }, argv, {
                     "name": x,
                     "silent": true
                 }), false);
@@ -98,6 +102,10 @@ function generateClass(argv, ignoreOther) {
         }
         //--
         var context = new SimpleDataContext(config);
+        argv.inProcClass = argv.inProcClass || [];
+        if (argv.inProcClass.indexOf(argv.name) >= 0) {
+            return resolve();
+        }
         //get OData Builder
         var builder = getBuilder(config);
         return builder.getEdm().then(function (schema) {
@@ -189,8 +197,10 @@ function generateClass(argv, ignoreOther) {
                             return resolve();
                         });
                     }
+                    //add in-process class
+                    argv.inProcClass.push(model.name);
                     var generateExtra = model.imports.filter(function (x) {
-                        return x.name !== "{DataObject}";
+                        return x.name !== "{DataObject}" && x.name !== model.name;
                     }).map(function (x) {
                         return generateClass(Object.assign({}, argv, {
                             "name": x.name,

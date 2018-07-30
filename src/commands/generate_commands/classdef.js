@@ -38,7 +38,9 @@ export function generateAnyDefinition(argv) {
         console.log('INFO', argv);
         if (argv.name === 'app' || argv.name === '*') {
             sources = schema.entityType.map((x)=> {
-                return generateDefinition(Object.assign({}, argv, {
+                return generateDefinition(Object.assign({
+                    inProcDefinition:[]
+                }, argv, {
                     "name": x.name,
                     "silent": true
                 }), true);
@@ -46,7 +48,9 @@ export function generateAnyDefinition(argv) {
         }
         else {
             sources = argv.name.split('+').map((x)=> {
-                return generateDefinition(Object.assign({}, argv, {
+                return generateDefinition(Object.assign({
+                    inProcDefinition:[]
+                }, argv, {
                     "name": x,
                     "silent": true,
                     "ignoreOther": true
@@ -69,6 +73,10 @@ export function generateDefinition(argv, ignoreOther) {
         }
         //--
         let context = new SimpleDataContext(config);
+        argv.inProcDefinition = argv.inProcDefinition || [];
+        if (argv.inProcDefinition.indexOf(argv.name)>=0) {
+            return resolve();
+        }
         //get OData Builder
         let builder = getBuilder(config);
         return builder.getEdm().then((schema)=> {
@@ -156,8 +164,10 @@ export function generateDefinition(argv, ignoreOther) {
                     if (ignoreOther) {
                         return resolve();
                     }
+                    //add in-process class
+                    argv.inProcDefinition.push(model.name);
                     let generateExtra = model.imports.filter((x)=> {
-                       return x.name !== "{DataObject}";
+                        return x.name !== "{DataObject}" && x.name !== model.name;
                     }).map((x)=> {
                         return generateDefinition(Object.assign({}, argv, {
                             "name": x.name,
