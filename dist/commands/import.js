@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.desc = exports.command = undefined;
+exports.DateTimeRegex = exports.desc = exports.command = undefined;
 exports.builder = builder;
 exports.handler = handler;
 
@@ -30,6 +30,15 @@ var command = exports.command = 'import <file> [options]'; /**
                                                             * found in the LICENSE file at https://themost.io/license
                                                             */
 var desc = exports.desc = 'Import data';
+
+var DateTimeRegex = exports.DateTimeRegex = /^\d{4}-([0]\d|1[0-2])-([0-2]\d|3[01])(?:[T ](\d+):(\d+)(?::(\d+)(?:\.(\d+))?)?)?(?:Z(-?\d*))?([+-](\d+):(\d+))?$/;
+
+function reviveDates(key, value) {
+    if (typeof value === "string" && DateTimeRegex.test(value)) {
+        return new Date(value);
+    }
+    return value;
+}
 
 function builder(yargs) {
     return yargs.option('model', {
@@ -72,67 +81,76 @@ function handler(argv) {
     //get data
     console.log('INFO', 'Getting source data');
     var data = void 0;
-    try {
-        data = require(path.resolve(process.cwd(), argv.file));
-    } catch (err) {
-        console.error('ERROR', 'An error occurred while trying to get source data.');
-        console.error(err);
-        return process.exit(1);
-    }
-    console.log('INFO', 'Initializing application');
-    var app = void 0;
-    try {
-        app = new HttpApplication(path.resolve(process.cwd(), options.out));
-        var strategy = app.getConfiguration().getStrategy(function DataConfigurationStrategy() {});
-        //get adapter types
-        var adapterTypes = strategy.adapterTypes;
-        //get configuration adapter types
-        var configurationAdapterTypes = app.getConfiguration().getSourceAt('adapterTypes');
-        if (Array.isArray(configurationAdapterTypes)) {
-            configurationAdapterTypes.forEach(function (configurationAdapterType) {
-                if (typeof adapterTypes[configurationAdapterType.invariantName] === 'undefined') {
-                    //load adapter type
-                    var adapterModulePath = require.resolve(configurationAdapterType.type, {
-                        paths: [path.resolve(process.cwd(), 'node_modules')]
-                    });
-                    var adapterModule = require(adapterModulePath);
-                    adapterTypes[configurationAdapterType.invariantName] = {
-                        invariantName: configurationAdapterType.invariantName,
-                        name: configurationAdapterType.name,
-                        createInstance: adapterModule.createInstance
-                    };
-                }
-            });
+    return fs.readFile(path.resolve(process.cwd(), argv.file), 'utf8', function (err, str) {
+        if (err) {
+            console.error('ERROR', 'An error occurred while trying to get source data.');
+            console.error(err);
+            return process.exit(1);
         }
-    } catch (err) {
-        console.error('ERROR', 'An error occurred while trying to get source data.');
-        console.error(err);
-        return process.exit(1);
-    }
 
-    app.execute(function (context) {
-        var model = void 0;
-        console.log('INFO', 'Getting target model');
         try {
-            model = context.model(argv.model);
-            if (typeof model === 'undefined' || model === null) {
-                console.error('ERROR', 'Target model cannot be found');
-                return process.exit(1);
+            data = JSON.parse(str, reviveDates);
+        } catch (err) {
+            console.error('ERROR', 'An error occurred while converting source data.');
+            console.error(err);
+            return process.exit(1);
+        }
+
+        console.log('INFO', 'Initializing application');
+        var app = void 0;
+        try {
+            app = new HttpApplication(path.resolve(process.cwd(), options.out));
+            var strategy = app.getConfiguration().getStrategy(function DataConfigurationStrategy() {});
+            //get adapter types
+            var adapterTypes = strategy.adapterTypes;
+            //get configuration adapter types
+            var configurationAdapterTypes = app.getConfiguration().getSourceAt('adapterTypes');
+            if (Array.isArray(configurationAdapterTypes)) {
+                configurationAdapterTypes.forEach(function (configurationAdapterType) {
+                    if (typeof adapterTypes[configurationAdapterType.invariantName] === 'undefined') {
+                        //load adapter type
+                        var adapterModulePath = require.resolve(configurationAdapterType.type, {
+                            paths: [path.resolve(process.cwd(), 'node_modules')]
+                        });
+                        var adapterModule = require(adapterModulePath);
+                        adapterTypes[configurationAdapterType.invariantName] = {
+                            invariantName: configurationAdapterType.invariantName,
+                            name: configurationAdapterType.name,
+                            createInstance: adapterModule.createInstance
+                        };
+                    }
+                });
             }
         } catch (err) {
-            console.error('ERROR', 'An error occurred while getting target model.');
+            console.error('ERROR', 'An error occurred while trying to get source data.');
             console.error(err);
             return process.exit(1);
         }
-        model.silent().save(data).then(function () {
-            context.finalize(function () {
-                console.log('INFO', 'The operation was completed successfully');
-                return process.exit(0);
+
+        app.execute(function (context) {
+            var model = void 0;
+            console.log('INFO', 'Getting target model');
+            try {
+                model = context.model(argv.model);
+                if (typeof model === 'undefined' || model === null) {
+                    console.error('ERROR', 'Target model cannot be found');
+                    return process.exit(1);
+                }
+            } catch (err) {
+                console.error('ERROR', 'An error occurred while getting target model.');
+                console.error(err);
+                return process.exit(1);
+            }
+            model.silent().save(data).then(function () {
+                context.finalize(function () {
+                    console.log('INFO', 'The operation was completed successfully');
+                    return process.exit(0);
+                });
+            }).catch(function (err) {
+                console.error('ERROR', 'An error occurred while importing data.');
+                console.error(err);
+                return process.exit(1);
             });
-        }).catch(function (err) {
-            console.error('ERROR', 'An error occurred while importing data.');
-            console.error(err);
-            return process.exit(1);
         });
     });
 }
