@@ -7,6 +7,9 @@
  * found in the LICENSE file at https://themost.io/license
  */
 import {getConfiguration, getHttpApplication} from '../util';
+import path from 'path';
+import fs from 'fs-extra';
+
 
 const QUERY_OPTS = ['filter', 'expand', 'order', 'group', 'top', 'skip', 'count', 'select'];
 
@@ -44,6 +47,13 @@ export function builder(yargs) {
     }).option('order', {
         default: null,
         describe: 'defines query order by option'
+    }).option('out', {
+        default: null,
+        describe: 'defines the output file path'
+    }).option('state', {
+        default: 'none',
+        choices: ['none', 'insert', 'update', 'delete'],
+        describe: 'set state for data objects'
     });
 }
 
@@ -82,11 +92,35 @@ export function handler(argv) {
                 let source = argv.count ? q.silent().getList() : q.silent().getItems();
                 return source.then((res)=> {
                         if (res) {
-                            if (argv.top === 1 && !argv.count) {
-                                console.log(JSON.stringify(res[0],null,4));
+                            let finalResult = (argv.top === 1 && !argv.count) ? res[0] : res;
+
+                            if (argv.state !== 'none') {
+                                let state = argv.state === 'insert' ? 1 : argv.state === 'new' ? 1 :  argv.state === 'update' ? 2 : argv.state === 'delete' ? 4 : 0;
+                                if (state>0) {
+                                    if (Array.isArray(finalResult)) {
+                                        finalResult.forEach( x=> {
+                                            x.$state = state;
+                                        });
+                                    }
+                                    else if (typeof finalResult === 'object') {
+                                        finalResult.$state = state;
+                                    }
+                                }
+                            }
+                            if (argv.out) {
+                                let outFile = path.resolve(process.cwd(), argv.out);
+                                return fs.writeFile(outFile, JSON.stringify(finalResult,null,4),'utf8',(err)=> {
+                                    if (err) {
+                                        console.error('ERROR','An error occurred while writing output.');
+                                        console.error(err);
+                                        return process.exit(1);
+                                    }
+                                    console.error('INFO',`Data was succesfully exported to ${outFile}`);
+                                    return process.exit(0);
+                                });
                             }
                             else {
-                                console.log(JSON.stringify(res,null,4));
+                                console.log(JSON.stringify(finalResult,null,4));
                             }
                         }
                         process.exit(0);

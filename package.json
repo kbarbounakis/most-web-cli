@@ -1,6 +1,6 @@
 {
   "name": "@themost/cli",
-  "version": "2.1.7",
+  "version": "2.1.8",
   "description": "Most Web Framework command line utility",
   "homepage": "https://github.com/kbarbounakis/most-web-cli",
   "repository": {
