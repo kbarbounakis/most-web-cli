@@ -2,7 +2,7 @@ import HttpBaseController from '@themost/web/controllers/base';
 import {httpController,httpGet, httpAction} from '@themost/web/decorators';
 
 @httpController()
-export default class <%-name%>Controller extends HttpBaseController {
+class <%-name%>Controller extends HttpBaseController {
     
     constructor(context) {
         super(context);
@@ -15,3 +15,5 @@ export default class <%-name%>Controller extends HttpBaseController {
     }
     
 }
+
+module.exports = <%-name%>Controller;

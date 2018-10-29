@@ -8,7 +8,7 @@ import {DataObject} from '@themost/data/data-object';
  * @augments {DataObject}
  */
 @EdmMapping.entityType('<%-name%>')
-export default class <%-name%> extends <%-inherits ? inherits : "DataObject"%> {
+class <%-name%> extends <%-inherits ? inherits : "DataObject"%> {
     /**
      * @constructor
      */
@@ -16,3 +16,4 @@ export default class <%-name%> extends <%-inherits ? inherits : "DataObject"%> {
         super();
     }
 }
+module.exports = <%-name%>;
