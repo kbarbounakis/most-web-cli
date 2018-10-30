@@ -12,7 +12,7 @@ let buildDir = options.out;
 //server source directory
 let serverDir = options.base;
 //server startup script
-let serverScript = path.resolve(serverDir, "app.js");
+let serverScript = path.resolve(process.cwd(), "bin/www");
 
 
 //clean dist server modules
