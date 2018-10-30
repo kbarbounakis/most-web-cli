@@ -5,11 +5,8 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import sassMiddleware from 'node-sass-middleware';
-import {ExpressDataApplication, serviceRouter, dateReviver} from '../../../index';
-import passport from 'passport';
-import {BasicStrategy} from 'passport-http';
+import {ExpressDataApplication, serviceRouter, dateReviver} from '@themost/express';
 import indexRouter from './routes/index';
-import {TextUtils} from '@themost/common';
 
 let app = express();
 
@@ -31,45 +28,6 @@ app.use(cookieParser());
 const dataApplication = new ExpressDataApplication(path.resolve(__dirname, 'config'));
 // use data middleware (register req.context)
 app.use(dataApplication.middleware());
-// use basic strategy based on @themost/data user management
-passport.use(new BasicStrategy(
-  function(username, password, done) {
-    // create context
-   return dataApplication.execute(function(context, cb) {
-      // query user by name
-    return context.model('User').where('name').equal(username).silent().getItem().then(function (user) {
-        // if user does not exist
-        if (typeof user === 'undefined') { 
-          return cb(null, false); 
-        }
-        // check if user has enabled attribute
-        if (user.hasOwnProperty('enabled') && user.enabled === false) {
-          return cb(null, false); 
-        }
-        // verify password
-        return context.model('UserCredential').where('id').equal(user.id).prepare()
-          .and('userPassword').equal('{clear}'.concat(password))
-          .or('userPassword').equal('{md5}'.concat(TextUtils.toMD5(password)))
-          .or('userPassword').equal('{sha1}'.concat(TextUtils.toSHA1(password)))
-          .silent()
-          .count().then((value) => {
-            // if password matches user password
-            if (value) {
-              //return true
-              return cb(null, user);  
-            }
-            //otherwise return false
-          return cb(null, false);  
-        });
-      }).catch((err) => {
-        return cb(err);  
-      });
-    }, (err, value) => {
-      return done(err, value);
-    });
-    
-  }
-));
 
 app.use(sassMiddleware({
   src: path.join(__dirname, 'public'),
@@ -80,7 +38,7 @@ app.use(sassMiddleware({
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/api', passport.authenticate('basic', { session: false }), serviceRouter);
+app.use('/api', serviceRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
