@@ -35,7 +35,7 @@
     "gulp-eslint": "^5.0.0"
   },
   "dependencies": {
-    "@themost/express": "^1.0.1",
+    "@themost/express": "^1.0.2",
     "@themost/common": "^2.1.1",
     "@themost/sqlite": "^2.1.2",
     "cookie-parser": "~1.4.3",
