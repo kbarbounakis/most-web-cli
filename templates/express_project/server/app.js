@@ -30,12 +30,12 @@ const dataApplication = new ExpressDataApplication(path.resolve(__dirname, 'conf
 app.use(dataApplication.middleware());
 
 app.use(sassMiddleware({
-  src: path.join(__dirname, 'public'),
-  dest: path.join(__dirname, 'public'),
+  src: path.join(process.cwd(), 'public'),
+  dest: path.join(process.cwd(), 'public'),
   indentedSyntax: false, // true = .sass and false = .scss
   sourceMap: true
 }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(process.cwd(), 'public')));
 
 app.use('/', indexRouter);
 app.use('/api', serviceRouter);
