@@ -1,109 +1,101 @@
-/*eslint-env node*/
-import 'source-map-support/register';
-import path from 'path';
+import createError from 'http-errors';
 import express from 'express';
 import engine from 'ejs-locals';
+import path from 'path';
 import cookieParser from 'cookie-parser';
-import bodyParser from 'body-parser';
-import compression from 'compression';
+import logger from 'morgan';
+import sassMiddleware from 'node-sass-middleware';
+import {ExpressDataApplication, serviceRouter, dateReviver} from '../../../index';
 import passport from 'passport';
-import index from './routes/index';
-import {dataContext,authContext,basicAuthContext} from './data';
-import api from './routes/api';
-import auth from './routes/auth';
-import cors from 'cors';
-import cookieSession from 'cookie-session';
+import {BasicStrategy} from 'passport-http';
+import indexRouter from './routes/index';
+import {TextUtils} from '@themost/common';
 
-const app = express();
-//use static files
-app.use(express.static('public'));
-//use compression
-app.use(compression());
-//use cors
-app.use(cors());
-// use ejs-locals for all ejs templates:
+let app = express();
+
+// use ejs-locals for all ejs templates
 app.engine('ejs', engine);
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-//initialize passport
-app.use(passport.initialize());
-//use body parser
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-//use cookie session
-app.use(cookieSession({
-  name: '.auth',
-  keys: ['516658634e48686f727a787a367873676d385841626d756e774c38364a597a4b']
+
+app.use(logger('dev'));
+
+app.use(express.json({
+  reviver: dateReviver 
 }));
-//use cookie parser
+
+app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+// data context setup
+const dataApplication = new ExpressDataApplication(path.resolve(__dirname, 'config'));
+// use data middleware (register req.context)
+app.use(dataApplication.middleware());
+// use basic strategy based on @themost/data user management
+passport.use(new BasicStrategy(
+  function(username, password, done) {
+    // create context
+   return dataApplication.execute(function(context, cb) {
+      // query user by name
+    return context.model('User').where('name').equal(username).silent().getItem().then(function (user) {
+        // if user does not exist
+        if (typeof user === 'undefined') { 
+          return cb(null, false); 
+        }
+        // check if user has enabled attribute
+        if (user.hasOwnProperty('enabled') && user.enabled === false) {
+          return cb(null, false); 
+        }
+        // verify password
+        return context.model('UserCredential').where('id').equal(user.id).prepare()
+          .and('userPassword').equal('{clear}'.concat(password))
+          .or('userPassword').equal('{md5}'.concat(TextUtils.toMD5(password)))
+          .or('userPassword').equal('{sha1}'.concat(TextUtils.toSHA1(password)))
+          .silent()
+          .count().then((value) => {
+            // if password matches user password
+            if (value) {
+              //return true
+              return cb(null, user);  
+            }
+            //otherwise return false
+          return cb(null, false);  
+        });
+      }).catch((err) => {
+        return cb(err);  
+      });
+    }, (err, value) => {
+      return done(err, value);
+    });
+    
+  }
+));
 
-//use @themost/data DataContext
-/**
- * This middleware extends ExpressJS Request
- * by adding Request.context property which may be used for accessing data
- * through @themost/data ORM module
- */
-app.use(dataContext());
-//use basic authentication for all requests
-app.use(basicAuthContext());
-//use @themost/data local authentication strategy
-app.use(authContext());
+app.use(sassMiddleware({
+  src: path.join(__dirname, 'public'),
+  dest: path.join(__dirname, 'public'),
+  indentedSyntax: false, // true = .sass and false = .scss
+  sourceMap: true
+}));
+app.use(express.static(path.join(__dirname, 'public')));
 
-/**
- * Configure Passport
- */
-
-// Configure Passport authenticated session persistence.
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(function(user, done) {
-  return done(null, user);
-});
-
-
-
-//set routes
-app.use('/', auth);
-app.use('/', index);
-app.use('/api/', api);
+app.use('/', indexRouter);
+app.use('/api', passport.authenticate('basic', { session: false }), serviceRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-  const err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+  next(createError(404));
 });
 
-
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-  /* eslint-disable no-unused-vars */
-  app.use((err, req, res, next) => {
-    console.error(err);
-    /* eslint-enable no-unused-vars */
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
-  });
-}
-
-// production error handler
-// no stack traces leaked to user
-/* eslint-disable no-unused-vars */
+// error handler
 app.use((err, req, res, next) => {
-  /* eslint-enable no-unused-vars */
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  // render the error page
+  res.status(err.status || err.statusCode || 500);
+  res.render('error');
 });
 
-export default app;
+module.exports = app;

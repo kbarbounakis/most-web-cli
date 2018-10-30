@@ -5,6 +5,7 @@
     "title": "Enumeration",
     "abstract": false,
     "sealed": false,
+    "hidden": true,
     "inherits": "Intangible",
     "version": "1.0",
     "fields": [],
