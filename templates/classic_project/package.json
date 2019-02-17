@@ -14,47 +14,50 @@
     "serve": "gulp serve"
   },
   "devDependencies": {
-    "@themost/cli": "^2.1.1",
-    "babel-cli": "^6.22.0",
-    "babel-core": "^6.22.0",
-    "babel-eslint": "^8.0.3",
-    "babel-plugin-transform-async-to-generator": "^6.22.0",
-    "babel-plugin-transform-builtin-extend": "^1.1.0",
-    "babel-plugin-transform-decorators-legacy": "^1.3.4",
-    "babel-plugin-transform-es2015-modules-commonjs-simple": "^6.7.4",
-    "babel-plugin-transform-es2015-typeof-symbol": "^6.22.0",
-    "babel-plugin-transform-regenerator": "^6.22.0",
-    "babel-preset-env": "^1.1.8",
+    "babel-eslint": "^10.0.1",
+    "@themost/cli": "^2.1.9",
+    "@babel/cli": "^7.1.5",
+    "@babel/core": "^7.1.5",
+    "@babel/core": "^7.1.5",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-proposal-decorators": "^7.1.0",
+    "@babel/plugin-proposal-export-default-from": "^7.0.0",
+    "@babel/plugin-proposal-export-namespace-from": "^7.0.0",
+    "@babel/plugin-transform-async-to-generator": "^7.1.0",
+    "@babel/preset-env": "^7.1.6",
+    "@babel/register": "^7.0.0",
     "gulp": "^3.9.1",
-    "gulp-babel": "^7.0.1",
+    "gulp-babel": "^8.0.0",
     "gulp-eslint": "^4.0.2",
     "gulp-sourcemaps": "^2.6.4"
   },
   "dependencies": {
-    "@themost/common": "^2.1.4",
-    "@themost/data": "^2.1.3",
+    "@themost/common": "^2.1.6",
+    "@themost/data": "^2.2.1",
     "@themost/sqlite": "^2.1.1",
-    "@themost/web": "^2.1.5",
+    "@themost/web": "^2.2.1",
     "bootstrap": "^4.1.0",
     "jquery": "^3.3.1"
   },
   "eslintConfig": {
     "parser": "babel-eslint",
     "env": {
-      "browser": true,
+      "browser": false,
       "node": true,
       "es6": true,
-      "jquery": true
+      "jquery": false
     },
     "globals": {
       "describe": false,
       "it": false,
+      "angular": false,
+      "jQuery": false,
       "before": false,
       "after": false
     },
     "extends": "eslint:recommended",
     "rules": {
-      "no-console": "off",
+      "no-console": "warn",
       "no-invalid-this": "warn",
       "no-undef": "error",
       "no-unused-vars": "warn",

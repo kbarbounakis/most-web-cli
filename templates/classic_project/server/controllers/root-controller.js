@@ -1,10 +1,9 @@
 
 import HttpBaseController from '@themost/web/controllers/base';
 import {httpController,httpGet,httpAction} from '@themost/web/decorators';
-import path from 'path';
 
 @httpController()
-export default class RootController extends HttpBaseController {
+class RootController extends HttpBaseController {
     
     constructor(context) {
         super(context);
@@ -15,18 +14,7 @@ export default class RootController extends HttpBaseController {
     getIndex() {
         return Promise.resolve(this.view());
     }
-
-    /**
-     * GET /hello.html
-     * @returns {Promise<{message: string}>}
-     */
-    @httpGet()
-    @httpAction('hello')
-    hello() {
-        return Promise.resolve({
-            message: "Hello World!"
-        });
-    }
-    
     
 }
+
+module.exports = RootController;

@@ -61,9 +61,9 @@ gulp.task('serve', [], function() {
         execArgv:execArgv
     };
     //push babel-core/register arguments
-    if (execArgv.indexOf('babel-core/register')<0) {
+    if (execArgv.indexOf('@babel/register')<0) {
         execArgv.push('--require');
-        execArgv.push('babel-core/register');
+        execArgv.push('@babel/register');
     }
     //start child process (an express application)
     server = child_process.fork(serverScript,options);

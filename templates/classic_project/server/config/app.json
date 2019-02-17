@@ -1,103 +1,132 @@
 {
-    "handlers": [
-
-    ],
+    "handlers": [],
     "engines": [
-        { "name": "EJS View Engine", "extension": "ejs", "type": "@themost/web/engines/ejs" },
-        { "name": "Markdown View Engine", "extension": "md", "type": "@themost/web/engines/md" },
-        { "name": "Jade View Engine", "extension": "jade", "type": "@themost/web/engines/jade" },
-        { "name": "Vash View Engine", "extension": "vash", "type": "@themost/web/engines/vash" }
+        {
+            "name": "EJS View Engine",
+            "extension": "ejs",
+            "type": "@themost/web/engines/ejs"
+        }
     ],
-    "controllers": {
-    },
+    "controllers": {},
     "settings": {
         "crypto": {
             "algorithm": "aes256",
-            "key": "6245767834677550466e7559344d3775664858464e775432756d4d6445726252"
+            "key": "2ff1d24fc4691b147a7953d6f7149aaaab192a4776271f5e81bc76c2f937455ced030adea68164b26b125eb1dae0d644"
         },
         "auth": {
             "name": ".MAUTH",
             "timeout": 480,
-            "slidingExpiration": false
+            "slidingExpiration": false,
+            "unattendedExecutionAccount": "BkRNjHdEH0Bb8aDa"
         },
-        "localization": {
-            "cultures": [ "en-us" ],
-            "default": "en-us"
+        "i18n": {
+            "locales": [
+                "en", "fr"
+            ],
+            "defaultLocale": "en"
         }
     },
     "adapterTypes": [
-        { "name":"SQLite Data Adapter", "invariantName": "sqlite", "type":"@themost/sqlite" }
+        {
+            "name": "SQLite Data Adapter",
+            "invariantName": "sqlite",
+            "type": "@themost/sqlite"
+        }
     ],
     "adapters": [
-        { "name":"development", "invariantName":"sqlite", "default":true,
+        {
+            "name": "development",
+            "invariantName": "sqlite",
+            "default": true,
             "options": {
-                "database":"db/local.db"
+                "database": "db/local.db"
             }
         }
     ],
     "mimes": [
         {
-            "extension": ".css", "type": "text/css"
+            "extension": ".css",
+            "type": "text/css"
         },
         {
-            "extension": ".js", "type": "application/javascript"
+            "extension": ".js",
+            "type": "application/javascript"
         },
         {
-            "extension": ".json", "type": "application/json", "encoding": "utf-8"
+            "extension": ".json",
+            "type": "application/json",
+            "encoding": "utf-8"
         },
         {
-            "extension": ".xml", "type": "text/xml"
+            "extension": ".xml",
+            "type": "text/xml"
+        },
+        {   "extension": ".rdf",
+            "type": "text/xml"
         },
         {
-            "extension": ".rdf", "type": "text/xml"
+            "extension": ".xsd",
+            "type": "text/xml"
         },
         {
-            "extension": ".xsd", "type": "text/xml"
+            "extension": ".less",
+            "type": "text/css"
         },
         {
-            "extension": ".less", "type": "text/css"
+            "extension": ".png",
+            "type": "image/png"
         },
         {
-            "extension": ".png", "type": "image/png"
+            "extension": ".ico",
+            "type": "image/x-icon"
         },
         {
-          "extension": ".ico", "type": "image/x-icon"
+            "extension": ".gif",
+            "type": "image/gif"
         },
         {
-            "extension": ".gif", "type": "image/gif"
+            "extension": ".bmp",
+            "type": "image/bmp"
         },
         {
-            "extension": ".bmp", "type": "image/bmp"
+            "extension": ".jpg",
+            "type": "image/jpeg"
         },
         {
-            "extension": ".jpg", "type": "image/jpeg"
+            "extension": ".jpeg",
+            "type": "image/jpeg"
         },
         {
-            "extension": ".jpeg", "type": "image/jpeg"
+            "extension": ".htm",
+            "type": "text/html"
         },
         {
-            "extension": ".htm", "type": "text/html"
+            "extension": ".html",
+            "type": "text/html"
         },
         {
-            "extension": ".html", "type": "text/html"
+            "extension": ".pdf",
+            "type": "application/pdf"
         },
         {
-            "extension": ".pdf", "type": "application/pdf"
+            "extension": ".txt",
+            "type": "text/plain"
         },
         {
-            "extension": ".txt", "type": "text/plain"
+            "extension": ".svg",
+            "type": "image/svg+xml"
         },
         {
-            "extension": ".svg", "type": "image/svg+xml"
+            "extension": ".woff",
+            "type": "application/x-font-woff"
         },
         {
-            "extension": ".woff", "type": "application/x-font-woff"
+            "extension": ".ttf",
+            "type": "application/octet-stream"
         },
         {
-            "extension": ".ttf", "type": "application/octet-stream"
-        },
-        {
-            "extension": ".map", "type": "application/json"
+            "extension": ".map",
+            "type": "application/json"
         }
     ]
 }

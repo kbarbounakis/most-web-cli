@@ -12,6 +12,7 @@
     <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/assets/css/bootstrap-theme.css" rel="stylesheet">
     <!-- Custom styles for this template -->
+    <%- stylesheets %>
     </head>
     <body>
         <!-- Navigation -->
@@ -42,9 +43,10 @@
             </div>
         </nav>
         <!-- Page Content -->
-        <%-body%>
+        <%- body %>
+        </body>
         <!-- Bootstrap core JavaScript -->
         <script src="/vendor/jquery/jquery.min.js"></script>
         <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-        </body>
+        <%- scripts %>
 </html>

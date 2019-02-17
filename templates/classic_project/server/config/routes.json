@@ -1,11 +1,5 @@
 [
     {
-        "url": "/test/multiply\\({a:float},{b:float}\\)",
-        "controller": "test",
-        "action": "multiply",
-        "format": "json"
-    },
-    {
         "url": "/?",
         "controller": "root",
         "action": "index"
