@@ -11,17 +11,18 @@
     "settings": {
         "crypto": {
             "algorithm": "aes256",
-            "key": "2ff1d24fc4691b147a7953d6f7149aaaab192a4776271f5e81bc76c2f937455ced030adea68164b26b125eb1dae0d644"
+            "key": "363150123c43f25abdb765b0c24d8946428719bd494b83afe958e4051aaf92ec1a33b58e7e6020c6737bbc782eb22d91"
         },
         "auth": {
             "name": ".MAUTH",
             "timeout": 480,
             "slidingExpiration": false,
-            "unattendedExecutionAccount": "BkRNjHdEH0Bb8aDa"
+            "unattendedExecutionAccount": "A8G9jwCfSGk1Q4qr"
         },
         "i18n": {
             "locales": [
-                "en", "fr"
+                "en",
+                "fr"
             ],
             "defaultLocale": "en"
         }
@@ -61,7 +62,8 @@
             "extension": ".xml",
             "type": "text/xml"
         },
-        {   "extension": ".rdf",
+        {
+            "extension": ".rdf",
             "type": "text/xml"
         },
         {

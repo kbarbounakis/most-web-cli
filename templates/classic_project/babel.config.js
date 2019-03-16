@@ -1,41 +1,41 @@
 module.exports = function (api) {
     api.cache(false);
     return {
-        "sourceMaps": "both",
-        "retainLines": true,
-        "presets": [
+        'sourceMaps': 'both',
+        'retainLines': true,
+        'presets': [
             [
-                "@babel/preset-env",
+                '@babel/preset-env',
                 {
-                    "targets": {
-                        "node": "4"
+                    'targets': {
+                        'node': 'current'
                     }
                 }
             ]
         ],
-        "plugins": [
+        'plugins': [
             [
-                "@babel/plugin-transform-async-to-generator"
+                '@babel/plugin-transform-async-to-generator'
             ],
             [
-                "@babel/plugin-proposal-export-default-from"
+                '@babel/plugin-proposal-export-default-from'
             ],
             [
-                "@babel/plugin-proposal-export-namespace-from"
+                '@babel/plugin-proposal-export-namespace-from'
             ],
             [
-                "@babel/plugin-transform-modules-commonjs"
+                '@babel/plugin-transform-modules-commonjs'
             ],
             [
-                "@babel/plugin-proposal-decorators",
+                '@babel/plugin-proposal-decorators',
                 {
-                    "legacy": true
+                    'legacy': true
                 }
             ],
             [
-                "@babel/plugin-proposal-class-properties",
+                '@babel/plugin-proposal-class-properties',
                 {
-                    "loose": true
+                    'loose': true
                 }
             ]
         ]
