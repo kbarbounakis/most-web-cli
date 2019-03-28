@@ -1,4 +1,5 @@
 {
+    "$schema": "https://themost-framework.github.io/themost/models/2018/2/schema.json",
     "@id": "https://themost.io/schemas/Party",
     "name": "Party",
     "description": "Party",

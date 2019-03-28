@@ -14,6 +14,4 @@ export default class RootController extends HttpBaseController {
     getIndex() {
         return Promise.resolve(this.view());
     }
-    
-    
 }
