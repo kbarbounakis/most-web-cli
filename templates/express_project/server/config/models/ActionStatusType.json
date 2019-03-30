@@ -1,8 +1,9 @@
 {
+    "$schema": "https://themost-framework.github.io/themost/models/2018/2/schema.json",
     "@id": "http://schema.org/ActionStatusType",
     "name": "ActionStatusType",
     "description": "The status of an Action.",
-    "title": "ActionStatusType",
+    "title": "ActionStatusTypes",
     "abstract": false,
     "sealed": false,
     "implements": "Enumeration",

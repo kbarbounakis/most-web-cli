@@ -1,8 +1,9 @@
 {
+    "$schema": "https://themost-framework.github.io/themost/models/2018/2/schema.json",
     "@id": "https://themost.io/schemas/Group",
     "name": "Group",
     "description": "Groups",
-    "title": "Group",
+    "title": "Groups",
     "abstract": false,
     "sealed": false,
     "inherits": "Account",

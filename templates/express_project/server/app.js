@@ -5,7 +5,7 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import sassMiddleware from 'node-sass-middleware';
-import {ExpressDataApplication, serviceRouter, dateReviver} from '@themost/express';
+import { ExpressDataApplication, serviceRouter, dateReviver } from '@themost/express';
 import indexRouter from './routes/index';
 
 let app = express();
@@ -24,20 +24,24 @@ app.use(express.json({
 
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-// data context setup
+// @themost/data data application setup
 const dataApplication = new ExpressDataApplication(path.resolve(__dirname, 'config'));
+// hold data application
+app.set('ExpressDataApplication', dataApplication);
 // use data middleware (register req.context)
 app.use(dataApplication.middleware());
-
+// use sass middleware
 app.use(sassMiddleware({
   src: path.join(process.cwd(), 'public'),
   dest: path.join(process.cwd(), 'public'),
   indentedSyntax: false, // true = .sass and false = .scss
   sourceMap: true
 }));
+// use static content
 app.use(express.static(path.join(process.cwd(), 'public')));
 
 app.use('/', indexRouter);
+// use @themost/express service router
 app.use('/api', serviceRouter);
 
 // catch 404 and forward to error handler
@@ -50,7 +54,6 @@ app.use((err, req, res, next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
   // render the error page
   res.status(err.status || err.statusCode || 500);
   res.render('error');

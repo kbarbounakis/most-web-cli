@@ -1,7 +1,8 @@
 {
+    "$schema": "https://themost-framework.github.io/themost/models/2018/2/schema.json",
     "@id": "http://schema.org/ContactPoint",
     "name": "ContactPoint",
-    "title": "Contact Point",
+    "title": "ContactPoints",
     "description": "A contact point&#x2014;for example, a Customer Complaints department.",
     "hidden": false,
     "sealed": false,

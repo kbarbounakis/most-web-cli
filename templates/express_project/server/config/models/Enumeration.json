@@ -1,11 +1,11 @@
 {
+    "$schema": "https://themost-framework.github.io/themost/models/2018/2/schema.json",
     "@id": "http://schema.org/Enumeration",
     "name": "Enumeration",
     "description": "Lists or enumerations—for example, a list of cuisines or music genres, etc.",
-    "title": "Enumeration",
+    "title": "Enumerations",
     "abstract": false,
     "sealed": false,
-    "hidden": true,
     "inherits": "Intangible",
     "version": "1.0",
     "fields": [],
