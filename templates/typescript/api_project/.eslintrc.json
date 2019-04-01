@@ -1,0 +1,19 @@
+{
+    "parser": "@typescript-eslint/parser",
+    "plugins": [ "@typescript-eslint" ]
+    "extends": [
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "env": {
+        "browser": true,
+        "es6": true
+    },
+    "parserOptions": {
+        "project": "./tsconfig.json"
+    },
+    "rules": {
+        "no-trailing-spaces": [ "error" ],
+        "no-console": [ "error" ],
+        "spaced-comment": [ "error" ]
+    }
+}
