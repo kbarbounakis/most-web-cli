@@ -20,5 +20,13 @@
             "type": "global",
             "account": "Administrators"
         }
+    ],
+    "constraints": [
+        {
+            "type": "unique",
+            "fields": [
+                "name"
+            ]
+        }
     ]
 }
