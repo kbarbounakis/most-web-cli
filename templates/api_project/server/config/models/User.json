@@ -28,7 +28,8 @@
             "name": "enabled",
             "title": "enabled",
             "description": "Indicates whether a user is enabled or not.",
-            "type": "Boolean"
+            "type": "Boolean",
+            "value": "javascript:return true;"
         },
         {
             "@id": "https://themost.io/schemas/lastLogon",
