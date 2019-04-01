@@ -42,7 +42,16 @@
             "name": "groups",
             "title": "Groups",
             "description": "A collection of groups where user belongs.",
-            "type": "Group"
+            "type": "Group",
+            "mapping": {
+                "associationAdapter":"GroupMembers",
+                "parentModel":"Group",
+                "parentField":"id",
+                "childModel":"User",
+                "childField":"id",
+                "associationType":"junction",
+                "cascade":"delete"
+            }
         },
         {
             "@id": "https://themost.io/schemas/userFlags",
