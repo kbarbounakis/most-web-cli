@@ -1,4 +1,4 @@
-/*eslint no-const: "off"*/
+/* eslint no-const: "off" */
 let gulp = require('gulp');
 let del = require('del');
 let babel = require('gulp-babel');
@@ -7,15 +7,15 @@ let child_process = require('child_process');
 let options = require('./.themost-cli.json');
 let path = require('path');
 
-//server source directory
+// server source directory
 let buildDir = options.out;
-//server source directory
+// server source directory
 let serverDir = options.base;
-//server startup script
-let serverScript = path.resolve(process.cwd(), "bin/www");
+// server startup script
+let serverScript = path.resolve(process.cwd(), 'bin/www');
 
 
-//clean dist server modules
+// clean dist server modules
 gulp.task('clean', ()=> {
     return del([`${buildDir}`]);
 });
@@ -42,47 +42,49 @@ gulp.task('build', ['lint', 'copy'], () => {
 // serve app
 gulp.task('serve', [], () => {
     let server, options, execArgv = [];
-    //get debug argument
+    // get debug argument
     const debug = process.execArgv.filter((x) => { return /^--inspect(-brk)?=\d+$/.test(x); })[0];
-    //if process is running in debug mode (--debug or --debug-brk arguments)
+    // if process is running in debug mode (--debug or --debug-brk arguments)
     if (debug) {
-        //find debug port
+        // find debug port
         const debugPort = parseInt(/^--inspect(-brk)?=(\d+)$/.exec(debug)[2]);
-        //get execution arguments except --debug or --debug-brk
-        execArgv = process.execArgv.filter((x) => { return !/^--inspect(-brk)?=\d+$/.test(x); }).splice(0);
-        //push debug argument (while increasing debug port by 1)
-        execArgv.push(debug.substr(0,debug.indexOf('=')+1)+(debugPort+1));
+        // get execution arguments except --debug or --debug-brk
+        execArgv = process.execArgv.filter((x) => { 
+            return !/^--inspect(-brk)?=\d+$/.test(x);
+        }).splice(0);
+        // push debug argument (while increasing debug port by 1)
+        execArgv.push(debug.substr(0,debug.indexOf('=')+1)+(debugPort + 1));
     }
     else {
-        //otherwise get execution arguments
+        // otherwise get execution arguments
         execArgv = process.execArgv.splice(0);
     }
-    //build child process options
+    // build child process options
     options = {
-        //get parent process env variables
+        // get parent process env variables
         env:process.env,
-        //get execution arguments
+        // get execution arguments
         execArgv:execArgv
     };
-    //push babel-core/register arguments
+    // push babel-core/register arguments
     if (execArgv.indexOf('@babel/register')<0) {
         execArgv.push('--require');
         execArgv.push('@babel/register');
     }
-    //start child process (an express application)
+    // start child process (an express application)
     server = child_process.fork(serverScript,options);
-    //watch for server module changes
+    // watch for server module changes
     return gulp.watch(`${serverDir}/**/*`, () => {
-        //wait for process to exit
+        // wait for process to exit
         server.on('exit', function() {
             server = child_process.fork(serverScript,options);
         });
-        //kill child process and wait to build server again
-        server.kill("SIGINT");
+        // kill child process and wait to build server again
+        server.kill('SIGINT');
     });
 });
 
-//set the default task (build only server modules)
+// set the default task (build only server modules)
 gulp.task('default', ['clean'], () => {
     return gulp.start('build');
 });

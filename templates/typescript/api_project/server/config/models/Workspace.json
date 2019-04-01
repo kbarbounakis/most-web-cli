@@ -1,4 +1,5 @@
 {
+  "$schema": "https://themost-framework.github.io/themost/models/2018/2/schema.json",
   "@id": "https://themost.io/schemas/Workspace",
   "name": "Workspace",
   "title": "Workspaces",
@@ -7,8 +8,7 @@
   "abstract": false,
   "version": "1.0",
   "inherits": "Thing",
-  "fields": [
-    {
+  "fields": [{
       "name": "id",
       "title": "ID",
       "type": "Integer",
@@ -25,8 +25,7 @@
       "value": "javascript:return this.model.name;"
     }
   ],
-  "privileges": [
-    {
+  "privileges": [{
       "mask": 1,
       "type": "global",
       "account": "*"
@@ -41,20 +40,16 @@
       "account": "Administrators"
     }
   ],
-  "constraints": [
-    {
-      "type": "unique",
-      "fields": [
-        "url"
-      ]
-    }
-  ],
-  "seed": [
-    {
-      "name": "Root Workspace",
-      "alternateName": "root",
-      "url": "/",
-      "description": "The default workspace associated with this application."
-    }
-  ]
+  "constraints": [{
+    "type": "unique",
+    "fields": [
+      "url"
+    ]
+  }],
+  "seed": [{
+    "name": "Root Workspace",
+    "alternateName": "root",
+    "url": "/",
+    "description": "The default workspace associated with this application."
+  }]
 }

@@ -1,8 +1,9 @@
 {
+    "$schema": "https://themost-framework.github.io/themost/models/2018/2/schema.json",
     "@id": "https://themost.io/schemas/User",
     "name": "User",
     "description": "Users",
-    "title": "User",
+    "title": "Users",
     "abstract": false,
     "sealed": false,
     "inherits": "Account",

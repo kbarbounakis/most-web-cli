@@ -1,7 +1,8 @@
 {
+    "$schema": "https://themost-framework.github.io/themost/models/2018/2/schema.json",
     "@id": "http://schema.org/GenderType",
     "name": "GenderType",
-    "title": "Gender Type",
+    "title": "GenderTypes",
     "description": "An enumeration of genders.",
     "hidden": false,
     "sealed": false,
@@ -36,7 +37,7 @@
       {
         "mask": 1,
         "type": "global",
-        "account": "*"
+        "account": "Administrators"
       },
       {
         "mask": 15,

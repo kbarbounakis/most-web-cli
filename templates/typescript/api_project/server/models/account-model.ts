@@ -1,4 +1,4 @@
-import {EdmMapping,EdmType} from '@themost/data/odata';
+import {EdmMapping} from '@themost/data/odata';
 import Thing = require('./thing-model');
 
 /**
@@ -13,7 +13,7 @@ class Account extends Thing {
         super();
     }
 
-    public id?: number; 
+    public id?: number;
 }
 
 export = Account;

@@ -1,23 +1,21 @@
 {
-  "name": "sample-web-app",
+  "name": "classic-web-app",
   "version": "0.1.0",
   "description": "Sample Web Application",
-  "main": "dist/server.js",
+  "main": "server/server.js",
   "repository": "",
   "private": true,
   "author": "",
   "scripts": {
-    "start": "node dist/server/server",
+    "start": "node bin/www",
     "build": "gulp build",
     "themost": "themost",
-    "lint": "gulp lint",
     "serve": "gulp serve"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
     "@themost/cli": "^2.1.9",
     "@babel/cli": "^7.1.5",
-    "@babel/core": "^7.1.5",
     "@babel/core": "^7.1.5",
     "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/plugin-proposal-decorators": "^7.1.0",
@@ -32,12 +30,17 @@
     "gulp-sourcemaps": "^2.6.4"
   },
   "dependencies": {
-    "@themost/common": "^2.1.6",
-    "@themost/data": "^2.2.1",
-    "@themost/sqlite": "^2.1.1",
-    "@themost/web": "^2.2.1",
+    "@themost/client": "^2.1.3",
+    "@themost/common": "^2.3.1",
+    "@themost/data": "^2.3.1",
+    "@themost/node": "^2.1.1",
+    "@themost/query": "^2.3.1",
+    "@themost/sqlite": "^2.2.1",
+    "@themost/web": "^2.3.1",
+    "@themost/xml": "^2.3.1",
     "bootstrap": "^4.1.0",
-    "jquery": "^3.3.1"
+    "jquery": "^3.3.1",
+    "popper.js": "^1.14.7"
   },
   "eslintConfig": {
     "parser": "babel-eslint",
@@ -67,6 +70,10 @@
       "strict": [
         2,
         "never"
+      ],
+      "quotes": [
+        2,
+        "single"
       ]
     }
   }

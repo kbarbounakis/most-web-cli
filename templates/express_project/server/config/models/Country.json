@@ -1,8 +1,9 @@
 {
+    "$schema": "https://themost-framework.github.io/themost/models/2018/2/schema.json",
     "@id": "http://schema.org/Country",
     "name": "Country",
     "description": "A country.",
-    "title": "Country",
+    "title": "Countries",
     "abstract": false,
     "sealed": false,
     "inherits": "AdministrativeArea",

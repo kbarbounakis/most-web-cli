@@ -9,9 +9,11 @@
             "timeout": 480,
             "slidingExpiration": false
         },
-        "localization": {
-            "cultures": [ "en-us" ],
-            "default": "en-us"
+        "i18n": {
+            "locales": [
+                "en"
+            ],
+            "defaultLocale": "en"
         }
     },
     "adapterTypes": [
