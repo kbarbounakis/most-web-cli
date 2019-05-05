@@ -10,7 +10,6 @@ import path from 'path';
 import fs from 'fs-extra';
 import _ from 'lodash';
 import { writeFileFromTemplate, getConfiguration, getDataConfiguration, SimpleDataContext, getBuilder } from '../../util';
-import { generateDefinition } from './classdef';
 
 export const command = 'class <name>';
 
@@ -162,12 +161,7 @@ export function generateClass(argv, ignoreOther) {
                     writeFileFromTemplate(templateFile, destPath, model).then(() => {
                         console.log('INFO', 'The operation was completed succesfully.');
                         if (ignoreOther) {
-                            return generateDefinition(Object.assign({}, argv, {
-                                "name": model.name,
-                                "silent": true
-                                }), true).then(()=> {
-                                    return resolve();        
-                                });
+                            return resolve();
                         }
                         //add in-process class
                         argv.inProcClass.push(model.name);
@@ -183,12 +177,7 @@ export function generateClass(argv, ignoreOther) {
                             if (options.mode==='typescript') {
                                 return resolve();
                             }
-                            return generateDefinition(Object.assign({}, argv, {
-                                "name": model.name,
-                                "silent": true
-                                })).then(()=> {
-                                    return resolve();        
-                                });
+                            return resolve();
                         }).catch((err)=> {
                             return reject(err);
                         });

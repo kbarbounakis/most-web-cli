@@ -29,20 +29,18 @@ var getDataConfiguration = _util.getDataConfiguration;
 var SimpleDataContext = _util.SimpleDataContext;
 var getBuilder = _util.getBuilder;
 
-var _classdef = require('./classdef');
-
-var generateDefinition = _classdef.generateDefinition;
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var command = exports.command = 'class <name>'; /**
-                                                 * @license
-                                                 * MOST Web Framework 2.0 Codename Blueshift
-                                                 * Copyright (c) 2017, THEMOST LP All rights reserved
-                                                 *
-                                                 * Use of this source code is governed by an BSD-3-Clause license that can be
-                                                 * found in the LICENSE file at https://themost.io/license
-                                                 */
+/**
+ * @license
+ * MOST Web Framework 2.0 Codename Blueshift
+ * Copyright (c) 2017, THEMOST LP All rights reserved
+ *
+ * Use of this source code is governed by an BSD-3-Clause license that can be
+ * found in the LICENSE file at https://themost.io/license
+ */
+var command = exports.command = 'class <name>';
+
 var desc = exports.desc = 'Generate a new data model class';
 
 function builder(yargs) {
@@ -190,12 +188,7 @@ function generateClass(argv, ignoreOther) {
                 writeFileFromTemplate(templateFile, destPath, model).then(function () {
                     console.log('INFO', 'The operation was completed succesfully.');
                     if (ignoreOther) {
-                        return generateDefinition(Object.assign({}, argv, {
-                            "name": model.name,
-                            "silent": true
-                        }), true).then(function () {
-                            return resolve();
-                        });
+                        return resolve();
                     }
                     //add in-process class
                     argv.inProcClass.push(model.name);
@@ -211,12 +204,7 @@ function generateClass(argv, ignoreOther) {
                         if (options.mode === 'typescript') {
                             return resolve();
                         }
-                        return generateDefinition(Object.assign({}, argv, {
-                            "name": model.name,
-                            "silent": true
-                        })).then(function () {
-                            return resolve();
-                        });
+                        return resolve();
                     }).catch(function (err) {
                         return reject(err);
                     });
