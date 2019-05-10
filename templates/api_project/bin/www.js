@@ -7,6 +7,7 @@ let port = normalizePort(process.env.PORT || '3000');
 let host = process.env.IP || '127.0.0.1';
 
 // Create HTTP server.
+// noinspection JSUnresolvedFunction
 let server = http.createServer(app.runtime());
 
 // Listen on provided port, on all network interfaces.
