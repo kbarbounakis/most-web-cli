@@ -2,17 +2,17 @@
   "name": "api-server-project",
   "version": "0.1.0",
   "description": "Api Server Project",
-  "main": "bin/www",
+  "main": "bin/www.js",
   "repository": "",
   "private": true,
   "author": "",
   "scripts": {
-    "start": "node bin/www",
+    "start": "node bin/www.js",
     "clean": "rimraf dist/server",
     "build": "rimraf dist/server && babel server --out-dir dist/server --copy-files --source-maps",
     "themost": "themost",
-    "serve": "nodemon bin/www",
-    "debug": "nodemon --inspect-brk bin/www"
+    "serve": "nodemon bin/www.js",
+    "debug": "nodemon --inspect-brk bin/www.js"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",

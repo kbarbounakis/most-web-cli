@@ -1,4 +1,4 @@
-let app = require('../server/server');
+let app = process.env.NODE_ENV === 'development' ? require('../server/server') : require('../dist/server/server');
 let http = require('http');
 
 // Get port from environment
