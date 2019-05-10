@@ -11,7 +11,7 @@ class <%-name%>Controller extends HttpBaseController {
     @httpGet()
     @httpAction('index')
     getIndex() {
-        return Promise.resolve(this.view());
+        return this.view();
     }
 
 }

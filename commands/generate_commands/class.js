@@ -15,21 +15,8 @@ const fs = require('fs-extra');
 const path = require('path');
 const _ = require('lodash');
 
-module.exports.command = 'class <name>';
 
-module.exports.desc = 'Generate a new data model class';
-
-module.exports.builder = function builder(yargs) {
-    return yargs.option('silent', {
-        default: false,
-        describe: 'disable errors'
-    }).option('force', {
-        default: false,
-        describe: 'replace if exists'
-    });
-};
-
-module.exports.generateAnyClass = function generateAnyClass(argv) {
+function generateAnyClass(argv) {
     
     //get cli options
     let options = getConfiguration();
@@ -63,9 +50,11 @@ module.exports.generateAnyClass = function generateAnyClass(argv) {
         return Promise.all(sources);
     });
     
-};
+}
 
-module.exports.generateClass =  function generateClass(argv, ignoreOther) {
+module.exports.generateAnyClass = generateAnyClass;
+
+function generateClass(argv, ignoreOther) {
     return new Promise((resolve, reject) => {
         //get cli options
         let options = getConfiguration();
@@ -153,7 +142,7 @@ module.exports.generateClass =  function generateClass(argv, ignoreOther) {
                     return reject(new Error('The specified class already exists.'));
                 }
                 //get template file path
-                let templateFile = path.resolve(__dirname, '../../../templates/generate/class'+(options.mode==='typescript' ? '.ts': '.js')+'.ejs');
+                let templateFile = path.resolve(__dirname, '../../templates/generate/class'+(options.mode==='typescript' ? '.ts': '.js')+'.ejs');
                 //get destination folder path
                 let destFolder = path.dirname(destPath);
                 console.error('INFO', `Validating class folder (${destFolder}).`);
@@ -191,6 +180,22 @@ module.exports.generateClass =  function generateClass(argv, ignoreOther) {
                     });
                 });
         });
+    });
+}
+
+module.exports.generateClass = generateClass;
+
+module.exports.command = 'class <name>';
+
+module.exports.desc = 'Generate a new data model class';
+
+module.exports.builder = function builder(yargs) {
+    return yargs.option('silent', {
+        default: false,
+        describe: 'disable errors'
+    }).option('force', {
+        default: false,
+        describe: 'replace if exists'
     });
 };
 

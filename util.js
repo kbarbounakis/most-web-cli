@@ -36,7 +36,7 @@ if (typeof _.dasherize !== 'function') {
     _.mixin({'dasherize' : _dasherize});
 }
 
-module.exports.writeFileFromTemplate = function writeFileFromTemplate(source, dest, data) {
+function writeFileFromTemplate(source, dest, data) {
     return ejs.renderFile(source, data).then((res)=> {
         return new Promise((resolve, reject)=> {
             //write file
@@ -47,16 +47,19 @@ module.exports.writeFileFromTemplate = function writeFileFromTemplate(source, de
               return resolve();
             });
         });
-        
     });
-};
+}
 
-module.exports.loadConfiguration = function loadConfiguration() {
+module.exports.writeFileFromTemplate = writeFileFromTemplate;
+
+function loadConfiguration() {
     let config = require(path.resolve(process.cwd(), '.themost-cli.json'));
     return Object.assign({}, configurationDefaults, config);
-};
+}
 
-module.exports.getConfiguration = function getConfiguration() {
+module.exports.loadConfiguration = loadConfiguration;
+
+function getConfiguration() {
     try {
         return loadConfiguration();
     }
@@ -71,9 +74,11 @@ module.exports.getConfiguration = function getConfiguration() {
             process.exit(1);
         }
     }
-};
+}
 
-class SimpleDataContext {
+module.exports.getConfiguration = getConfiguration;
+
+    class SimpleDataContext {
     constructor(configuration) {
         this.getConfiguration = ()=> configuration;
     }

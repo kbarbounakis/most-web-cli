@@ -39,12 +39,12 @@ module.exports.handler = function handler(argv) {
         return process.exit(1);
     }
     //get template file path
-    let templateFile = path.resolve(__dirname,'../../../templates/generate/listener' + (options.mode==='typescript' ? '.ts': '.js') + '.ejs');
+    let templateFile = path.resolve(__dirname,'../../templates/generate/listener' + (options.mode==='typescript' ? '.ts': '.js') + '.ejs');
     
     //get destination folder path
     let destFolder = path.dirname(destPath);
     console.error('INFO',`Validating listener folder (${destFolder}).`);
-    fs.ensureDir(destFolder, (err)=> {
+    return fs.ensureDir(destFolder, (err)=> {
        if (err) {
            console.error('ERROR','An error occurred while validating destination path.');
             console.error(err);

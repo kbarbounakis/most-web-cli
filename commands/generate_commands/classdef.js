@@ -15,21 +15,7 @@ const fs = require('fs-extra');
 const path = require('path');
 const _ = require('lodash');
 
-module.exports.command = 'classdef <name>';
-
-module.exports.desc = 'Generate a new data model class definition';
-
-module.exports.builder = function builder(yargs) {
-    return yargs.option('silent', {
-        default: false,
-        describe: 'disable errors'
-    }).option('force', {
-        default: false,
-        describe: 'replace if exists'
-    });
-};
-
-module.exports.generateAnyDefinition = function generateAnyDefinition(argv) {
+function generateAnyDefinition(argv) {
     
     //get cli options
     let options = getConfiguration();
@@ -64,9 +50,11 @@ module.exports.generateAnyDefinition = function generateAnyDefinition(argv) {
         return Promise.all(sources);
     });
     
-};
+}
 
-export function generateDefinition(argv, ignoreOther) {
+module.exports.generateAnyDefinition = generateAnyDefinition;
+
+function generateDefinition(argv, ignoreOther) {
     return new Promise((resolve, reject) => {
         let options = getConfiguration();
         let config = getDataConfiguration(options);
@@ -154,7 +142,7 @@ export function generateDefinition(argv, ignoreOther) {
                 return reject(new Error('The specified class already exists.'));
             }
             //get template file path
-            let templateFile = path.resolve(__dirname, '../../../templates/generate/classdef.d.ts.ejs');
+            let templateFile = path.resolve(__dirname, '../../templates/generate/classdef.d.ts.ejs');
             //get destination folder path
             let destFolder = path.dirname(destPath);
             console.error('INFO', `Validating class folder (${destFolder}).`);
@@ -192,6 +180,23 @@ export function generateDefinition(argv, ignoreOther) {
         });
     });
 }
+
+module.exports.generateDefinition = generateDefinition;
+
+
+module.exports.command = 'classdef <name>';
+
+module.exports.desc = 'Generate a new data model class definition';
+
+module.exports.builder = function builder(yargs) {
+    return yargs.option('silent', {
+        default: false,
+        describe: 'disable errors'
+    }).option('force', {
+        default: false,
+        describe: 'replace if exists'
+    });
+};
 
 module.exports.handler =  function handler(argv) {
     generateAnyDefinition(argv).then(() => {

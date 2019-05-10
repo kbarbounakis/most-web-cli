@@ -39,7 +39,7 @@ module.exports.handler = function handler(argv) {
         return process.exit(1);
     }
     //get template file path
-    let templateFile = path.resolve(__dirname,'../../../templates/generate/controller'+(options.mode==='typescript' ? '.ts': '.js')+'.ejs');
+    let templateFile = path.resolve(__dirname,'../../templates/generate/controller'+(options.mode==='typescript' ? '.ts': '.js')+'.ejs');
     
     //get destination folder path
     let destFolder = path.dirname(controllerPath);

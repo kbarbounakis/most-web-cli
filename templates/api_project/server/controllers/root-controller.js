@@ -12,6 +12,6 @@ export default class RootController extends HttpBaseController {
     @httpGet()
     @httpAction('index')
     getIndex() {
-        return Promise.resolve(this.view());
+        return this.view();
     }
 }

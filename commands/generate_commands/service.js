@@ -38,27 +38,28 @@ module.exports.handler = function handler(argv) {
         return process.exit(1);
     }
     //get template file path
-    let templateFile = path.resolve(__dirname,'../../../templates/generate/service' + (options.mode==='typescript' ? '.ts': '.js') + '.ejs');
+    let templateFile = path.resolve(__dirname,'../../templates/generate/service' + (options.mode==='typescript' ? '.ts': '.js') + '.ejs');
     
     //get destination folder path
     let destFolder = path.dirname(destPath);
-    console.error('INFO',`Validating service folder (${destFolder}).`);
-    fs.ensureDir(destFolder, (err)=> {
-       if (err) {
-           console.error('ERROR','An error occurred while validating destination path.');
-            console.error(err);
-       } 
-       writeFileFromTemplate(templateFile, destPath, {
-            name:serviceName
-        }).then(()=> {
-            console.log('INFO','The operation was completed succesfully.');
-              return process.exit(0);
-        }).catch((err)=> {
-            console.error('ERROR','An error occurred while generating service.');
-            console.error(err);
-            return process.exit(1);
-        });
-       
+    console.error('INFO', 'LISTENER', `Validating service folder (${destFolder}).`);
+    try {
+        fs.ensureDirSync(destFolder);
+    }
+    catch (err) {
+        console.error('ERROR', 'LISTENER', 'An error occurred while validating destination path.');
+        console.error(err);
+        return process.exit(1);
+    }
+    console.log('INFO', 'LISTENER', `Generate service from template`);
+    return writeFileFromTemplate(templateFile, destPath, {
+        name:serviceName
+    }).then(()=> {
+        console.log('INFO', 'LISTENER', 'The operation was completed succesfully.');
+        return process.exit(0);
+    }).catch((err)=> {
+        console.error('ERROR', 'LISTENER', 'An error occurred while generating service.');
+        console.error(err);
+        return process.exit(1);
     });
-    
 };

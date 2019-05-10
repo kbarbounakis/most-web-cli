@@ -7,6 +7,12 @@
  * found in the LICENSE file at https://themost.io/license
  */
 const path = require('path');
+
+process.on('unhandledRejection', (reason, p) => {
+    console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
+    // application specific logging, throwing an error, or other logic here
+});
+
 require('yargs')
     .commandDir(path.resolve(__dirname, 'commands'))
     .demandCommand()

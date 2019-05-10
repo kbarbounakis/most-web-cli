@@ -43,9 +43,9 @@ module.exports.handler = function handler(argv) {
     }
     console.log('Creating new project  at %s', projectRoot);
     //get template path
-    let  templateRoot = path.resolve(__dirname, `./../../../templates/${argv.template}_project`);
+    let  templateRoot = path.resolve(__dirname, `../../templates/${argv.template}_project`);
     if (argv.typescript) {
-        templateRoot = path.resolve(__dirname, `./../../../templates/typescript/${argv.template}_project`);
+        templateRoot = path.resolve(__dirname, `../../templates/typescript/${argv.template}_project`);
     }
 
     //validate template folder
