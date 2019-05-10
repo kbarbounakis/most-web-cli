@@ -1,7 +1,15 @@
-import _ from 'lodash';
-import ejs from 'ejs';
-import fs from 'fs-extra';
-import path from 'path';
+/**
+ * @license
+ * MOST Web Framework 2.0 Codename Blueshift
+ * Copyright (c) 2017, THEMOST LP All rights reserved
+ *
+ * Use of this source code is governed by an BSD-3-Clause license that can be
+ * found in the LICENSE file at https://themost.io/license
+ */
+const _ = require('lodash');
+const ejs = require('ejs');
+const fs = require('fs-extra');
+const path = require('path');
 
 const configurationDefaults = {
                 "base":"server",
@@ -28,7 +36,7 @@ if (typeof _.dasherize !== 'function') {
     _.mixin({'dasherize' : _dasherize});
 }
 
-export function writeFileFromTemplate(source, dest, data) {
+module.exports.writeFileFromTemplate = function writeFileFromTemplate(source, dest, data) {
     return ejs.renderFile(source, data).then((res)=> {
         return new Promise((resolve, reject)=> {
             //write file
@@ -41,14 +49,14 @@ export function writeFileFromTemplate(source, dest, data) {
         });
         
     });
-}
+};
 
-export function loadConfiguration() {
+module.exports.loadConfiguration = function loadConfiguration() {
     let config = require(path.resolve(process.cwd(), '.themost-cli.json'));
     return Object.assign({}, configurationDefaults, config);
-}
+};
 
-export function getConfiguration() {
+module.exports.getConfiguration = function getConfiguration() {
     try {
         return loadConfiguration();
     }
@@ -63,9 +71,9 @@ export function getConfiguration() {
             process.exit(1);
         }
     }
-}
+};
 
-export class SimpleDataContext {
+class SimpleDataContext {
     constructor(configuration) {
         this.getConfiguration = ()=> configuration;
     }
@@ -99,7 +107,9 @@ export class SimpleDataContext {
   
 }
 
-export function getDataConfiguration(options) {
+module.exports.SimpleDataContext = SimpleDataContext;
+
+module.exports.getDataConfiguration = function getDataConfiguration(options) {
     let DataConfiguration;
     try {
         let dataModule = require.resolve('@themost/data/data-configuration',{
@@ -136,9 +146,9 @@ export function getDataConfiguration(options) {
     
     return res;
     
-}
+};
 
-export function getBuilder(config) {
+module.exports.getBuilder = function getBuilder(config) {
     let ODataConventionModelBuilder;
     let dataModule = require.resolve('@themost/data/odata',{
             paths:[path.resolve(process.cwd(), 'node_modules')]
@@ -153,9 +163,9 @@ export function getBuilder(config) {
         return require(dataObjectModule).DataObject;
     };
     return new ODataConventionModelBuilder(config);
-}
+};
 
-export function getHttpApplication(options) {
+module.exports.getHttpApplication = function getHttpApplication(options) {
     let HttpApplication;
     try {
         let appModule = require.resolve('@themost/web/app',{
@@ -198,4 +208,4 @@ export function getHttpApplication(options) {
             });
         }
     return app;
-}
+};

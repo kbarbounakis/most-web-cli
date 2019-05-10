@@ -6,12 +6,12 @@
  * Use of this source code is governed by an BSD-3-Clause license that can be
  * found in the LICENSE file at https://themost.io/license
  */
-export const command = 'random <type> [options]';
+module.exports.command = 'random <type> [options]';
 
-export const desc = 'Create a new random string, integer or guid';
+module.exports.desc = 'Create a new random string, integer or guid';
 
 
-export function builder(yargs) {
+module.exports.builder = function builder(yargs) {
     return yargs.option('type', {
         alias:'t',
         choices: ['int', 'string', 'guid', 'hex'],
@@ -24,9 +24,9 @@ export function builder(yargs) {
         alias:'l',
         default:8
     });
-}
+};
 
-export function handler(argv) {
+module.exports.handler = function handler(argv) {
     if (argv.type === 'int') {
         return console.log(RandomCommand.randomInt(argv.min,argv.max));
     }
@@ -39,11 +39,11 @@ export function handler(argv) {
     else if (argv.type === 'string') {
         return console.log(RandomCommand.randomString(argv.length));
     }
-}
+};
 
 const UUID_CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
 
-export class RandomCommand {
+class RandomCommand {
 
     static randomInt(min, max) {
         return Math.floor(Math.random()*max) + min;
@@ -91,10 +91,12 @@ export class RandomCommand {
         for (i = 0; i < 36; i++) {
             if (!uuid[i]) {
                 r = 0 | Math.random()*16;
-                uuid[i] = chars[(i == 19) ? (r & 0x3) | 0x8 : r];
+                uuid[i] = chars[(i === 19) ? (r & 0x3) | 0x8 : r];
             }
         }
         return uuid.join('');
     }
 
 }
+
+module.exports.RandomCommand = RandomCommand;

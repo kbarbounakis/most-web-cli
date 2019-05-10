@@ -6,15 +6,19 @@
  * Use of this source code is governed by an BSD-3-Clause license that can be
  * found in the LICENSE file at https://themost.io/license
  */
-import path from 'path';
-import crypto from 'crypto';
-import {existsSync, readdirSync, copy, readFile, writeFile} from 'fs-extra';
-export const command = 'project <directory>';
+const path = require('path');
+const crypto = require('crypto');
+const existsSync = require('fs-extra').existsSync;
+const readdirSync = require('fs-extra').readdirSync;
+const copy = require('fs-extra').copy;
+const readFile = require('fs-extra').readFile;
+const writeFile = require('fs-extra').writeFile;
 
+module.exports.command = 'project <directory>';
 
-export const desc = 'Create a new project';
+module.exports.desc = 'Create a new project';
 
-export function builder(yargs) {
+module.exports.builder = function builder(yargs) {
     return yargs.option('template', {
         describe:'the target template',
         choices: ['api', 'express', 'classic'],
@@ -24,14 +28,14 @@ export function builder(yargs) {
         default: false,
         type: 'boolean'
     });
-}
+};
 
 /**
  *
  * @param {{template: string, typescript: boolean, directory: string}} argv
  * @returns {*}
  */
-export function handler(argv) {
+module.exports.handler = function handler(argv) {
     let projectRoot = path.resolve(process.cwd(), argv.directory);
     if (existsSync(projectRoot) && readdirSync(projectRoot).length>0) {
         console.error('ERROR: Project root directory must be empty.');
@@ -67,7 +71,7 @@ export function handler(argv) {
                 });
         });
     
-}
+};
 
 function updateApplicationConfiguration(argv) {
     return new Promise((resolve, reject) => {

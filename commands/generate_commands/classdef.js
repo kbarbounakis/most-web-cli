@@ -6,16 +6,20 @@
  * Use of this source code is governed by an BSD-3-Clause license that can be
  * found in the LICENSE file at https://themost.io/license
  */
-import path from 'path';
-import fs from 'fs-extra';
-import _ from 'lodash';
-import { writeFileFromTemplate, getConfiguration, getDataConfiguration, SimpleDataContext, getBuilder } from '../../util';
+const writeFileFromTemplate = require('../../util').writeFileFromTemplate;
+const getConfiguration = require('../../util').getConfiguration;
+const SimpleDataContext = require('../../util').SimpleDataContext;
+const getBuilder = require('../../util').getBuilder;
+const getDataConfiguration = require('../../util').getDataConfiguration;
+const fs = require('fs-extra');
+const path = require('path');
+const _ = require('lodash');
 
-export const command = 'classdef <name>';
+module.exports.command = 'classdef <name>';
 
-export const desc = 'Generate a new data model class definition';
+module.exports.desc = 'Generate a new data model class definition';
 
-export function builder(yargs) {
+module.exports.builder = function builder(yargs) {
     return yargs.option('silent', {
         default: false,
         describe: 'disable errors'
@@ -23,9 +27,9 @@ export function builder(yargs) {
         default: false,
         describe: 'replace if exists'
     });
-}
+};
 
-export function generateAnyDefinition(argv) {
+module.exports.generateAnyDefinition = function generateAnyDefinition(argv) {
     
     //get cli options
     let options = getConfiguration();
@@ -60,7 +64,7 @@ export function generateAnyDefinition(argv) {
         return Promise.all(sources);
     });
     
-}
+};
 
 export function generateDefinition(argv, ignoreOther) {
     return new Promise((resolve, reject) => {
@@ -79,7 +83,7 @@ export function generateDefinition(argv, ignoreOther) {
         }
         //get OData Builder
         let builder = getBuilder(config);
-        return builder.getEdm().then((schema)=> {
+        return builder.getEdm().then(()=> {
             //get model definition
             let emptyModel = {
                     name: _.upperFirst(_.camelCase(argv.name)),
@@ -189,11 +193,11 @@ export function generateDefinition(argv, ignoreOther) {
     });
 }
 
-export function handler(argv) {
+module.exports.handler =  function handler(argv) {
     generateAnyDefinition(argv).then(() => {
         return process.exit(0);
     }).catch((err) => {
         console.error(err);
         return process.exit(1);
     });
-}
+};

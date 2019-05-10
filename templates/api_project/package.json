@@ -1,16 +1,16 @@
 {
-  "name": "api-project",
+  "name": "api-server-project",
   "version": "0.1.0",
   "description": "Api Server Project",
-  "main": "server/server.js",
+  "main": "bin/www",
   "repository": "",
   "private": true,
   "author": "",
   "scripts": {
     "start": "node bin/www",
-    "build": "gulp build",
+    "build": "babel server --out-dir dist/server --copy-files --source-maps",
     "themost": "themost",
-    "serve": "gulp serve"
+    "serve": "nodemon bin/www"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
@@ -23,20 +23,16 @@
     "@babel/plugin-proposal-export-namespace-from": "^7.0.0",
     "@babel/plugin-transform-async-to-generator": "^7.1.0",
     "@babel/preset-env": "^7.1.6",
-    "@babel/register": "^7.0.0",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^8.0.0",
-    "gulp-eslint": "^4.0.2",
-    "gulp-sourcemaps": "^2.6.4"
+    "@babel/register": "^7.0.0"
   },
   "dependencies": {
     "@themost/client": "^2.1.3",
     "@themost/common": "^2.3.1",
-    "@themost/data": "^2.3.1",
+    "@themost/data": "^2.4.0-dev.1",
     "@themost/node": "^2.1.1",
     "@themost/query": "^2.3.1",
     "@themost/sqlite": "^2.2.1",
-    "@themost/web": "^2.3.1",
+    "@themost/web": "^2.4.0-dev.1",
     "@themost/xml": "^2.3.1",
     "bootstrap": "^4.1.0",
     "jquery": "^3.3.1",

@@ -1,4 +1,4 @@
-import {HttpApplication} from '@themost/web/app';
+import {HttpApplication} from '@themost/web';
 import path from 'path';
 import {ODataModelBuilderConfiguration} from '@themost/web/odata';
 import {TraceUtils} from '@themost/common/utils';

@@ -6,15 +6,16 @@
  * Use of this source code is governed by an BSD-3-Clause license that can be
  * found in the LICENSE file at https://themost.io/license
  */
-import path from 'path';
-import fs from 'fs-extra';
-import {getConfiguration} from '../util';
+const getConfiguration = require('../util').getConfiguration;
+const fs = require('fs-extra');
+const path = require('path');
 
-export const command = 'import <file> [options]';
 
-export const desc = 'Import data';
+module.exports.command = 'import <file> [options]';
 
-export const DateTimeRegex = /^\d{4}-([0]\d|1[0-2])-([0-2]\d|3[01])(?:[T ](\d+):(\d+)(?::(\d+)(?:\.(\d+))?)?)?(?:Z(-?\d*))?([+-](\d+):(\d+))?$/;
+module.exports.desc = 'Import data';
+
+module.exports.DateTimeRegex = /^\d{4}-([0]\d|1[0-2])-([0-2]\d|3[01])(?:[T ](\d+):(\d+)(?::(\d+)(?:\.(\d+))?)?)?(?:Z(-?\d*))?([+-](\d+):(\d+))?$/;
 
 function reviveDates(key, value){
     if (typeof value === "string" && DateTimeRegex.test(value) ) {
@@ -23,16 +24,16 @@ function reviveDates(key, value){
     return value;
 }
 
-export function builder(yargs) {
+module.exports.builder = function builder(yargs) {
     return yargs.option('model', {
         describe:'the target model'
     }).option('dev', {
         default: false,
         describe: 'enables development mode'
     });
-}
+};
 
-export function handler(argv) {
+module.exports.handler = function handler(argv) {
     let options = getConfiguration();
     if (typeof argv.model === 'undefined' || argv.model === null) {
         console.error('ERROR','The target cannot be empty');
@@ -142,4 +143,4 @@ export function handler(argv) {
                 });
             });
         });
-}
+};

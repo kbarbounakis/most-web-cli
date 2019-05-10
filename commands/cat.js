@@ -6,18 +6,18 @@
  * Use of this source code is governed by an BSD-3-Clause license that can be
  * found in the LICENSE file at https://themost.io/license
  */
-import {getConfiguration, getHttpApplication} from '../util';
-import path from 'path';
-import fs from 'fs-extra';
-
+const getConfiguration = require('../util').getConfiguration;
+const getHttpApplication = require('../util').getHttpApplication;
+const fs = require('fs-extra');
+const path = require('path');
 
 const QUERY_OPTS = ['filter', 'expand', 'order', 'group', 'top', 'skip', 'count', 'select'];
 
-export const command = 'cat <model> [options]';
+module.exports.command = 'cat <model> [options]';
 
-export const desc = 'Query data';
+module.exports.desc = 'Query data';
 
-export function builder(yargs) {
+module.exports.builder = function builder(yargs) {
     return yargs.option('model', {
         describe:'the target model'
     }).option('dev', {
@@ -55,9 +55,9 @@ export function builder(yargs) {
         choices: ['none', 'insert', 'update', 'delete'],
         describe: 'set state for data objects'
     });
-}
+};
 
-export function handler(argv) {
+module.exports.handler = function handler(argv) {
     let options = getConfiguration();
     if (typeof argv.model === 'undefined' || argv.model === null) {
         console.error('ERROR','The target cannot be empty');
@@ -139,4 +139,4 @@ export function handler(argv) {
         }
        
     });
-}
+};

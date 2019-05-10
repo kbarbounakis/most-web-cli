@@ -6,19 +6,20 @@
  * Use of this source code is governed by an BSD-3-Clause license that can be
  * found in the LICENSE file at https://themost.io/license
  */
-import path from 'path';
-import fs from 'fs-extra';
-import _ from 'lodash';
-import {writeFileFromTemplate, getConfiguration} from '../../util';
+const writeFileFromTemplate = require('../../util').writeFileFromTemplate;
+const getConfiguration = require('../../util').getConfiguration;
+const fs = require('fs-extra');
+const path = require('path');
+const _ = require('lodash');
 
-export const command = 'listener <name>';
+module.exports.command = 'listener <name>';
 
-export const desc = 'Generate a new data model listener';
+module.exports.desc = 'Generate a new data model listener';
 
-export const builder = {
+module.exports.builder = {
 };
 
-export function handler(argv) {
+module.exports.handler = function handler(argv) {
     let options = getConfiguration();
     //validating listener name
     if (!/^[a-zA-Z0-9_-]+$/.test(argv.name)) {
@@ -60,7 +61,4 @@ export function handler(argv) {
         });
        
     });
-    
-    
-    
-}
+};

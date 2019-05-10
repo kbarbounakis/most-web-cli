@@ -6,16 +6,16 @@
  * Use of this source code is governed by an BSD-3-Clause license that can be
  * found in the LICENSE file at https://themost.io/license
  */
-import path from 'path';
+const path = require('path');
 
-export const command = 'generate <command>';
+module.exports.command = 'generate <command>';
 
-export const desc = 'Generate a new component';
+module.exports.desc = 'Generate a new component';
 
-export function builder(yargs) {
+module.exports.builder = function builder(yargs) {
     return yargs.commandDir(path.resolve(__dirname, 'generate_commands'));
-}
+};
 
-export function handler() {
+module.exports.handler = function handler() {
 
-}
+};
