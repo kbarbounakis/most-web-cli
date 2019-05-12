@@ -5,6 +5,7 @@ let router = express.Router();
 router.get('/me', (req, res, next) => {
   req.context.model('User')
       .where('name').equal(req.context.user && req.context.user.name)
+      .silent()
       .getItem().then((user)=> {
     return res.render('user', user);
   }).catch( err => {
