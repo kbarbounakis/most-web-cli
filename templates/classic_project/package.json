@@ -1,7 +1,7 @@
 {
   "name": "classic-server-project",
   "version": "0.1.0",
-  "description": "Class Server Project",
+  "description": "Classic Server Project",
   "main": "bin/www.js",
   "repository": "",
   "private": true,
