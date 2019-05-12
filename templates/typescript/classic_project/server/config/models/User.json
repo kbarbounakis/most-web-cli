@@ -1,4 +1,5 @@
 {
+    "$schema": "https://themost-framework.github.io/themost/models/2018/2/schema.json",
     "@id": "https://themost.io/schemas/User",
     "name": "User",
     "description": "Users",
@@ -27,7 +28,8 @@
             "name": "enabled",
             "title": "enabled",
             "description": "Indicates whether a user is enabled or not.",
-            "type": "Boolean"
+            "type": "Boolean",
+            "value": "javascript:return true;"
         },
         {
             "@id": "https://themost.io/schemas/lastLogon",
@@ -41,7 +43,16 @@
             "name": "groups",
             "title": "Groups",
             "description": "A collection of groups where user belongs.",
-            "type": "Group"
+            "type": "Group",
+            "mapping": {
+                "associationAdapter":"GroupMembers",
+                "parentModel":"Group",
+                "parentField":"id",
+                "childModel":"User",
+                "childField":"id",
+                "associationType":"junction",
+                "cascade":"delete"
+            }
         },
         {
             "@id": "https://themost.io/schemas/userFlags",
