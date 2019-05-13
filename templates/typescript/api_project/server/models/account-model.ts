@@ -6,6 +6,8 @@ import Thing = require('./thing-model');
  */
 @EdmMapping.entityType('Account')
 class Account extends Thing {
+
+    public id?: number;
     /**
      * @constructor
      */
@@ -13,7 +15,6 @@ class Account extends Thing {
         super();
     }
 
-    public id?: number;
 }
 
 export = Account;
