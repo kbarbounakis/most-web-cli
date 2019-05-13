@@ -1,17 +1,12 @@
-/**
-* @param {DataEventArgs} event
-* @param {Function} callback
-*/
-import {DataEventArgs} from "@themost/data/types";
+import {DataEventArgs} from '@themost/data';
 
+// noinspection JSUnusedGlobalSymbols
 export function beforeSave(event: DataEventArgs, callback: (err?: Error) => void) {
-    return callback();
+return callback();
 }
 
-/**
-* @param {DataEventArgs} event
-* @param {Function} callback
-*/
+// noinspection JSUnusedGlobalSymbols
 export function afterSave(event: DataEventArgs, callback: (err?: Error) => void) {
-    return callback();
+return callback();
 }
+

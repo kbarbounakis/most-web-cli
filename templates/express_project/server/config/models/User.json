@@ -63,12 +63,6 @@
         }
     ],
     "privileges": [
-
-        {
-            "mask": 1,
-            "type": "self",
-            "filter": "id eq me()"
-        },
         {
             "mask": 15,
             "type": "global"
@@ -77,6 +71,16 @@
             "mask": 15,
             "type": "global",
             "account": "Administrators"
+        },
+        {
+            "mask": 1,
+            "type": "self",
+            "filter": "id eq me()"
+        }
+    ],
+    "eventListeners": [
+        {
+            "type": "./listeners/set-user-credentials-listener"
         }
     ],
     "seed": [
@@ -88,6 +92,18 @@
                     "name": "Guests"
                 }
             ]
+        },
+        {
+            "name": "admin",
+            "description": "Administrator User",
+            "groups": [
+                {
+                    "name": "Administrator"
+                }
+            ],
+            "userCredentials": {
+                "userPassword": "{clear}secret"
+            }
         }
     ]
 }

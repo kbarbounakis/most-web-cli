@@ -6,12 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="/favicon.ico">
-    <title>MOST Web Framework - Bootstrap 4 Template</title>
+    <link rel="icon" href="<%=html.resolveUrl('~/favicon.ico')%>">
+    <title>MOST Web Framework - Classic Server Project</title>
     <!-- Bootstrap core CSS -->
-    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/assets/css/bootstrap-theme.css" rel="stylesheet">
+    <link href="<%=html.resolveUrl('~/vendor/bootstrap/css/bootstrap.min.css')%>" rel="stylesheet">
+    <link href="<%=html.resolveUrl('~/assets/css/bootstrap-theme.css')%>" rel="stylesheet">
     <!-- Custom styles for this template -->
+    <%-stylesheets%>
     </head>
     <body>
         <!-- Navigation -->
@@ -24,15 +25,15 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">Home
+                            <a class="nav-link" href="<%=html.resolveUrl('~/')%>">Home
                                 <span class="sr-only">(current)</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">About</a>
+                            <a class="nav-link" href="<%=html.resolveUrl('~/users/me/')%>">User</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Services</a>
+                            <a class="nav-link" href="<%=html.resolveUrl('~/users/dashboard/')%>">Services</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Contact</a>
@@ -42,9 +43,10 @@
             </div>
         </nav>
         <!-- Page Content -->
-        <%-body%>
-        <!-- Bootstrap core JavaScript -->
-        <script src="/vendor/jquery/jquery.min.js"></script>
-        <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <%- body %>
         </body>
+        <!-- Bootstrap core JavaScript -->
+        <script src="<%=html.resolveUrl('~/vendor/jquery/jquery.min.js')%>"></script>
+        <script src="<%=html.resolveUrl('~/vendor/bootstrap/js/bootstrap.bundle.min.js')%>"></script>
+        <%- scripts %>
 </html>

@@ -26,17 +26,17 @@
     "settings": {
         "crypto": {
             "algorithm": "aes256",
-            "key": "ce8b6de84922f5a96dd06a8a435ab19d68fc3046682379e75b74d4c640a2fd3b00ca66fdb2fe703258cfffca4ecc3d2a"
+            "key": "4140df4b12d969f09259158dbc2187301a36898567760c100180b51b3e97faa3904848a0b58005041cfc72371cd6bafa"
         },
         "auth": {
             "name": ".MAUTH",
             "timeout": 480,
-            "unattendedExecutionAccount": "qhEw4Pn7lmtJ2I6t",
+            "unattendedExecutionAccount": "Nvk/MLoX6+iYlTed",
             "slidingExpiration": false
         },
         "i18n": {
             "locales": [
-                "en"
+                "en", "fr"
             ],
             "defaultLocale": "en"
         }

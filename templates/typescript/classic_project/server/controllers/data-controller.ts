@@ -1,9 +1,8 @@
-import {httpController,httpGet, httpAction} from '@themost/web/decorators';
-import {HttpDataModelController} from "@themost/web";
+import {HttpDataModelController} from '@themost/web';
+import {httpController} from '@themost/web/decorators';
 
 @httpController()
 class DataController extends HttpDataModelController {
-    
     constructor() {
         super();
     }

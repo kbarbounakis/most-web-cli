@@ -11,13 +11,13 @@
     "settings": {
         "crypto": {
             "algorithm": "aes256",
-            "key": "363150123c43f25abdb765b0c24d8946428719bd494b83afe958e4051aaf92ec1a33b58e7e6020c6737bbc782eb22d91"
+            "key": "ced31388f8f11d94f990eb902e186fcbf29c598016ba94d8a605fda1435e31e9eb048777bcfadd71a4b1167895320d4b"
         },
         "auth": {
             "name": ".MAUTH",
             "timeout": 480,
             "slidingExpiration": false,
-            "unattendedExecutionAccount": "A8G9jwCfSGk1Q4qr"
+            "unattendedExecutionAccount": "77CH4IKLquM4px3P"
         },
         "i18n": {
             "locales": [

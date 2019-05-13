@@ -5,7 +5,7 @@ import {LocalizationStrategy, I18nLocalizationStrategy} from '@themost/web/local
 const app = new HttpApplication(path.resolve(__dirname));
 // set static content
 app.useStaticContent(path.resolve('./app'));
-// use i18n localization strategy as default localozation strategy
+// use i18n localization strategy as default localization strategy
 app.useStrategy(LocalizationStrategy, I18nLocalizationStrategy);
 // export app
 module.exports = app;

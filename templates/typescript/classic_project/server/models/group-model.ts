@@ -1,4 +1,4 @@
-import {EdmMapping,EdmType} from '@themost/data/odata';
+import {EdmMapping} from '@themost/data/odata';
 import Account = require('./account-model');
 
 /**
@@ -6,15 +6,16 @@ import Account = require('./account-model');
  */
 @EdmMapping.entityType('Group')
 class Group extends Account {
+
+    public members?: Array<Account|any>;
+    public id?: number;
+
     /**
      * @constructor
      */
     constructor() {
         super();
     }
-
-    public members?: Array<Account|any>; 
-    public id?: number; 
 }
 
 export = Group;
