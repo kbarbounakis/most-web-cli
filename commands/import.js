@@ -15,7 +15,7 @@ module.exports.command = 'import <file> [options]';
 
 module.exports.desc = 'Import data';
 
-module.exports.DateTimeRegex = /^\d{4}-([0]\d|1[0-2])-([0-2]\d|3[01])(?:[T ](\d+):(\d+)(?::(\d+)(?:\.(\d+))?)?)?(?:Z(-?\d*))?([+-](\d+):(\d+))?$/;
+const DateTimeRegex = /^\d{4}-([0]\d|1[0-2])-([0-2]\d|3[01])(?:[T ](\d+):(\d+)(?::(\d+)(?:\.(\d+))?)?)?(?:Z(-?\d*))?([+-](\d+):(\d+))?$/;
 
 function reviveDates(key, value){
     if (typeof value === "string" && DateTimeRegex.test(value) ) {
