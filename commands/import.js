@@ -116,7 +116,7 @@ module.exports.handler = function handler(argv) {
                 return process.exit(1);
             }
 
-            app.execute((context)=> {
+            app.unattended((context)=> {
                 let model;
                 console.log('INFO','Getting target model');
                 try {
@@ -131,7 +131,7 @@ module.exports.handler = function handler(argv) {
                     console.error(err);
                     return process.exit(1);
                 }
-                model.silent().save(data).then(()=> {
+                model.save(data).then(()=> {
                     context.finalize(()=> {
                         console.log('INFO','The operation was completed successfully');
                         return process.exit(0);
