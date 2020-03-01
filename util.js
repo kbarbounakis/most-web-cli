@@ -52,6 +52,12 @@ function writeFileFromTemplate(source, dest, data) {
 
 module.exports.writeFileFromTemplate = writeFileFromTemplate;
 
+function contentFromTemplate(source, data) {
+    return ejs.renderFile(source, data);
+}
+
+module.exports.contentFromTemplate = contentFromTemplate;
+
 function loadConfiguration() {
     let config = require(path.resolve(process.cwd(), '.themost-cli.json'));
     return Object.assign({}, configurationDefaults, config);
