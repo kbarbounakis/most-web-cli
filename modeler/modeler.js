@@ -9,6 +9,7 @@ const fs = require('fs');
 const _ = require('lodash');
 const path = require('path');
 const XDocument = require('@themost/xml').XDocument;
+const DOMParser = require('xmldom').DOMParser;
 const formatters = require('./formatters');
 
 const formattersProperty = 'formatters';
@@ -182,6 +183,34 @@ class ModelGenerator {
     }
 
     /**
+     * 
+     */
+    getList() {
+        return this.loader.getSchema().then((schema)=> {
+            let definitions = _.filter(schema[graphProperty], function(x) {
+                return x[typeProperty] === "rdfs:Class";
+            });
+            return Promise.resolve(_.map(definitions, function(x) {
+                const description = new DOMParser().parseFromString( '<div>' + x[commentProperty] + '</div>');
+                let subClassOfDefinition;
+                if (x[subClassProperty]) {
+                    subClassOfDefinition = _.find(schema[graphProperty], function(y) {
+                        return y[typeProperty] === "rdfs:Class" && y[idProperty] === x[subClassProperty][idProperty];
+                    });
+                }
+                const res = {
+                    "name": x[labelProperty],
+                    "description": description.documentElement.textContent.replace(/\n/ig, '')
+                }
+                if (subClassOfDefinition) {
+                    res.subClassOf = subClassOfDefinition[labelProperty]
+                }
+                return res;
+            }));
+        });
+    }
+
+    /**
      * @param {string} name
      */
     getModel(name)
@@ -221,12 +250,17 @@ class ModelGenerator {
                 }
             });
 
-
+            let comment = null;
+            if (definition[commentProperty]) {
+                comment = new DOMParser()
+                    .parseFromString('<div>' + definition[commentProperty] + '</div>')
+                    .documentElement.textContent.replace(/\n/ig, '');
+            }
 
             let finalDefinition = {
                 "@id":definition[idProperty],
                 "name":definition[labelProperty],
-                "description":definition[commentProperty],
+                "description":comment,
                 "title":definition[labelProperty],
                 "abstract": false,
                 "sealed":false,
@@ -234,11 +268,17 @@ class ModelGenerator {
                 "implements": null,
                 "version": "1.0",
                 "fields":_.map(attributesDefinition, function(x) {
+                    let comment = null;
+                    if (x[commentProperty]) {
+                        comment = new DOMParser()
+                            .parseFromString('<div>' + x[commentProperty] + '</div>')
+                            .documentElement.textContent.replace(/\n/ig, '');
+                    }
                     let res  = {
                         "@id": x[idProperty],
                         "name":x[labelProperty],
                         "title":x[labelProperty],
-                        "description":x[commentProperty]
+                        "description":comment
                     };
                     let type, rangeIncludes;
                     if (_.isArray(x[rangeIncludesProperty])) {
