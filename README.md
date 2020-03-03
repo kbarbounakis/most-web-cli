@@ -44,7 +44,21 @@ Use modeler commands to manage data models:
 
     themost modeler <command>
 
-###### Extracts a data model
+###### List data models
+
+    themost modeler ls
+
+Enumerates all the available data models
+
+###### Get data model details
+
+    themost modeler info <model name>
+
+Prints information about the given data model e.g.
+
+    themost modeler info UpdateAction
+
+###### Extract a data model
 
     themost modeler extract <model name>
 
