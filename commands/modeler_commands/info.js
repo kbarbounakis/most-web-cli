@@ -39,8 +39,8 @@ module.exports.handler = function (argv) {
         });
     }
 
-    function getFields(generator, model) {
-        return generator.getModel(argv.model).then( function(model) {
+    function getFields(generator, name) {
+        return generator.getModel(name).then( function(model) {
             if (model.implements) {
                 return getFields(generator, model.implements).then( function(implementedFields) {
                     const res = _.forEach(implementedFields, function(x) {
@@ -69,7 +69,33 @@ module.exports.handler = function (argv) {
         });
     }
     
-    getFields(generator, argv.model).then(function(fields) {
-        console.log(Table.print(res));
-    });
+    
+        return generator.getModel(argv.model).then( function(model) {
+            if (model == null) {
+                console.log('INFO','The specifiec model cannot be found.');
+                return;
+            }
+            // print model attributes
+            console.log('');
+            console.log('Properties');
+            console.log('--------------');
+            const modelToPrint = {
+                name: model.name,
+                description: model.description
+            };
+            if (model.inherits) {
+                modelToPrint.inherits = model.inherits;
+            }
+            if (model.implements) {
+                modelToPrint.implements = model.implements;
+            }
+            console.log(Table.print(modelToPrint));
+            getFields(generator, argv.model).then(function(fields) {
+                // print model attributes
+                console.log('');
+                console.log('Fields');
+                console.log('--------------');
+                console.log(Table.print(fields));
+            });
+        });
 }
