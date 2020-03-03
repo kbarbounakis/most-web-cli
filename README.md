@@ -38,18 +38,53 @@ Applies the specified OData query options against the defined data model and pri
             [--group=<group by option>]
             [--expand=<expand option>]
 
+##### User modeler
+
+Use modeler commands to manage data models:
+
+    themost modeler <command>
+
+###### List data models
+
+    themost modeler ls
+
+Enumerates all the available data models
+
+###### Get data model details
+
+    themost modeler info <model name>
+
+Prints information about the given data model e.g.
+
+    themost modeler info UpdateAction
+
+###### Extract a data model
+
+    themost modeler extract <model name>
+
+e.g. 
+
+    themost modeler extract Article
+
+Extract a data model definition and its dependencies. There is a large set of data model definitions
+as they are defined and documented at [schema.org](https://schema.org) 
 
 ##### Create an new controller
 
     themost generate controller <controller name>
 
 This operation will generate a new controller and it will place it in controllers folder (server/controllers).
-
-##### Create an new model class
+##### Create an new model
 
     themost generate model <model name>
 
-This operation will generate a new model and it will place it in models folder (server/models).
+This operation will generate a new model and it will place it in models definition folder (server/config/models).
+
+##### Create an new model class
+
+    themost generate class <model name>
+
+This operation will generate a new model class and it will place it in models folder (server/models).
 
 ##### Create an new model listener
 
