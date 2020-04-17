@@ -13,11 +13,15 @@
         "declaration": true,
         "strict": true,
         "stripInternal": true,
+        "outDir": "dist/server",
         "typeRoots": [
             "node_modules/@types"
         ],
         "lib": ["es2017", "dom"]
     },
+    "include": [
+        "server"
+    ],
     "exclude": [
         "node_modules"
     ]

@@ -1,7 +1,7 @@
 import {HttpApplication, ODataModelBuilderConfiguration, HttpServiceController} from '@themost/web';
 import {resolve} from 'path';
 import {TraceUtils} from '@themost/common';
-import {LocalizationStrategy, I18nLocalizationStrategy} from '@themost/web/localization';
+import {LocalizationStrategy, I18nLocalizationStrategy} from '@themost/web';
 // initialize app
 const app = new HttpApplication(resolve(__dirname));
 // set static content

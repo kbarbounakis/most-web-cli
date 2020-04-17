@@ -1,4 +1,4 @@
-import {EdmMapping} from '@themost/data/odata';
+import {EdmMapping} from '@themost/data';
 import Thing = require('./thing-model');
 
 /**

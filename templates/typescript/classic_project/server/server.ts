@@ -1,6 +1,6 @@
-import {HttpApplication} from '@themost/web/app';
+import {HttpApplication} from '@themost/web';
 import {resolve} from 'path';
-import {LocalizationStrategy, I18nLocalizationStrategy} from '@themost/web/localization';
+import {LocalizationStrategy, I18nLocalizationStrategy} from '@themost/web';
 // initialize app
 const app = new HttpApplication(resolve(__dirname));
 // set static content

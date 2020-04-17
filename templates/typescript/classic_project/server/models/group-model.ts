@@ -1,4 +1,4 @@
-import {EdmMapping} from '@themost/data/odata';
+import {EdmMapping} from '@themost/data';
 import Account = require('./account-model');
 
 /**

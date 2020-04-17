@@ -9,7 +9,8 @@
   "scripts": {
     "start": "node bin/www.js",
     "clean": "rimraf dist/server",
-    "build": "rimraf dist/server && babel server --out-dir dist/server --copy-files --source-maps",
+    "copy-files": "sync-glob \"server/**/!(*.ts|*.tsx)\" dist/server -s",
+    "build": "npm run copy-files && tsc --outDir dist/server --sourceMap",
     "themost": "themost",
     "serve": "nodemon bin/www.js",
     "debug": "nodemon --inspect-brk bin/www.js"
@@ -26,17 +27,20 @@
     "ts-node": "^7.0.0",
     "tslint": "^5.14.0",
     "typescript": "^2.9.2",
-    "typescript-eslint-parser": "^22.0.0"
+    "typescript-eslint-parser": "^22.0.0",
+    "copyfiles": "^2.2.0",
+    "@types/angular": "^1.6.57",
+    "sync-glob": "^1.4.0"
   },
   "dependencies": {
-    "@themost/client": "^2.1.3",
-    "@themost/common": "^2.3.1",
-    "@themost/data": "^2.4.1",
-    "@themost/node": "^2.1.1",
-    "@themost/query": "^2.3.1",
-    "@themost/sqlite": "^2.2.1",
-    "@themost/web": "^2.4.1",
-    "@themost/xml": "^2.3.1",
+    "@themost/client": "^2.5.1",
+    "@themost/common": "^2.5.2",
+    "@themost/data": "^2.5.7",
+    "@themost/node": "^2.5.0",
+    "@themost/query": "^2.5.0",
+    "@themost/sqlite": "^2.2.3",
+    "@themost/web": "^2.5.2",
+    "@themost/xml": "^2.5.1",
     "bootstrap": "^4.1.1",
     "jquery": "^3.3.1",
     "popper.js": "^1.14.7"
