@@ -9,7 +9,9 @@ class User extends Account {
 
     @EdmMapping.func('Me', 'User')
     public static async getMe(context: any) {
-        return await context.model('User').where('name').equal(context.user && context.user.name).getTypedItem();
+        return await context.model('User')
+            .where('name').equal(context.user && context.user.name)
+            .getTypedItem();
     }
 
     public lockoutTime?: Date;
