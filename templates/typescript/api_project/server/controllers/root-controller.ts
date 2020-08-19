@@ -14,6 +14,14 @@ class RootController extends HttpBaseController {
         return this.view();
     }
 
+    @httpGet()
+    @httpAction('hello')
+    hello(): any {
+        return this.json({
+            "message": "Hello World!"
+        });
+    }
+
 }
 
 export = RootController;
