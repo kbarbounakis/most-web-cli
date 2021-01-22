@@ -7,6 +7,7 @@
  * found in the LICENSE file at https://themost.io/license
  */
 const getConfiguration = require('../util').getConfiguration;
+const getHttpApplication = require('../util').getHttpApplication;
 const fs = require('fs-extra');
 const path = require('path');
 
@@ -47,23 +48,6 @@ module.exports.handler = function handler(argv) {
         console.error('ERROR','Source data file cannot be found.');
         return process.exit(1);
     }
-    let HttpApplication;
-    try {
-        let appModule = require.resolve('@themost/web/app',{
-            paths:[path.resolve(process.cwd(), 'node_modules')]
-        });
-        HttpApplication = require(appModule).HttpApplication;
-    }
-    catch(err) {
-        if (err.code === 'MODULE_NOT_FOUND') {
-            console.error('ERROR','MOST Web Framework module cannot be found.');
-        }
-        else {
-            console.error('ERROR','An error occurred while trying to initialize MOST Web Framework Application.');
-            console.error(err);
-        }
-        return process.exit(1);
-    }
     //get data
     console.log('INFO','Getting source data');
     let data;
@@ -82,40 +66,7 @@ module.exports.handler = function handler(argv) {
                 console.error(err);
                 return process.exit(1);
             }
-
-            console.log('INFO','Initializing application');
-            let app;
-            try {
-                app  = new HttpApplication(path.resolve(process.cwd(), options.out));
-                let strategy = app.getConfiguration().getStrategy(function DataConfigurationStrategy() {
-                });
-                //get adapter types
-                let adapterTypes = strategy.adapterTypes;
-                //get configuration adapter types
-                let configurationAdapterTypes = app.getConfiguration().getSourceAt('adapterTypes');
-                if (Array.isArray(configurationAdapterTypes)) {
-                    configurationAdapterTypes.forEach((configurationAdapterType)=> {
-                        if (typeof adapterTypes[configurationAdapterType.invariantName] === 'undefined') {
-                            //load adapter type
-                            let adapterModulePath = require.resolve(configurationAdapterType.type,{
-                                paths:[path.resolve(process.cwd(), 'node_modules')]
-                            });
-                            let adapterModule = require(adapterModulePath);
-                            adapterTypes[configurationAdapterType.invariantName] = {
-                                invariantName:configurationAdapterType.invariantName,
-                                name: configurationAdapterType.name,
-                                createInstance:adapterModule.createInstance
-                            }
-                        }
-                    });
-                }
-            }
-            catch(err) {
-                console.error('ERROR','An error occurred while trying to get source data.');
-                console.error(err);
-                return process.exit(1);
-            }
-
+            let app = getHttpApplication(options);
             app.unattended((context)=> {
                 let model;
                 console.log('INFO','Getting target model');
