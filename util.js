@@ -178,8 +178,9 @@ module.exports.getBuilder = function getBuilder(config) {
 
 module.exports.getHttpApplication = function getHttpApplication(options) {
     let HttpApplication;
+    let appModule;
     try {
-        let appModule = require.resolve('@themost/web/app',{
+        appModule = require.resolve('@themost/web',{
             paths:[path.resolve(process.cwd(), 'node_modules')]
         });
         HttpApplication = require(appModule).HttpApplication;
@@ -217,6 +218,35 @@ module.exports.getHttpApplication = function getHttpApplication(options) {
                     };
                 }
             });
+        }
+        // auto register application extensions
+        let disableExtensions = false;
+        if (Object.prototype.hasOwnProperty.call(options, 'disableExtensions')) {
+            disableExtensions = options.disableExtensions;
+        }
+        if (disableExtensions === false) {
+            console.log('INFO','Loading application extensions');
+            const extensionsDir = path.resolve(process.cwd(), options.out, 'extensions');
+            if (fs.existsSync(extensionsDir)) {
+                const extensionModules = fs.readdirSync(extensionsDir);
+                extensionModules.filter((extensionModule) => {
+                    return path.extname(extensionModule) === '.js';
+                }).forEach((extensionModule) => {
+                    require(path.resolve(extensionsDir, extensionModule));
+                });
+            }
+        }
+        // auto register application services
+        let disableServices = false;
+        if (Object.prototype.hasOwnProperty.call(options, 'disableServices')) {
+            disableServices = options.disableServices;
+        }
+        if (disableServices === false) {
+            console.log('INFO','Loading application services');
+            // get services configuration
+            const ServicesConfiguration = require(appModule).ServicesConfiguration;
+            // configure application
+            ServicesConfiguration.config(app);
         }
     return app;
 };
