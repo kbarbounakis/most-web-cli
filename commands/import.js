@@ -30,6 +30,7 @@ module.exports.builder = function builder(yargs) {
         describe:'the target model'
     }).option('dev', {
         default: false,
+        boolean: true,
         describe: 'enables development mode'
     });
 };
