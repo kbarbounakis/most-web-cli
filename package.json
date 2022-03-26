@@ -21,23 +21,21 @@
   },
   "licenses": [
     {
-      "type": "BSD-3 Clause"
+      "type": "BSD-3-Clause"
     }
   ],
   "bin": {
     "themost": "bin/themost"
   },
   "scripts": {
-    "cli": "node bin/themost",
-    "build": "gulp build",
-    "watch": "gulp watch"
+    "cli": "node bin/themost"
   },
   "dependencies": {
     "@themost/xml": "^2.5.1",
     "@xmldom/xmldom": "^0.8.1",
     "async": "^2.6.0",
     "easy-table": "^1.1.1",
-    "ejs": "^2.5.9",
+    "ejs": "^3.1.6",
     "fs-extra": "^5.0.0",
     "lodash": "^4.17.20",
     "mkdirp": "^1.0.4",
