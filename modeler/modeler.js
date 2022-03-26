@@ -9,7 +9,7 @@ const fs = require('fs');
 const _ = require('lodash');
 const path = require('path');
 const XDocument = require('@themost/xml').XDocument;
-const DOMParser = require('xmldom').DOMParser;
+const DOMParser = require('@xmldom/xmldom').DOMParser;
 const formatters = require('./formatters');
 
 const formattersProperty = 'formatters';
