@@ -1,3 +1,4 @@
+### _This project has been archived in favour of [https://github.com/themost-framework/cli](https://github.com/themost-framework/cli)_
 most-web-cli
 ============
 
